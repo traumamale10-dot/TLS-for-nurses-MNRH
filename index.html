@@ -257,6 +257,7 @@ nav.scrolled {
 .data-table td {
   padding:10px 14px;border-bottom:1px solid var(--border);
   color:var(--text2);vertical-align:middle;
+  word-break:break-word;
 }
 .data-table tr:hover td { background:var(--surface); }
 .data-table .no { color:var(--text3);font-size:0.75rem;width:40px; }
@@ -461,6 +462,81 @@ footer .footer-brand {
 
 .hidden { display:none !important; }
 
+/* ── HAMBURGER BUTTON ── */
+.nav-hamburger {
+  display:none;
+  flex-direction:column;justify-content:center;align-items:center;
+  width:40px;height:40px;border-radius:10px;
+  background:transparent;border:1px solid var(--border2);
+  cursor:pointer;gap:5px;padding:8px;
+  transition:background 0.2s;
+}
+.nav-hamburger:hover { background:var(--olive-pale); }
+.nav-hamburger span {
+  display:block;width:18px;height:1.5px;
+  background:var(--dark);border-radius:2px;
+  transition:transform 0.3s ease, opacity 0.3s ease;
+  transform-origin:center;
+}
+.nav-hamburger.open span:nth-child(1) { transform:translateY(6.5px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity:0; }
+.nav-hamburger.open span:nth-child(3) { transform:translateY(-6.5px) rotate(-45deg); }
+
+/* ── MOBILE DRAWER ── */
+.mobile-drawer {
+  display:none;
+  position:fixed;top:64px;left:0;right:0;bottom:0;
+  z-index:99;
+  background:rgba(249,246,240,0.97);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  transform:translateY(-12px);
+  opacity:0;
+  pointer-events:none;
+  transition:transform 0.3s ease, opacity 0.3s ease;
+  overflow-y:auto;
+  border-top:1px solid var(--border2);
+}
+.mobile-drawer.open {
+  transform:translateY(0);
+  opacity:1;
+  pointer-events:all;
+}
+.drawer-inner {
+  padding:1.5rem 1.75rem 3rem;
+  display:flex;flex-direction:column;gap:6px;
+}
+.drawer-label {
+  font-family:'Anuphan',sans-serif;
+  font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:4px;margin-top:0.5rem;padding-left:4px;
+}
+.drawer-link {
+  display:flex;align-items:center;gap:14px;
+  padding:13px 16px;border-radius:12px;
+  font-family:'Anuphan',sans-serif;font-size:0.95rem;
+  color:var(--dark2);text-decoration:none;
+  border:1px solid transparent;
+  transition:background 0.18s, border-color 0.18s, transform 0.18s;
+}
+.drawer-link:hover, .drawer-link:active {
+  background:var(--olive-pale);border-color:var(--border2);
+  transform:translateX(4px);
+}
+.drawer-link.active-link {
+  background:var(--olive-pale);border-color:var(--border2);
+  color:var(--olive-dark);font-weight:500;
+}
+.drawer-link-ico {
+  width:36px;height:36px;border-radius:9px;
+  background:var(--surface2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;
+}
+.drawer-link.active-link .drawer-link-ico {
+  background:var(--olive-pale);
+}
+
 @media(max-width:768px){
   .hero{grid-template-columns:1fr;min-height:auto;}
   .hero-left{padding:5rem 1.5rem 2rem;}
@@ -470,96 +546,9 @@ footer .footer-brand {
   .menu-card p{font-size:0.65rem;}
   .place-grid{grid-template-columns:1fr;}
   .nav-links{display:none;}
+  .nav-hamburger{display:flex;}
+  .mobile-drawer{display:block;}
   footer{flex-direction:column;gap:1rem;padding:2rem;text-align:center;}
-}
-
-/* ── ACCORDION ── */
-.acc-header {
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0.75rem 1rem;border-radius:10px;cursor:pointer;
-  border:1px solid var(--border);background:var(--white);
-  margin-bottom:6px;transition:all 0.2s;user-select:none;
-}
-.acc-header:hover { background:var(--olive-pale);border-color:var(--border2); }
-.acc-header.open { background:var(--olive-pale);border-color:var(--border2); }
-.acc-header-left { display:flex;align-items:center;gap:10px; }
-.acc-arrow {
-  font-size:0.7rem;color:var(--text3);
-  transition:transform 0.25s;flex-shrink:0;
-}
-.acc-header.open .acc-arrow { transform:rotate(180deg); }
-.acc-body {
-  overflow:hidden;
-  max-height:0;
-  transition:max-height 0.35s ease;
-  margin-bottom:6px;
-}
-.acc-body.open { max-height:2000px; }
-.acc-body-inner { padding:0.75rem 0.25rem 0.5rem; }
-
-/* ── MOBILE NAV ── */
-.nav-hamburger {
-  display:none;
-  flex-direction:column;justify-content:center;align-items:center;
-  gap:5px;width:40px;height:40px;border-radius:10px;
-  background:transparent;border:1px solid var(--border2);
-  cursor:pointer;padding:0;transition:background 0.2s;flex-shrink:0;
-}
-.nav-hamburger:hover { background:var(--olive-pale); }
-.nav-hamburger span {
-  display:block;width:18px;height:2px;
-  background:var(--dark);border-radius:2px;
-  transition:all 0.3s;transform-origin:center;
-}
-.nav-hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
-.nav-hamburger.open span:nth-child(2) { opacity:0; }
-.nav-hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
-
-/* Drawer overlay */
-.nav-drawer-overlay {
-  display:none;position:fixed;inset:0;z-index:98;
-  background:rgba(44,44,42,0.35);backdrop-filter:blur(2px);
-  transition:opacity 0.3s;opacity:0;
-}
-.nav-drawer-overlay.open { opacity:1; }
-
-/* Drawer panel */
-.nav-drawer {
-  position:fixed;top:0;right:-280px;bottom:0;z-index:99;
-  width:270px;
-  background:var(--white);
-  border-left:1px solid var(--border);
-  box-shadow:-8px 0 40px rgba(44,44,42,0.12);
-  transition:right 0.32s cubic-bezier(0.4,0,0.2,1);
-  display:flex;flex-direction:column;
-  padding:80px 0 2rem;
-  overflow-y:auto;
-}
-.nav-drawer.open { right:0; }
-.nav-drawer a {
-  display:flex;align-items:center;gap:12px;
-  padding:13px 24px;
-  font-family:'Anuphan',sans-serif;font-size:0.95rem;
-  color:var(--text2);text-decoration:none;
-  border-left:3px solid transparent;
-  transition:all 0.18s;
-}
-.nav-drawer a:hover, .nav-drawer a.active-link {
-  color:var(--olive-dark);
-  background:var(--olive-pale);
-  border-left-color:var(--olive);
-}
-.nav-drawer-title {
-  padding:0 24px 12px;
-  font-family:'Anuphan',sans-serif;font-size:0.58rem;
-  letter-spacing:0.2em;text-transform:uppercase;
-  color:var(--text3);border-bottom:1px solid var(--border);
-  margin-bottom:8px;
-}
-
-@media(max-width:768px){
-  .nav-hamburger { display:flex; }
-  .nav-links { display:none; }
 }
 </style>
 </head>
@@ -581,24 +570,26 @@ footer .footer-brand {
     <a href="#hotel">ที่พัก</a>
     <a href="#eval">ประเมิน</a>
   </div>
-  <button class="nav-hamburger" id="navHamburger" onclick="toggleDrawer()" aria-label="เมนู">
+  <button class="nav-hamburger" id="hamburgerBtn" aria-label="เปิดเมนู">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
-<!-- Mobile drawer -->
-<div class="nav-drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
-<div class="nav-drawer" id="navDrawer">
-  <div class="nav-drawer-title">เมนูหลัก</div>
-  <a href="#home"        onclick="closeDrawer()">🏠 หน้าแรก</a>
-  <a href="#participants" onclick="closeDrawer()">📋 ประกาศรายชื่อ</a>
-  <a href="#groups"      onclick="closeDrawer()">👥 กลุ่มสอบ</a>
-  <a href="#schedule"    onclick="closeDrawer()">🗓️ ตารางการอบรม</a>
-  <a href="#content"     onclick="closeDrawer()">📑 เนื้อหา / สไลด์</a>
-  <a href="#quiz"        onclick="closeDrawer()">📝 Pre / Post Test</a>
-  <a href="#venue"       onclick="closeDrawer()">🏥 อาคารสถานที่</a>
-  <a href="#hotel"       onclick="closeDrawer()">🏨 ที่พักใกล้ รพ.</a>
-  <a href="#eval"        onclick="closeDrawer()">⭐ ประเมินความพึงพอใจ</a>
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer" id="mobileDrawer">
+  <div class="drawer-inner">
+    <div class="drawer-label">เมนูหลัก</div>
+    <a href="#home"         class="drawer-link"><span class="drawer-link-ico">🏠</span>หน้าแรก</a>
+    <a href="#participants" class="drawer-link"><span class="drawer-link-ico">📋</span>ประกาศรายชื่อ</a>
+    <a href="#groups"       class="drawer-link"><span class="drawer-link-ico">👥</span>การจัดกลุ่ม</a>
+    <a href="#schedule"     class="drawer-link"><span class="drawer-link-ico">🗓️</span>ตารางอบรม</a>
+    <a href="#content"      class="drawer-link"><span class="drawer-link-ico">📑</span>เนื้อหา / สไลด์</a>
+    <a href="#quiz"         class="drawer-link"><span class="drawer-link-ico">📝</span>Pre / Post Test</a>
+    <div class="drawer-label">ข้อมูลเพิ่มเติม</div>
+    <a href="#venue"        class="drawer-link"><span class="drawer-link-ico">🏥</span>อาคารสถานที่</a>
+    <a href="#hotel"        class="drawer-link"><span class="drawer-link-ico">🏨</span>ที่พักใกล้ รพ.</a>
+    <a href="#eval"         class="drawer-link"><span class="drawer-link-ico">⭐</span>ประเมินความพึงพอใจ</a>
+  </div>
 </div>
 
 <section class="hero" id="home">
@@ -639,25 +630,8 @@ footer .footer-brand {
   </div>
 </section>
 
-<!-- MENU -->
-<div style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-  <div class="section" style="padding:3rem 2rem;" id="menu">
-    <div class="section-eyebrow">เมนูหลัก</div>
-    <div class="menu-grid">
-      <a href="#participants" class="menu-card"><div class="menu-icon-wrap">📋</div><p>ประกาศรายชื่อ<br>ผู้มีสิทธิ์</p></a>
-      <a href="#groups" class="menu-card"><div class="menu-icon-wrap">👥</div><p>การจัดกลุ่ม<br>เพื่อการสอบ</p></a>
-      <a href="#schedule" class="menu-card"><div class="menu-icon-wrap">🗓️</div><p>ตาราง<br>การอบรม</p></a>
-      <a href="#content" class="menu-card"><div class="menu-icon-wrap">📑</div><p>เนื้อหา /<br>สไลด์</p></a>
-      <a href="#quiz" class="menu-card"><div class="menu-icon-wrap">📝</div><p>Pre / Post<br>Test</p></a>
-      <a href="#eval" class="menu-card"><div class="menu-icon-wrap">⭐</div><p>ประเมิน<br>ความพึงพอใจ</p></a>
-      <a href="#venue" class="menu-card"><div class="menu-icon-wrap">🏥</div><p>อาคาร<br>สถานที่</p></a>
-      <a href="#hotel" class="menu-card"><div class="menu-icon-wrap">🏨</div><p>ที่พัก<br>ใกล้ รพ.</p></a>
-    </div>
-  </div>
-</div>
-
 <!-- PARTICIPANTS -->
-<div class="section" id="participants">
+<div class="section" style="max-width:1280px;" id="participants">
   <div class="section-eyebrow">ประกาศรายชื่อผู้มีสิทธิ์เข้าร่วมอบรม</div>
   <div class="panel">
     <div class="panel-title">รายชื่อผู้เข้าร่วมอบรม <em>(90 คน)</em></div>
@@ -665,7 +639,13 @@ footer .footer-brand {
       <input type="text" id="searchInput" placeholder="ค้นหาชื่อ หน่วยงาน หรือโรงพยาบาล..." oninput="filterAttendees()">
     </div>
     <div style="overflow-x:auto;">
-      <table class="data-table">
+      <table class="data-table" style="table-layout:fixed;width:100%;">
+        <colgroup>
+          <col style="width:52px;">
+          <col style="width:33.33%;">
+          <col style="width:33.33%;">
+          <col style="width:33.33%;">
+        </colgroup>
         <thead><tr><th class="no">ที่</th><th>ชื่อ–สกุล</th><th>หน่วยงาน</th><th>โรงพยาบาล</th></tr></thead>
         <tbody id="attendeeBody"></tbody>
       </table>
@@ -676,40 +656,33 @@ footer .footer-brand {
 
 <!-- GROUPS -->
 <div style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-  <div class="section" id="groups">
+  <div class="section" style="max-width:1280px;" id="groups">
     <div class="section-eyebrow">การจัดกลุ่มเพื่อการสอบ</div>
-
     <div class="panel">
       <div class="panel-title">การแบ่งกลุ่มสอบ <em>— กลุ่ม A / B</em></div>
       <p style="font-size:0.82rem;color:var(--text3);margin-bottom:1.25rem;font-family:'Anuphan',sans-serif;">แบ่งเป็น 2 กลุ่มหลัก รวม 22 กลุ่มย่อย · กลุ่มย่อยละ ~4 คน</p>
-
-      <!-- Search -->
-      <div class="search-wrap" style="margin-bottom:0.5rem;">
-        <input type="text" id="groupSearch" placeholder="ค้นหาชื่อ หรือโรงพยาบาล (ทุกกลุ่ม)..." oninput="filterGroups()">
+      <div class="tabs" id="groupMainTabs">
+        <button class="tab active" onclick="switchGroupMain('A')">กลุ่ม A (45 คน)</button>
+        <button class="tab" onclick="switchGroupMain('B')">กลุ่ม B (45 คน)</button>
       </div>
-      <p id="groupSearchInfo" style="font-size:0.75rem;color:var(--olive);font-family:'Anuphan',sans-serif;margin-bottom:1rem;min-height:1.2em;"></p>
-
-      <!-- Search result table (shown when searching) -->
-      <div id="groupSearchResult" style="display:none;margin-bottom:1.5rem;">
-        <div style="overflow-x:auto;">
-          <table class="data-table">
-            <thead><tr><th class="no">ที่</th><th>ชื่อ–สกุล</th><th>หน่วยงาน</th><th>โรงพยาบาล</th><th>กลุ่มย่อย</th></tr></thead>
-            <tbody id="groupSearchBody"></tbody>
-          </table>
-        </div>
+      <div class="search-wrap">
+        <input type="text" id="groupSearch" placeholder="ค้นหาชื่อ..." oninput="filterGroups()">
       </div>
-
-      <!-- Tab A/B (hidden when searching) -->
-      <div id="groupTabSection">
-        <div class="tabs" style="margin-bottom:1.5rem;">
-          <button class="tab active" onclick="switchGroupTab('A')">กลุ่ม A (45 คน)</button>
-          <button class="tab" onclick="switchGroupTab('B')">กลุ่ม B (45 คน)</button>
-        </div>
-        <div id="groupA_subgroups"></div>
-        <div id="groupB_subgroups" class="hidden"></div>
+      <div style="overflow-x:auto;">
+        <table class="data-table" style="table-layout:fixed;width:100%;">
+          <colgroup>
+            <col style="width:52px;">
+            <col style="width:26%;">
+            <col style="width:26%;">
+            <col style="width:26%;">
+            <col style="width:22%;">
+          </colgroup>
+          <thead><tr><th class="no">ที่</th><th>ชื่อ–สกุล</th><th>หน่วยงาน</th><th>โรงพยาบาล</th><th>กลุ่มย่อย</th></tr></thead>
+          <tbody id="groupBody"></tbody>
+        </table>
       </div>
+      <div class="pag" id="groupPag"></div>
     </div>
-
   </div>
 </div>
 
@@ -980,136 +953,132 @@ function filterAttendees(){
   attendeePage=1;renderAttendees();
 }
 
-// ── GROUPS ──
-function buildSubgroupBlock(sg, members, highlighted=[]) {
-  const isA = sg.startsWith('A');
-  const badgeClass = isA ? 'badge-A' : 'badge-B';
-  const rows = members.map((r,i) => {
-    const isHit = highlighted.includes(r.no);
-    return `<tr style="${isHit?'background:var(--olive-pale);':''}">
-      <td class="no">${i+1}</td>
-      <td class="name">${isHit?'⭐ ':''}${r.name}</td>
-      <td>${r.dept}</td>
-      <td>${r.hospital}</td>
-    </tr>`;
-  }).join('');
-  return `
-    <div style="margin-bottom:1.5rem;" data-sg="${sg}">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:0.65rem;">
-        <span class="badge ${badgeClass}" style="font-size:0.75rem;padding:5px 14px;">กลุ่มย่อย ${sg}</span>
-        <span style="font-size:0.72rem;color:var(--text3);font-family:'Anuphan',sans-serif;">${members.length} คน</span>
+let groupPage=1,currentGroup='A',filteredGroups=GROUPS.filter(m=>m.group==='กลุ่ม A');
+const GPAGE=20;
+function switchGroupMain(g){
+  currentGroup=g;
+  document.querySelectorAll('#groupMainTabs .tab').forEach((t,i)=>t.classList.toggle('active',(g==='A'&&i===0)||(g==='B'&&i===1)));
+  filterGroups();
+}
+function filterGroups(){
+  const q=document.getElementById('groupSearch').value.toLowerCase();
+  filteredGroups=GROUPS.filter(m=>m.group==='กลุ่ม '+currentGroup&&(m.name.toLowerCase().includes(q)||m.hospital.toLowerCase().includes(q)));
+  groupPage=1;renderGroups();
+}
+function renderGroups(){
+  const body=document.getElementById('groupBody');
+  const start=(groupPage-1)*GPAGE;
+  body.innerHTML=filteredGroups.slice(start,start+GPAGE).map((r,i)=>`<tr><td class="no">${start+i+1}</td><td class="name">${r.name}</td><td>${r.dept}</td><td>${r.hospital}</td><td><span class="badge ${r.group.includes('A')?'badge-A':'badge-B'}">${r.group}</span><span class="badge badge-sub">${r.subgroup}</span></td></tr>`).join('');
+  renderPag('groupPag',groupPage,Math.ceil(filteredGroups.length/GPAGE),p=>{groupPage=p;renderGroups();});
+}
+
+function renderPag(id,cur,total,cb){
+  const el=document.getElementById(id);
+  if(total<=1){el.innerHTML='';return;}
+  let html='';
+  for(let p=1;p<=total;p++)html+=`<button class="${p===cur?'active':''}" data-p="${p}">${p}</button>`;
+  html+=`<span class="pag-info">หน้า ${cur}/${total}</span>`;
+  el.innerHTML=html;
+  el.querySelectorAll('button').forEach(btn=>{btn.onclick=()=>cb(parseInt(btn.dataset.p));});
+}
+
+function showDay(d){
+  [1,2,3].forEach(i=>document.getElementById('day'+i).classList.toggle('hidden',i!==d));
+  document.querySelectorAll('#schedule .tab').forEach((t,i)=>t.classList.toggle('active',i+1===d));
+}
+
+
+// ====================================================
+// 📂 ไฟล์ประกอบการอบรม — แก้ไขที่นี่เพียงที่เดียว
+// url: "" = ยังไม่มีไฟล์  |  url: "https://..." = มีไฟล์แล้ว
+// ====================================================
+const CONTENT_FILES = [
+  {
+    day: 1, label: 'วันที่ 1 · 19 พฤษภาคม',
+    labelStyle: 'color:var(--olive-dark);background:var(--olive-pale);border:1px solid var(--border2);',
+    items: [
+      { title:'ATLS For Nurse Update Ed.11',           sub:'09.15–10.15 · ดร.พว.จุฬาดา ธนาบดินทร์',       url:'' },
+      { title:'Abdominal Trauma and Pelvic Fracture',  sub:'10.30–11.15 · นพ.บวร เกียรติมงคล',            url:'' },
+      { title:'Chest with Thoracic Injury',            sub:'11.15–12.00 · นพ.กองศิลป์ แวงสันเทียะ',       url:'' },
+      { title:'Shock Assessment & Management',         sub:'13.00–13.45 · นพ.ณัฐวุฒิ นิธิธนาบวร',        url:'' },
+      { title:'Thermal Injury Initial Assessment',     sub:'13.45–14.30 · พญ.ภัคธีรา จิรอุไรพงศ์',        url:'' },
+      { title:'Traumatic Brain Injury Nursing',        sub:'14.45–15.30 · พว.จินตนา วงศ์ยุทธจักร์',       url:'' },
+      { title:'Initial Assessment in Multiple Injury', sub:'15.30–16.15 · พว.อนุสรา บุญภูมิ',             url:'' },
+    ]
+  },
+  {
+    day: 2, label: 'วันที่ 2 · 20 พฤษภาคม',
+    labelStyle: 'color:var(--warm-dark);background:rgba(196,168,130,0.18);border:1px solid rgba(196,168,130,0.4);',
+    items: [
+      { title:'Abdomen Injury & Nursing Management',   sub:'08.30–09.15 · พว.สาคร แสวงชู',                url:'' },
+      { title:'Musculoskeletal Trauma Care',           sub:'09.15–10.00 · นพ.ธน รัตนกิจโกศล',             url:'' },
+      { title:'Airway Management in Multiple Trauma',  sub:'10.15–11.00 · นพ.เอกฤทธิ์ นารถติกร',         url:'' },
+      { title:'Initial Assessment Demonstration',      sub:'11.00–12.00 · นพ.บดินทร์ / พว.ศุภารมย์ / พว.ปฏิพล', url:'' },
+    ]
+  }
+];
+
+function renderContent() {
+  let html = '';
+  CONTENT_FILES.forEach((day, di) => {
+    const hasAny = day.items.some(f => f.url);
+    const readyCount = day.items.filter(f => f.url).length;
+    html += `
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:0.85rem;${di>0?'margin-top:1.75rem;':'margin-top:0.25rem;'}">
+        <span style="font-family:'Anuphan',sans-serif;font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;border-radius:100px;padding:4px 14px;${day.labelStyle}">${day.label}</span>
+        <span style="font-family:'Anuphan',sans-serif;font-size:0.7rem;color:var(--text3);">${readyCount}/${day.items.length} ไฟล์</span>
         <span style="flex:1;height:1px;background:var(--border2);"></span>
       </div>
-      <div style="overflow-x:auto;">
-        <table class="data-table" style="font-size:0.82rem;">
-          <thead><tr><th class="no">ที่</th><th>ชื่อ–สกุล</th><th>หน่วยงาน</th><th>โรงพยาบาล</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>
-    </div>`;
+      <div class="link-grid" style="${di < CONTENT_FILES.length-1 ? '' : ''}">`;
+    day.items.forEach(f => {
+      const hasFile = !!f.url;
+      const tag = hasFile ? 'a' : 'div';
+      const href = hasFile ? `href="${f.url}" target="_blank"` : '';
+      const icon = hasFile ? '📄' : '📋';
+      const statusClass = hasFile ? 'status-ready' : 'status-pending';
+      const statusText = hasFile ? '✓ มีไฟล์แล้ว' : 'ยังไม่มีไฟล์';
+      const cardClass = hasFile ? 'link-card' : 'link-card no-file';
+      html += `<${tag} ${href} class="${cardClass}">
+        <span class="lc-icon">${icon}</span>
+        <div style="flex:1;min-width:0;">
+          <div class="lc-title">${f.title}</div>
+          <div class="lc-sub">${f.sub}</div>
+        </div>
+        <span class="lc-status ${statusClass}">${statusText}</span>
+      </${tag}>`;
+    });
+    html += `</div>`;
+  });
+  document.getElementById('contentArea').innerHTML = html;
 }
 
-function switchGroupTab(g) {
-  document.getElementById('groupA_subgroups').classList.toggle('hidden', g !== 'A');
-  document.getElementById('groupB_subgroups').classList.toggle('hidden', g !== 'B');
-  document.querySelectorAll('.tabs .tab').forEach((t,i) => t.classList.toggle('active', (g==='A'&&i===0)||(g==='B'&&i===1)));
-}
+renderAttendees();renderGroups();renderContent();
 
-function renderSubgroupSections() {
-  const subgroupsA = [...new Set(GROUPS.filter(m=>m.group==='กลุ่ม A').map(m=>m.subgroup))].sort();
-  document.getElementById('groupA_subgroups').innerHTML =
-    subgroupsA.map(sg => buildSubgroupBlock(sg, GROUPS.filter(m=>m.subgroup===sg))).join('');
+// ── HAMBURGER MENU ──
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const mobileDrawer = document.getElementById('mobileDrawer');
+const drawerLinks  = document.querySelectorAll('.drawer-link');
 
-  const subgroupsB = [...new Set(GROUPS.filter(m=>m.group==='กลุ่ม B').map(m=>m.subgroup))].sort();
-  document.getElementById('groupB_subgroups').innerHTML =
-    subgroupsB.map(sg => buildSubgroupBlock(sg, GROUPS.filter(m=>m.subgroup===sg))).join('');
-}
-
-function filterGroups(){
-  const q = document.getElementById('groupSearch').value.trim().toLowerCase();
-  const infoEl = document.getElementById('groupSearchInfo');
-  const resultBox = document.getElementById('groupSearchResult');
-  const resultBody = document.getElementById('groupSearchBody');
-  const tabSection = document.getElementById('groupTabSection');
-
-  if (!q) {
-    infoEl.textContent = '';
-    resultBox.style.display = 'none';
-    tabSection.style.display = 'block';
-    renderSubgroupSections();
-    return;
-  }
-
-  const matched = GROUPS.filter(m =>
-    m.name.toLowerCase().includes(q) ||
-    m.hospital.toLowerCase().includes(q) ||
-    m.dept.toLowerCase().includes(q)
-  );
-
-  if (matched.length === 0) {
-    infoEl.textContent = 'ไม่พบรายชื่อที่ค้นหา';
-    resultBox.style.display = 'none';
-    tabSection.style.display = 'none';
-    return;
-  }
-
-  // get all members in same subgroups
-  const matchedSubgroups = [...new Set(matched.map(m => m.subgroup))].sort();
-  const allInSameSubgroups = GROUPS.filter(m => matchedSubgroups.includes(m.subgroup));
-
-  infoEl.textContent = `พบ ${matched.length} คน · กลุ่มย่อย: ${matchedSubgroups.join(', ')}`;
-
-  // build table rows grouped by subgroup
-  resultBody.innerHTML = allInSameSubgroups.map((r, i) => {
-    const isHit = matched.some(m => m.no === r.no);
-    const isA = r.subgroup.startsWith('A');
-    const badgeClass = isA ? 'badge-A' : 'badge-B';
-    return `<tr style="${isHit ? 'background:var(--olive-pale);' : ''}">
-      <td class="no">${i+1}</td>
-      <td class="name">${isHit ? '⭐ ' : ''}${r.name}</td>
-      <td>${r.dept}</td>
-      <td>${r.hospital}</td>
-      <td>
-        <span class="badge ${badgeClass}" style="font-size:0.68rem;">${r.group}</span>
-        <span class="badge badge-sub">${r.subgroup}</span>
-      </td>
-    </tr>`;
-  }).join('');
-
-  resultBox.style.display = 'block';
-  tabSection.style.display = 'none';
-}
-
-
-
-renderAttendees();renderSubgroupSections();renderContent();
-
-// ── MOBILE DRAWER ──
-function toggleDrawer() {
-  const drawer = document.getElementById('navDrawer');
-  const overlay = document.getElementById('drawerOverlay');
-  const btn = document.getElementById('navHamburger');
-  const isOpen = drawer.classList.contains('open');
-  if (isOpen) {
-    closeDrawer();
-  } else {
-    drawer.classList.add('open');
-    overlay.style.display = 'block';
-    setTimeout(()=>overlay.classList.add('open'), 10);
-    btn.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-}
 function closeDrawer() {
-  const drawer = document.getElementById('navDrawer');
-  const overlay = document.getElementById('drawerOverlay');
-  const btn = document.getElementById('navHamburger');
-  drawer.classList.remove('open');
-  overlay.classList.remove('open');
-  btn.classList.remove('open');
+  hamburgerBtn.classList.remove('open');
+  mobileDrawer.classList.remove('open');
   document.body.style.overflow = '';
-  setTimeout(()=>{ overlay.style.display='none'; }, 320);
 }
+
+hamburgerBtn.addEventListener('click', () => {
+  const isOpen = mobileDrawer.classList.toggle('open');
+  hamburgerBtn.classList.toggle('open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+
+drawerLinks.forEach(link => {
+  link.addEventListener('click', closeDrawer);
+});
+
+// close when clicking outside drawer
+mobileDrawer.addEventListener('click', e => {
+  if (e.target === mobileDrawer) closeDrawer();
+});
 
 // ── NAV SCROLL BEHAVIOR ──
 const navEl = document.querySelector('nav');
@@ -1128,7 +1097,7 @@ window.addEventListener('scroll', () => {
   navLinks.forEach(a => {
     a.classList.toggle('active-link', a.getAttribute('href') === current);
   });
-  document.querySelectorAll('.nav-drawer a').forEach(a => {
+  drawerLinks.forEach(a => {
     a.classList.toggle('active-link', a.getAttribute('href') === current);
   });
 }, { passive: true });
