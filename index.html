@@ -462,6 +462,88 @@ footer .footer-brand {
 
 .hidden { display:none !important; }
 
+/* ── COUNTDOWN ── */
+.countdown-wrap {
+  margin-top:2.5rem;
+  display:flex;flex-direction:column;gap:8px;
+}
+.countdown-label {
+  font-family:'Anuphan',sans-serif;
+  font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--olive);display:flex;align-items:center;gap:8px;
+}
+.countdown-label::before { content:'';display:block;width:20px;height:1px;background:var(--olive-light); }
+.countdown-units {
+  display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;
+}
+.cd-unit {
+  display:flex;align-items:baseline;gap:3px;
+}
+.cd-num {
+  font-family:'Anuphan',sans-serif;
+  font-size:clamp(1.6rem,3vw,2.4rem);
+  font-weight:300;color:var(--dark);
+  letter-spacing:-0.02em;line-height:1;
+  transition:color 0.4s;
+}
+.cd-unit-label {
+  font-family:'Anuphan',sans-serif;
+  font-size:0.6rem;color:var(--text3);
+  letter-spacing:0.12em;text-transform:uppercase;
+  padding-bottom:2px;
+}
+.cd-sep {
+  font-family:'Anuphan',sans-serif;
+  font-size:1.2rem;color:var(--border2);font-weight:300;
+  padding-bottom:2px;
+}
+.cd-done {
+  font-family:'Anuphan',sans-serif;
+  font-size:0.9rem;color:var(--olive);font-style:italic;
+}
+
+/* ── TIMELINE LIVE HIGHLIGHT ── */
+.timeline-item.is-live {
+  position:relative;
+}
+.timeline-item.is-live::before {
+  background:var(--olive-dark);
+  box-shadow:0 0 0 3px rgba(107,124,92,0.25);
+}
+.timeline-item.is-live .timeline-time {
+  color:var(--olive-dark);font-weight:600;
+}
+.timeline-item.is-live .timeline-title {
+  color:var(--dark);
+}
+.live-badge {
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:'Anuphan',sans-serif;
+  font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--olive-dark);
+  background:var(--olive-pale);
+  border:1px solid var(--border2);
+  border-radius:100px;padding:2px 9px;
+  margin-left:8px;vertical-align:middle;
+  animation:livepulse 2.2s ease-in-out infinite;
+}
+.live-badge::before {
+  content:'';display:block;
+  width:5px;height:5px;border-radius:50%;
+  background:var(--olive-dark);
+  animation:dotpulse 2.2s ease-in-out infinite;
+}
+@keyframes livepulse {
+  0%,100%{opacity:1;}50%{opacity:0.7;}
+}
+@keyframes dotpulse {
+  0%,100%{opacity:1;transform:scale(1);}
+  50%{opacity:0.5;transform:scale(0.7);}
+}
+.timeline-item.is-past .timeline-time { color:var(--text3); }
+.timeline-item.is-past .timeline-title { color:var(--text3); }
+.timeline-item.is-past::before { background:var(--border2);border-color:var(--surface); }
+
 /* ── HAMBURGER BUTTON ── */
 .nav-hamburger {
   display:none;
@@ -657,6 +739,19 @@ footer .footer-brand {
       <span class="pill"><span class="pill-ico">📅</span>19–21 พ.ค. 2569</span>
       <span class="pill"><span class="pill-ico">👥</span>90 คน</span>
       <span class="pill"><span class="pill-ico">🏅</span>17 หน่วยคะแนน CNEU</span>
+    </div>
+
+    <div class="countdown-wrap" id="countdownWrap">
+      <div class="countdown-label" id="countdownLabel">เริ่มอบรมใน</div>
+      <div class="countdown-units" id="countdownUnits">
+        <div class="cd-unit"><span class="cd-num" id="cdDays">—</span><span class="cd-unit-label">วัน</span></div>
+        <div class="cd-sep">·</div>
+        <div class="cd-unit"><span class="cd-num" id="cdHours">—</span><span class="cd-unit-label">ชม.</span></div>
+        <div class="cd-sep">·</div>
+        <div class="cd-unit"><span class="cd-num" id="cdMins">—</span><span class="cd-unit-label">นาที</span></div>
+        <div class="cd-sep">·</div>
+        <div class="cd-unit"><span class="cd-num" id="cdSecs">—</span><span class="cd-unit-label">วินาที</span></div>
+      </div>
     </div>
   </div>
   <div class="hero-right">
@@ -1296,6 +1391,125 @@ drawerLinks.forEach(link => {
 mobileDrawer.addEventListener('click', e => {
   if (e.target === mobileDrawer) closeDrawer();
 });
+
+// ── COUNTDOWN ──
+(function() {
+  // วันอบรม: 19 พฤษภาคม 2569 = ค.ศ. 2026 เวลา 08:00 น. (UTC+7)
+  const TARGET = new Date('2026-05-19T08:00:00+07:00').getTime();
+  const END    = new Date('2026-05-21T16:00:00+07:00').getTime();
+
+  function pad(n){ return String(n).padStart(2,'0'); }
+
+  function tickCountdown() {
+    const now = Date.now();
+    const wrap = document.getElementById('countdownWrap');
+    const label = document.getElementById('countdownLabel');
+    const units = document.getElementById('countdownUnits');
+
+    if (now >= END) {
+      // จบการอบรมแล้ว
+      label.textContent = '';
+      units.innerHTML = '<span class="cd-done">สิ้นสุดการอบรมแล้ว</span>';
+      return;
+    }
+    if (now >= TARGET) {
+      // กำลังอบรมอยู่
+      label.textContent = 'กำลังดำเนินการอบรม';
+      const diff = END - now;
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      document.getElementById('cdDays').textContent  = d > 0 ? pad(d) : '';
+      document.getElementById('cdHours').textContent = pad(h);
+      document.getElementById('cdMins').textContent  = pad(m);
+      document.getElementById('cdSecs').textContent  = pad(s);
+      // ซ่อน "วัน" ถ้า = 0
+      wrap.querySelector('.cd-unit').style.display = d > 0 ? 'flex' : 'none';
+      wrap.querySelectorAll('.cd-sep')[0].style.display = d > 0 ? 'inline' : 'none';
+      return;
+    }
+    // นับถอยหลัง
+    label.textContent = 'เริ่มอบรมใน';
+    const diff = TARGET - now;
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cdDays').textContent  = pad(d);
+    document.getElementById('cdHours').textContent = pad(h);
+    document.getElementById('cdMins').textContent  = pad(m);
+    document.getElementById('cdSecs').textContent  = pad(s);
+  }
+
+  tickCountdown();
+  setInterval(tickCountdown, 1000);
+})();
+
+// ── LIVE TIMELINE HIGHLIGHT ──
+(function() {
+  // ข้อมูลกำหนดการ: [dayIndex(1-3), startHH, startMM, endHH, endMM]
+  const SLOTS = [
+    // วันที่ 1
+    [1, 8,0, 8,30],  [1, 8,30, 9,0], [1, 9,0, 9,15], [1, 9,15, 10,15],
+    [1, 10,15, 10,30],[1, 10,30, 11,15],[1, 11,15, 12,0],[1, 12,0, 13,0],
+    [1, 13,0, 13,45],[1, 13,45, 14,30],[1, 14,30, 14,45],[1, 14,45, 15,30],[1, 15,30, 16,15],
+    // วันที่ 2
+    [2, 8,30, 9,15],[2, 9,15, 10,0],[2, 10,0, 10,15],[2, 10,15, 11,0],
+    [2, 11,0, 12,0],[2, 12,0, 13,0],[2, 13,0, 17,0],
+    // วันที่ 3
+    [3, 9,0, 10,0],[3, 9,0, 12,0],[3, 10,0, 10,15],[3, 12,0, 13,0],
+    [3, 13,0, 14,0],[3, 14,0, 14,15],[3, 14,15, 16,0],
+  ];
+
+  // วันที่ตรงกับ ค.ศ.
+  const DAY_DATES = { 1: '2026-05-19', 2: '2026-05-20', 3: '2026-05-21' };
+
+  function updateTimeline() {
+    const now = new Date();
+
+    [1, 2, 3].forEach(dayIdx => {
+      const dayEl = document.getElementById('day' + dayIdx);
+      if (!dayEl) return;
+      const items = dayEl.querySelectorAll('.timeline-item');
+      const dateStr = DAY_DATES[dayIdx];
+      const daySlots = SLOTS.filter(s => s[0] === dayIdx);
+
+      items.forEach((item, i) => {
+        if (i >= daySlots.length) return;
+        const slot = daySlots[i];
+        const start = new Date(`${dateStr}T${String(slot[1]).padStart(2,'0')}:${String(slot[2]).padStart(2,'0')}:00+07:00`);
+        const end   = new Date(`${dateStr}T${String(slot[3]).padStart(2,'0')}:${String(slot[4]).padStart(2,'0')}:00+07:00`);
+
+        // ลบ class เดิม
+        item.classList.remove('is-live','is-past');
+        const existingBadge = item.querySelector('.live-badge');
+        if (existingBadge) existingBadge.remove();
+
+        if (now >= start && now < end) {
+          // กำลังบรรยายอยู่
+          item.classList.add('is-live');
+          // เพิ่ม badge หลัง timeline-title
+          const titleEl = item.querySelector('.timeline-title');
+          if (titleEl && !titleEl.querySelector('.live-badge')) {
+            const badge = document.createElement('span');
+            badge.className = 'live-badge';
+            badge.textContent = 'กำลังดำเนินการ';
+            titleEl.appendChild(badge);
+          }
+          // switch tab ให้ตรงวัน
+          showDay(dayIdx);
+          document.querySelectorAll('#schedule .tab').forEach((t,ti) => t.classList.toggle('active', ti+1 === dayIdx));
+        } else if (now >= end) {
+          item.classList.add('is-past');
+        }
+      });
+    });
+  }
+
+  updateTimeline();
+  setInterval(updateTimeline, 30000); // อัปเดตทุก 30 วินาที
+})();
 
 // ── NAV SCROLL BEHAVIOR ──
 const navEl = document.querySelector('nav');
