@@ -47,11 +47,17 @@ body::before {
 /* ── NAV ── */
 nav {
   position:fixed;top:0;left:0;right:0;z-index:100;
-  background:rgba(249,246,240,0.92);
+  background:rgba(249,246,240,0.75);
   backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--border);
+  border-bottom:1px solid transparent;
   height:64px;display:flex;align-items:center;
   padding:0 2.5rem;justify-content:space-between;
+  transition:background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+nav.scrolled {
+  background:rgba(249,246,240,0.97);
+  border-bottom:1px solid var(--border2);
+  box-shadow:0 2px 24px rgba(44,44,42,0.10);
 }
 .nav-logo {
   font-family:'Anuphan',sans-serif;
@@ -63,10 +69,15 @@ nav {
 .nav-links a {
   color:var(--text2);font-size:0.78rem;padding:7px 12px;
   text-decoration:none;letter-spacing:0.02em;
-  border-radius:4px;transition:all 0.2s;white-space:nowrap;
-  font-family:'Anuphan',sans-serif;
+  border-radius:6px;transition:all 0.2s;white-space:nowrap;
+  font-family:'Anuphan',sans-serif;font-weight:400;
 }
 .nav-links a:hover { color:var(--olive-dark);background:var(--olive-pale); }
+.nav-links a.active-link {
+  color:var(--olive-dark);
+  background:var(--olive-pale);
+  font-weight:500;
+}
 
 /* ── HERO ── */
 .hero {
@@ -948,6 +959,25 @@ function renderContent() {
 }
 
 renderAttendees();renderGroups();renderContent();
+
+// ── NAV SCROLL BEHAVIOR ──
+const navEl = document.querySelector('nav');
+const navLinks = document.querySelectorAll('.nav-links a');
+const sections = [...navLinks].map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+
+window.addEventListener('scroll', () => {
+  // เพิ่มพื้นหลังเมื่อเลื่อนเกิน 60px
+  navEl.classList.toggle('scrolled', window.scrollY > 60);
+
+  // highlight เมนูตาม section ที่มองอยู่
+  let current = '';
+  sections.forEach(sec => {
+    if (window.scrollY >= sec.offsetTop - 100) current = '#' + sec.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active-link', a.getAttribute('href') === current);
+  });
+}, { passive: true });
 </script>
 </body>
 </html>
