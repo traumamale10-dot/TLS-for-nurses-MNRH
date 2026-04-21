@@ -1023,6 +1023,20 @@ footer .footer-brand {
       </a>
     </div>
 
+    <!-- Venue photo -->
+    <div onclick="openLightbox('https://i.ibb.co/hqsVmpG/Gemini-Generated-Image-ws1rzsws1rzsws1r.png')"
+         style="cursor:zoom-in;position:relative;overflow:hidden;border-radius:14px;border:1px solid var(--border);box-shadow:var(--shadow);margin-bottom:1.5rem;">
+      <img src="https://i.ibb.co/hqsVmpG/Gemini-Generated-Image-ws1rzsws1rzsws1r.png"
+           alt="ศูนย์ฝึกสถานการณ์จำลองทางการแพทย์"
+           style="width:100%;height:220px;object-fit:cover;display:block;transition:transform 0.4s ease;"
+           onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(44,44,42,0.52) 0%,transparent 50%);pointer-events:none;"></div>
+      <div style="position:absolute;bottom:12px;left:16px;right:16px;display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-family:'Anuphan',sans-serif;font-size:0.75rem;color:rgba(255,255,255,0.95);letter-spacing:0.05em;text-shadow:0 1px 4px rgba(0,0,0,0.4);">ศูนย์ฝึกสถานการณ์จำลองทางการแพทย์</span>
+        <span style="font-family:'Anuphan',sans-serif;font-size:0.62rem;color:rgba(255,255,255,0.8);background:rgba(255,255,255,0.18);border-radius:100px;padding:3px 10px;backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.25);">🔍 ขยายดูรูป</span>
+      </div>
+    </div>
+
     <!-- Reference map SVG -->
     <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:1.5rem;">
       <div style="padding:0.7rem 1.25rem;border-bottom:1px solid var(--border);font-family:'Anuphan',sans-serif;font-size:0.7rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;">แผนผังอ้างอิงสถานที่ · ระยะห่างโดยประมาณ (ไม่ใช่มาตราส่วนจริง)</div>
@@ -1057,7 +1071,7 @@ footer .footer-brand {
     </script>
 
     <!-- Parking detail cards -->
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:12px;">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:720px;margin:0 auto;">
 
       <div class="place-card" style="border-left:3px solid #C97B5A;">
         <h4 style="color:#9B4E2A;">🅿️ อาคารจอดรถ รพ.</h4>
@@ -1449,7 +1463,6 @@ const CONTENT_FILES = [
       { title:'Abdomen Injury & Nursing Management',   sub:'08.30–09.15 · พว.สาคร แสวงชู',                url:'https://drive.google.com/drive/folders/1buxzg0KYI7F-gTXv4iJh-ODkQUCPVdGH?usp=sharing' },
       { title:'Musculoskeletal Trauma Care',           sub:'09.15–10.00 · นพ.ธน รัตนกิจโกศล',             url:'https://drive.google.com/drive/folders/1FCEYNOEL0vkP66pM6lWNvQk0GdQcmcQU?usp=sharing' },
       { title:'Airway Management in Multiple Trauma',  sub:'10.15–11.00 · นพ.เอกฤทธิ์ นารถติกร',         url:'https://drive.google.com/drive/folders/17_RQcOtisIq4o0yO2THhqIxsbUXqDy5y?usp=sharing' },
-      { title:'Initial Assessment Demonstration',      sub:'11.00–12.00 · นพ.บดินทร์ / พว.ศุภารมย์ / พว.ปฏิพล', url:'' },
     ]
   }
 ];
