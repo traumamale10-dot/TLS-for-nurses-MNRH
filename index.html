@@ -698,27 +698,69 @@ footer .footer-brand {
   <div class="section-eyebrow">อาคารและสถานที่</div>
   <div class="panel">
     <div class="panel-title">สถานที่จัดอบรม</div>
-    <div class="place-grid">
-      <div class="place-card">
-        <h4>สถานที่จัดอบรม</h4>
-        <p>ศูนย์ฝึกสถานการณ์จำลองทางการแพทย์<br>โรงพยาบาลมหาราชนครราชสีมา<br>อาคาร — ชั้น —<br><span style="color:var(--olive);">📍 กรุณาเพิ่มข้อมูลอาคาร/ชั้น</span></p>
+
+    <!-- Main venue highlight -->
+    <div style="background:var(--olive-pale);border:1px solid var(--border2);border-radius:14px;padding:1.4rem 1.75rem;margin-bottom:1.5rem;display:flex;align-items:flex-start;gap:1.25rem;flex-wrap:wrap;">
+      <div style="font-size:2rem;line-height:1;">📍</div>
+      <div style="flex:1;min-width:180px;">
+        <div style="font-family:'Anuphan',sans-serif;font-size:1.05rem;font-weight:500;color:var(--olive-dark);margin-bottom:0.3rem;">ศูนย์ฝึกสถานการณ์จำลองทางการแพทย์</div>
+        <div style="font-size:0.85rem;color:var(--text2);margin-bottom:0.15rem;">โรงพยาบาลมหาราชนครราชสีมา</div>
+        <div style="font-size:0.78rem;color:var(--text3);font-family:'Anuphan',sans-serif;">📌 ใกล้หอพักนักศึกษาแพทย์</div>
       </div>
-      <div class="place-card">
-        <h4>แผนที่ / นำทาง</h4>
-        <p><a href="YOUR_GOOGLE_MAPS_VENUE" target="_blank">📍 เปิด Google Maps นำทาง</a><br><br>
-        โรงพยาบาลมหาราชนครราชสีมา<br>849 ถ.ช้างเผือก ต.ในเมือง อ.เมือง<br>จ.นครราชสีมา 30000</p>
+      <a href="https://maps.app.goo.gl/qetGxftWrfPxXZoJ8" target="_blank" class="btn btn-olive" style="text-decoration:none;display:inline-flex;align-items:center;gap:7px;font-size:0.8rem;padding:9px 20px;">
+        🗺️ เปิด Google Maps
+      </a>
+    </div>
+
+    <!-- Reference map SVG -->
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:1.5rem;">
+      <div style="padding:0.7rem 1.25rem;border-bottom:1px solid var(--border);font-family:'Anuphan',sans-serif;font-size:0.7rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;">แผนผังอ้างอิงสถานที่ · ระยะห่างโดยประมาณ (ไม่ใช่มาตราส่วนจริง)</div>
+      <div style="padding:1.25rem 1rem;display:flex;justify-content:center;">
+        <img src="https://i.ibb.co/Hf5zw5zt/Gemini-Generated-Image-vliwt5vliwt5vliw.png"
+             alt="แผนผังสถานที่อบรม"
+             style="width:100%;max-width:680px;display:block;border-radius:8px;">
       </div>
-      <div class="place-card">
-        <h4>ที่จอดรถ</h4>
-        <p><a href="YOUR_PARKING_MAP_LINK" target="_blank">📍 ดูแผนที่ที่จอดรถ</a><br><br>
-        ที่จอดรถอาคาร — (แนะนำ)<br>เข้าทางประตู —<br>
-        <span style="font-size:0.75rem;color:var(--text3);">กรุณาเพิ่มข้อมูลที่จอดรถ</span></p>
+    </div>
+
+    <!-- Parking detail cards -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:12px;">
+
+      <div class="place-card" style="border-left:3px solid #C97B5A;">
+        <h4 style="color:#9B4E2A;">🅿️ อาคารจอดรถ รพ.</h4>
+        <p>
+          <a href="https://maps.app.goo.gl/9XiBuH7USrgwkt5F8" target="_blank">📍 Google Maps</a><br><br>
+          <strong>บุคคลภายนอก</strong> → ชั้น 2–3<br>
+          <strong>เจ้าหน้าที่</strong> → ชั้น 4–8<br>
+          <span style="font-size:0.73rem;color:var(--text3);">ห่างจากสถานที่อบรม ~700 ม.</span>
+        </p>
       </div>
+
+      <div class="place-card" style="border-left:3px solid #9C7E5A;">
+        <h4 style="color:#7A5C3A;">🅿️ Mpark</h4>
+        <p>
+          <a href="https://maps.app.goo.gl/JBtVsgDw5KYVy74y9" target="_blank">📍 Google Maps</a><br><br>
+          ฟรี 2 ชม.แรก · 20 ฿/ชม.<br>
+          <span style="font-size:0.77rem;">ซื้อ 200฿ +1ชม. · 800฿ +2ชม.<br>1,500฿ +4ชม. ฟรี</span><br>
+          <span style="font-size:0.73rem;color:var(--text3);">ห่างจากสถานที่อบรม ~380 ม.</span>
+        </p>
+      </div>
+
+      <div class="place-card" style="border-left:3px solid var(--olive-light);">
+        <h4>🅿️ หน้า OPD</h4>
+        <p>
+          <a href="https://maps.app.goo.gl/8AYjXs3v7U2yNT2G7" target="_blank">📍 Google Maps</a><br><br>
+          ฝั่งซ้ายด้านข้างตึก OPD<br>
+          <span style="font-size:0.77rem;color:var(--text3);">ทางไป Mpark</span><br>
+          <span style="font-size:0.73rem;color:var(--text3);">ห่างจากสถานที่อบรม ~300 ม.</span>
+        </p>
+      </div>
+
       <div class="place-card">
-        <h4>ติดต่อสอบถาม</h4>
+        <h4>📞 ติดต่อสอบถาม</h4>
         <p>งานการพยาบาล<br>ศูนย์ความเป็นเลิศด้านอุบัติเหตุ<br>โรงพยาบาลมหาราชนครราชสีมา<br>
         <span style="color:var(--olive);">โทร: ....................</span></p>
       </div>
+
     </div>
   </div>
 </div>
