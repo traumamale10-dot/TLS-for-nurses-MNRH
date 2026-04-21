@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TLS for Nurse 2568 — Trauma Life Support</title>
+<title>TLS for Nurses 2568 — Trauma Life Support</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600&family=Kanit:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -549,6 +549,53 @@ footer .footer-brand {
   .nav-hamburger{display:flex;}
   .mobile-drawer{display:block;}
   footer{flex-direction:column;gap:1rem;padding:2rem;text-align:center;}
+
+  /* ── TABLE → CARD layout on mobile ── */
+  .data-table thead { display:none; }
+  .data-table, .data-table tbody, .data-table tr, .data-table td { display:block; width:100%; }
+  .data-table tr {
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:12px;
+    margin-bottom:8px;
+    padding:12px 14px;
+    position:relative;
+  }
+  .data-table tr:hover td { background:transparent; }
+  .data-table td {
+    padding:2px 0;
+    border-bottom:none;
+    font-size:0.83rem;
+  }
+  .data-table td[data-label]::before {
+    content: attr(data-label) ": ";
+    font-family:'Anuphan',sans-serif;
+    font-size:0.65rem;
+    color:var(--text3);
+    letter-spacing:0.05em;
+    display:inline;
+  }
+  .data-table td.no {
+    position:absolute;top:12px;right:12px;
+    font-size:0.68rem;color:var(--text3);width:auto;
+  }
+  .data-table td.name {
+    font-size:0.9rem;font-weight:600;
+    color:var(--dark);margin-bottom:4px;
+    padding-right:32px;
+  }
+  /* subgroup header rows keep full-width style */
+  .data-table tr.subgroup-header {
+    background:var(--olive-pale);border-radius:8px;
+    padding:8px 14px;margin-bottom:4px;
+  }
+  .data-table tr.subgroup-header td {
+    padding:0;
+  }
+  .data-table td.group-col { display:none; }
+  /* panel padding tighter */
+  .panel { padding:1.25rem; }
+  .section { padding:3rem 1rem; }
 }
 </style>
 </head>
@@ -558,7 +605,7 @@ footer .footer-brand {
 <div class="hero-bg-shape shape2"></div>
 
 <nav>
-  <div class="nav-logo">TLS <span>for Nurse</span></div>
+  <div class="nav-logo">TLS <span>for Nurses</span></div>
   <div class="nav-links">
     <a href="#home">หน้าแรก</a>
     <a href="#participants">รายชื่อ</a>
@@ -596,9 +643,9 @@ footer .footer-brand {
   <div class="hero-left">
     <div class="hero-eyebrow">โครงการอบรมเชิงปฏิบัติการ</div>
     <div class="hero-sub">Trauma Life Support</div>
-    <h1>TLS for <em>Nurse</em><br>2568</h1>
+    <h1>TLS for <em>Nurses</em><br>2568</h1>
     <p class="hero-desc">
-      โครงการอบรมเชิงปฏิบัติการ Trauma Life Support for Nurse<br>
+      โครงการอบรมเชิงปฏิบัติการ Trauma Life Support for Nurses<br>
       ณ ศูนย์ฝึกสถานการณ์จำลองทางการแพทย์<br>
       โรงพยาบาลมหาราชนครราชสีมา
     </p>
@@ -639,13 +686,7 @@ footer .footer-brand {
       <input type="text" id="searchInput" placeholder="ค้นหาชื่อ หน่วยงาน หรือโรงพยาบาล..." oninput="filterAttendees()">
     </div>
     <div style="overflow-x:auto;">
-      <table class="data-table" style="table-layout:fixed;width:100%;">
-        <colgroup>
-          <col style="width:52px;">
-          <col style="width:33.33%;">
-          <col style="width:33.33%;">
-          <col style="width:33.33%;">
-        </colgroup>
+      <table class="data-table">
         <thead><tr><th class="no">ที่</th><th>ชื่อ–สกุล</th><th>หน่วยงาน</th><th>โรงพยาบาล</th></tr></thead>
         <tbody id="attendeeBody"></tbody>
       </table>
@@ -666,14 +707,7 @@ footer .footer-brand {
       </div>
       <div id="subgroupChips" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.25rem;"></div>
       <div style="overflow-x:auto;">
-        <table class="data-table" style="table-layout:fixed;width:100%;">
-          <colgroup>
-            <col style="width:52px;">
-            <col style="width:26%;">
-            <col style="width:26%;">
-            <col style="width:26%;">
-            <col style="width:22%;">
-          </colgroup>
+        <table class="data-table">
           <thead><tr><th class="no">ที่</th><th>ชื่อ–สกุล</th><th>หน่วยงาน</th><th>โรงพยาบาล</th><th>กลุ่มย่อย</th></tr></thead>
           <tbody id="groupBody"></tbody>
         </table>
@@ -928,7 +962,7 @@ footer .footer-brand {
 </div>
 
 <footer>
-  <div class="footer-brand">TLS for Nurse 2568</div>
+  <div class="footer-brand">TLS for Nurses 2568</div>
   <div>โรงพยาบาลมหาราชนครราชสีมา · ศูนย์ความเป็นเลิศด้านอุบัติเหตุ<br>รหัสกิจกรรม H020-L-69-C3-0006-1</div>
 </footer>
 
@@ -941,7 +975,13 @@ const APAGE=20;
 function renderAttendees(){
   const body=document.getElementById('attendeeBody');
   const start=(attendeePage-1)*APAGE;
-  body.innerHTML=filteredAttendees.slice(start,start+APAGE).map(r=>`<tr><td class="no">${r.no}</td><td class="name">${r.name}</td><td>${r.dept}</td><td>${r.hospital}</td></tr>`).join('');
+  body.innerHTML=filteredAttendees.slice(start,start+APAGE).map(r=>`
+    <tr>
+      <td class="no">${r.no}</td>
+      <td class="name">${r.name}</td>
+      <td data-label="หน่วยงาน">${r.dept||'—'}</td>
+      <td data-label="โรงพยาบาล">${r.hospital}</td>
+    </tr>`).join('');
   renderPag('attendeePag',attendeePage,Math.ceil(filteredAttendees.length/APAGE),p=>{attendeePage=p;renderAttendees();});
 }
 function filterAttendees(){
@@ -1030,8 +1070,8 @@ function renderGroups() {
   let html = '';
   Object.entries(bySubgroup).forEach(([sub, members]) => {
     const isA = sub.startsWith('A');
-    html += `<tr>
-      <td colspan="5" style="padding:10px 14px 6px;background:${isA?'var(--olive-pale)':'rgba(196,168,130,0.12)'};border-bottom:none;">
+    html += `<tr class="subgroup-header">
+      <td colspan="5" style="padding:6px 0;">
         <span style="font-family:'Anuphan',sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:0.1em;color:${isA?'var(--olive-dark)':'var(--warm-dark)'};">
           ${isA?'กลุ่ม A':'กลุ่ม B'} · ${sub}
         </span>
@@ -1041,10 +1081,10 @@ function renderGroups() {
     members.forEach(r => {
       html += `<tr>
         <td class="no">${r.idx}</td>
-        <td class="name">${r.name}</td>
-        <td>${r.dept}</td>
-        <td>${r.hospital}</td>
-        <td><span class="badge ${isA?'badge-A':'badge-B'}">${r.group}</span><span class="badge badge-sub">${r.subgroup}</span></td>
+        <td class="name">${r.name}<span class="badge ${isA?'badge-A':'badge-B'}" style="margin-left:6px;font-size:0.6rem;vertical-align:middle;">${r.subgroup}</span></td>
+        <td data-label="หน่วยงาน">${r.dept||'—'}</td>
+        <td data-label="โรงพยาบาล">${r.hospital}</td>
+        <td class="group-col"><span class="badge ${isA?'badge-A':'badge-B'}">${r.group}</span><span class="badge badge-sub">${r.subgroup}</span></td>
       </tr>`;
     });
   });
