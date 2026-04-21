@@ -661,13 +661,10 @@ footer .footer-brand {
     <div class="panel">
       <div class="panel-title">การแบ่งกลุ่มสอบ <em>— กลุ่ม A / B</em></div>
       <p style="font-size:0.82rem;color:var(--text3);margin-bottom:1.25rem;font-family:'Anuphan',sans-serif;">แบ่งเป็น 2 กลุ่มหลัก รวม 22 กลุ่มย่อย · กลุ่มย่อยละ ~4 คน</p>
-      <div class="tabs" id="groupMainTabs">
-        <button class="tab active" onclick="switchGroupMain('A')">กลุ่ม A (45 คน)</button>
-        <button class="tab" onclick="switchGroupMain('B')">กลุ่ม B (45 คน)</button>
+      <div class="search-wrap" style="margin-bottom:1rem;">
+        <input type="text" id="groupSearch" placeholder="ค้นหาชื่อ โรงพยาบาล หรือกลุ่มย่อย (เช่น A3, B7)..." oninput="filterGroups()">
       </div>
-      <div class="search-wrap">
-        <input type="text" id="groupSearch" placeholder="ค้นหาชื่อ..." oninput="filterGroups()">
-      </div>
+      <div id="subgroupChips" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.25rem;"></div>
       <div style="overflow-x:auto;">
         <table class="data-table" style="table-layout:fixed;width:100%;">
           <colgroup>
@@ -953,23 +950,107 @@ function filterAttendees(){
   attendeePage=1;renderAttendees();
 }
 
-let groupPage=1,currentGroup='A',filteredGroups=GROUPS.filter(m=>m.group==='กลุ่ม A');
-const GPAGE=20;
-function switchGroupMain(g){
-  currentGroup=g;
-  document.querySelectorAll('#groupMainTabs .tab').forEach((t,i)=>t.classList.toggle('active',(g==='A'&&i===0)||(g==='B'&&i===1)));
-  filterGroups();
+// ── GROUPS ──
+let groupPage = 1;
+let filteredGroups = [...GROUPS];
+let activeSubgroup = null;
+const GPAGE = 20;
+
+// build all unique subgroups in order A1..A11 B1..B11
+const ALL_SUBGROUPS = [...new Set(GROUPS.map(m => m.subgroup))].sort((a,b)=>{
+  const ga = a[0], gb = b[0];
+  if(ga !== gb) return ga < gb ? -1 : 1;
+  return parseInt(a.slice(1)) - parseInt(b.slice(1));
+});
+
+function renderSubgroupChips() {
+  const wrap = document.getElementById('subgroupChips');
+  const isA = (s) => s.startsWith('A');
+  // group label A / B
+  let html = '';
+  ['A','B'].forEach(g => {
+    html += `<span style="font-family:'Anuphan',sans-serif;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);align-self:center;padding:0 2px;">กลุ่ม ${g}</span>`;
+    ALL_SUBGROUPS.filter(s => s.startsWith(g)).forEach(s => {
+      const isActive = activeSubgroup === s;
+      const badgeClass = g === 'A' ? 'badge-A' : 'badge-B';
+      html += `<button onclick="toggleSubgroup('${s}')" style="
+        padding:5px 13px;border-radius:100px;font-size:0.72rem;cursor:pointer;
+        font-family:'Anuphan',sans-serif;font-weight:500;transition:all 0.18s;
+        border:1px solid ${isActive ? (g==='A'?'var(--olive)':'var(--warm-dark)') : 'var(--border2)'};
+        background:${isActive ? (g==='A'?'var(--olive)':'var(--warm-dark)') : 'transparent'};
+        color:${isActive ? 'white' : 'var(--text2)'};
+      ">${s}</button>`;
+    });
+  });
+  wrap.innerHTML = html;
 }
-function filterGroups(){
-  const q=document.getElementById('groupSearch').value.toLowerCase();
-  filteredGroups=GROUPS.filter(m=>m.group==='กลุ่ม '+currentGroup&&(m.name.toLowerCase().includes(q)||m.hospital.toLowerCase().includes(q)));
-  groupPage=1;renderGroups();
+
+function toggleSubgroup(s) {
+  activeSubgroup = activeSubgroup === s ? null : s;
+  // sync search box if only subgroup filter active
+  renderSubgroupChips();
+  applyGroupFilter();
 }
-function renderGroups(){
-  const body=document.getElementById('groupBody');
-  const start=(groupPage-1)*GPAGE;
-  body.innerHTML=filteredGroups.slice(start,start+GPAGE).map((r,i)=>`<tr><td class="no">${start+i+1}</td><td class="name">${r.name}</td><td>${r.dept}</td><td>${r.hospital}</td><td><span class="badge ${r.group.includes('A')?'badge-A':'badge-B'}">${r.group}</span><span class="badge badge-sub">${r.subgroup}</span></td></tr>`).join('');
-  renderPag('groupPag',groupPage,Math.ceil(filteredGroups.length/GPAGE),p=>{groupPage=p;renderGroups();});
+
+function filterGroups() {
+  activeSubgroup = null;
+  renderSubgroupChips();
+  applyGroupFilter();
+}
+
+function applyGroupFilter() {
+  const q = document.getElementById('groupSearch').value.toLowerCase().trim();
+  filteredGroups = GROUPS.filter(m => {
+    const matchQ = !q || m.name.toLowerCase().includes(q) || m.hospital.toLowerCase().includes(q) || m.subgroup.toLowerCase().includes(q) || m.group.toLowerCase().includes(q);
+    const matchSub = !activeSubgroup || m.subgroup === activeSubgroup;
+    return matchQ && matchSub;
+  });
+  groupPage = 1;
+  renderGroups();
+}
+
+function renderGroups() {
+  const body = document.getElementById('groupBody');
+  const start = (groupPage-1)*GPAGE;
+  const page = filteredGroups.slice(start, start+GPAGE);
+
+  if (page.length === 0) {
+    body.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text3);font-family:'Anuphan',sans-serif;">ไม่พบข้อมูล</td></tr>`;
+    document.getElementById('groupPag').innerHTML = '';
+    return;
+  }
+
+  // group by subgroup for display
+  const bySubgroup = {};
+  page.forEach((r,i) => {
+    if (!bySubgroup[r.subgroup]) bySubgroup[r.subgroup] = [];
+    bySubgroup[r.subgroup].push({...r, idx: start+i+1});
+  });
+
+  let html = '';
+  Object.entries(bySubgroup).forEach(([sub, members]) => {
+    const isA = sub.startsWith('A');
+    html += `<tr>
+      <td colspan="5" style="padding:10px 14px 6px;background:${isA?'var(--olive-pale)':'rgba(196,168,130,0.12)'};border-bottom:none;">
+        <span style="font-family:'Anuphan',sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:0.1em;color:${isA?'var(--olive-dark)':'var(--warm-dark)'};">
+          ${isA?'กลุ่ม A':'กลุ่ม B'} · ${sub}
+        </span>
+        <span style="font-family:'Anuphan',sans-serif;font-size:0.65rem;color:var(--text3);margin-left:8px;">${members.length} คน</span>
+      </td>
+    </tr>`;
+    members.forEach(r => {
+      html += `<tr>
+        <td class="no">${r.idx}</td>
+        <td class="name">${r.name}</td>
+        <td>${r.dept}</td>
+        <td>${r.hospital}</td>
+        <td><span class="badge ${isA?'badge-A':'badge-B'}">${r.group}</span><span class="badge badge-sub">${r.subgroup}</span></td>
+      </tr>`;
+    });
+  });
+
+  body.innerHTML = html;
+  renderPag('groupPag', groupPage, Math.ceil(filteredGroups.length/GPAGE), p => { groupPage = p; renderGroups(); });
 }
 
 function renderPag(id,cur,total,cb){
@@ -1052,7 +1133,7 @@ function renderContent() {
   document.getElementById('contentArea').innerHTML = html;
 }
 
-renderAttendees();renderGroups();renderContent();
+renderAttendees();renderSubgroupChips();renderGroups();renderContent();
 
 // ── HAMBURGER MENU ──
 const hamburgerBtn = document.getElementById('hamburgerBtn');
