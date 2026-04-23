@@ -317,24 +317,30 @@ nav.scrolled {
 .timeline-desc { font-size:0.78rem;color:var(--text3); }
 
 /* ── LINK CARDS ── */
-.link-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px; }
+.link-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px; }
 .link-card {
   background:var(--surface);border:1px solid var(--border);
-  border-radius:12px;padding:1rem 1.25rem;
-  display:flex;align-items:center;gap:12px;
+  border-radius:14px;padding:1rem 1.25rem;
+  display:flex;align-items:flex-start;gap:12px;
   text-decoration:none;color:var(--text);
-  transition:all 0.2s;
+  transition:all 0.2s;position:relative;
 }
 .link-card:hover {
   background:var(--olive-pale);border-color:var(--border2);
-  transform:translateX(3px);
+  transform:translateY(-2px);box-shadow:var(--shadow2);
 }
-.link-card .lc-icon { font-size:1.25rem; }
-.link-card .lc-title { font-size:0.86rem;font-weight:500;margin-bottom:2px; }
-.link-card .lc-sub { font-size:0.7rem;color:var(--text3);font-family:'Anuphan',sans-serif; }
+.link-card .lc-icon {
+  font-size:1.3rem;flex-shrink:0;
+  width:38px;height:38px;border-radius:10px;
+  background:var(--white);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+}
+.link-card .lc-body { flex:1;min-width:0; }
+.link-card .lc-title { font-size:0.88rem;font-weight:500;margin-bottom:3px;line-height:1.35; }
+.link-card .lc-sub { font-size:0.7rem;color:var(--text3);font-family:'Anuphan',sans-serif;line-height:1.4; }
 .link-card .lc-status {
-  margin-left:auto;flex-shrink:0;
-  font-family:'Anuphan',sans-serif;font-size:0.65rem;font-weight:500;
+  display:inline-block;margin-top:8px;
+  font-family:'Anuphan',sans-serif;font-size:0.62rem;font-weight:500;
   padding:3px 10px;border-radius:100px;white-space:nowrap;
 }
 .status-ready {
@@ -348,7 +354,15 @@ nav.scrolled {
 .link-card.no-file {
   opacity:0.65;pointer-events:none;cursor:default;
 }
-.link-card.no-file:hover { transform:none;background:var(--surface);border-color:var(--border); }
+.link-card.no-file:hover { transform:none;box-shadow:none;background:var(--surface);border-color:var(--border); }
+@media(max-width:600px){
+  .link-grid { grid-template-columns:1fr;gap:8px; }
+  .link-card { border-radius:12px;padding:0.85rem 1rem; }
+  .link-card .lc-icon { width:34px;height:34px;font-size:1.1rem; }
+  .link-card .lc-title { font-size:0.84rem; }
+  .link-card .lc-sub { font-size:0.67rem; }
+  .link-card .lc-status { margin-top:5px;font-size:0.6rem; }
+}
 
 /* ── QUIZ ── */
 .quiz-tabs { display:flex;gap:8px;margin-bottom:1.75rem; }
@@ -851,55 +865,6 @@ footer .footer-brand {
     </div>
   </div>
 </section>
-<!-- MENU GRID -->
-<div class="section" style="max-width:1280px;padding-top:2.5rem;padding-bottom:2.5rem;">
-  <div class="menu-grid" id="menuGrid">
-    <a href="#home" class="menu-card">
-      <div class="menu-icon-wrap">🏠</div>
-      <div style="font-size:0.82rem;font-weight:500;font-family:'Anuphan',sans-serif;margin-bottom:4px;">หน้าแรก</div>
-    </a>
-    <a href="#participants" class="menu-card">
-      <div class="menu-icon-wrap">📋</div>
-      <div style="font-size:0.82rem;font-weight:500;font-family:'Anuphan',sans-serif;margin-bottom:4px;">รายชื่อ</div>
-    </a>
-    <a href="#practice" class="menu-card">
-      <div class="menu-icon-wrap">🏃</div>
-      <div style="font-size:0.82rem;font-weight:500;font-family:'Anuphan',sans-serif;margin-bottom:4px;">กลุ่มเข้าฝึกปฏิบัติ</div>
-    </a>
-    <a href="#examschedule" class="menu-card">
-      <div class="menu-icon-wrap">🗂️</div>
-      <div style="font-size:0.82rem;font-weight:500;font-family:'Anuphan',sans-serif;margin-bottom:4px;">กลุ่มเข้าสอบ</div>
-    </a>
-    <a href="#schedule" class="menu-card">
-      <div class="menu-icon-wrap">🗓️</div>
-      <div style="font-size:0.82rem;font-weight:500;font-family:'Anuphan',sans-serif;margin-bottom:4px;">ตาราง</div>
-    </a>
-    <a href="#content" class="menu-card">
-      <div class="menu-icon-wrap">📑</div>
-      <div style="font-size:0.82rem;font-weight:500;font-family:'Anuphan',sans-serif;margin-bottom:4px;">ไฟล์อบรม</div>
-    </a>
-    <a href="#quiz" class="menu-card">
-      <div class="menu-icon-wrap">📝</div>
-      <div style="font-size:0.82rem;font-weight:500;font-family:'Anuphan',sans-serif;margin-bottom:4px;">Pre Test / Post Test</div>
-    </a>
-    <a href="#venue" class="menu-card">
-      <div class="menu-icon-wrap">🏥</div>
-      <div style="font-size:0.82rem;font-weight:500;font-family:'Anuphan',sans-serif;margin-bottom:4px;">สถานที่อบรม / ที่จอดรถ</div>
-    </a>
-    <a href="#hotel" class="menu-card">
-      <div class="menu-icon-wrap">🏨</div>
-      <div style="font-size:0.82rem;font-weight:500;font-family:'Anuphan',sans-serif;margin-bottom:4px;">ที่พัก</div>
-    </a>
-    <a href="#eval" class="menu-card">
-      <div class="menu-icon-wrap">⭐</div>
-      <div style="font-size:0.82rem;font-weight:500;font-family:'Anuphan',sans-serif;margin-bottom:4px;">ประเมิน</div>
-    </a>
-    <a href="#contact" class="menu-card menu-card-last">
-      <div class="menu-icon-wrap">💬</div>
-      <div style="font-size:0.82rem;font-weight:500;font-family:'Anuphan',sans-serif;margin-bottom:4px;">ติดต่อสอบถาม</div>
-    </a>
-  </div>
-</div>
 <!-- PARTICIPANTS -->
 <div class="section" style="max-width:1280px;" id="participants">
   <div class="section-eyebrow">ประกาศรายชื่อผู้มีสิทธิ์เข้าร่วมอบรม</div>
@@ -955,7 +920,10 @@ footer .footer-brand {
 
       <!-- Rotation schedule table -->
       <div style="margin-bottom:2rem;">
-        <div style="font-family:'Anuphan',sans-serif;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--olive);margin-bottom:0.85rem;">ตารางเวียนฐาน</div>
+        <div style="font-family:'Anuphan',sans-serif;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--olive);margin-bottom:0.85rem;display:flex;align-items:center;gap:12px;">
+          ตารางเวียนฐาน
+          <button onclick="window.downloadRotationTable()" style="margin-left:auto;padding:5px 14px;border-radius:100px;font-size:0.7rem;cursor:pointer;font-family:'Anuphan',sans-serif;border:1px solid var(--border2);background:transparent;color:var(--olive-dark);transition:all 0.18s;letter-spacing:0.02em;" onmouseover="this.style.background='var(--olive-pale)';this.style.borderColor='var(--olive-light)'" onmouseout="this.style.background='transparent';this.style.borderColor='var(--border2)'">⬇ บันทึกภาพ</button>
+        </div>
         <div style="overflow-x:auto;border-radius:12px;border:1px solid var(--border);box-shadow:var(--shadow);">
           <table style="width:100%;border-collapse:collapse;font-size:0.78rem;min-width:680px;">
             <thead>
@@ -1015,8 +983,9 @@ footer .footer-brand {
 
       <!-- Timeline table (from Excel: Timeline ห้องปฏิบัติ) -->
       <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:2rem;">
-        <div style="padding:10px 18px;background:var(--olive-pale);border-bottom:1px solid var(--border2);font-family:'Anuphan',sans-serif;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--olive-dark);font-weight:500;">
+        <div style="padding:10px 18px;background:var(--olive-pale);border-bottom:1px solid var(--border2);font-family:'Anuphan',sans-serif;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--olive-dark);font-weight:500;display:flex;align-items:center;gap:10px;">
           📋 Timeline การใช้ห้องสอบปฏิบัติ — วันที่ 21 พฤษภาคม 2569
+          <button onclick="window.downloadExamTimeline()" style="margin-left:auto;padding:5px 14px;border-radius:100px;font-size:0.7rem;cursor:pointer;font-family:'Anuphan',sans-serif;border:1px solid var(--border2);background:white;color:var(--olive-dark);transition:all 0.18s;text-transform:none;letter-spacing:0.01em;" onmouseover="this.style.background='var(--olive)';this.style.color='white';this.style.borderColor='var(--olive)'" onmouseout="this.style.background='white';this.style.color='var(--olive-dark)';this.style.borderColor='var(--border2)'">⬇ บันทึกภาพ</button>
         </div>
         <div style="overflow-x:auto;">
           <table style="width:100%;border-collapse:collapse;font-size:0.82rem;min-width:520px;">
@@ -1133,7 +1102,19 @@ footer .footer-brand {
 <div class="section" id="schedule">
   <div class="section-eyebrow">ตารางการอบรม</div>
   <div class="panel">
-    <div class="panel-title">กำหนดการอบรม <em>3 วัน</em></div>
+    <div class="panel-title" style="flex-wrap:wrap;gap:12px;">
+      กำหนดการอบรม <em>3 วัน</em>
+      <a href="https://drive.google.com/file/d/1e01c-6m26gq6FqmFavTPw6EwKkNLUiVw/view?usp=sharing" target="_blank"
+         style="margin-left:auto;display:inline-flex;align-items:center;gap:7px;
+                padding:7px 18px;border-radius:100px;font-size:0.74rem;font-family:'Anuphan',sans-serif;
+                font-weight:400;font-style:normal;text-decoration:none;
+                background:var(--olive-pale);border:1px solid var(--border2);color:var(--olive-dark);
+                transition:all 0.2s;white-space:nowrap;"
+         onmouseover="this.style.background='var(--olive)';this.style.color='white';this.style.borderColor='var(--olive)'"
+         onmouseout="this.style.background='var(--olive-pale)';this.style.color='var(--olive-dark)';this.style.borderColor='var(--border2)'">
+        ⬇ ดาวน์โหลดกำหนดการ
+      </a>
+    </div>
     <div class="tabs">
       <button class="tab active" onclick="showDay(1)">วันที่ 1 · 19 พ.ค.</button>
       <button class="tab" onclick="showDay(2)">วันที่ 2 · 20 พ.ค.</button>
@@ -1167,34 +1148,34 @@ footer .footer-brand {
         <span style="color:var(--olive);font-size:0.75rem;display:block;margin-bottom:6px;">Course director: นพ.ณัฐวุฒิ นิธิธนาบวร / พว.น้ำค้าง บุญคง · พักอาหารว่างหลังกลุ่มที่ 3 · เปลี่ยนฐานใช้เวลา 5 นาที</span>
         <div style="display:grid;gap:5px;margin-top:4px;">
           <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:7px 11px;">
-            <span style="font-size:0.7rem;color:var(--olive-dark);font-weight:500;">กลุ่ม 1</span>
+            <span style="font-size:0.7rem;color:var(--olive-dark);font-weight:500;">กลุ่ม 1/1</span>
             <span style="font-size:0.82rem;color:var(--dark);margin-left:6px;">Initial assessment &amp; nursing management</span><br>
-            <span style="font-size:0.73rem;color:var(--text3);">พว.ศุภารมย์ มะแม้น / พว.จันจิรา ศรีอะ</span>
+            <span style="font-size:0.73rem;color:var(--text3);">พว.สาคร แสวงชู / พว.พิชญานันท์ สุขสมัย</span>
           </div>
           <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:7px 11px;">
             <span style="font-size:0.7rem;color:var(--olive-dark);font-weight:500;">กลุ่ม 1/2</span>
-            <span style="font-size:0.82rem;color:var(--dark);margin-left:6px;">Airway &amp; ventilator management</span><br>
-            <span style="font-size:0.73rem;color:var(--text3);">พว.สาคร แสวงชู / พว.พิชญานันท์ สุขสม</span>
+            <span style="font-size:0.82rem;color:var(--dark);margin-left:6px;">Initial assessment &amp; nursing management</span><br>
+            <span style="font-size:0.73rem;color:var(--text3);">พว.ศุภารมย์ มะแม้น / พว.จันจิรา ศรีตะ</span>
           </div>
           <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:7px 11px;">
             <span style="font-size:0.7rem;color:var(--olive-dark);font-weight:500;">กลุ่ม 2</span>
-            <span style="font-size:0.82rem;color:var(--dark);margin-left:6px;">Shock &amp; fluid replacement in trauma</span><br>
-            <span style="font-size:0.73rem;color:var(--text3);">พว.อนุสรา บุญภูมิ / พว.อัญชลี ภักดีกยม</span>
+            <span style="font-size:0.82rem;color:var(--dark);margin-left:6px;">Airway &amp; ventilator management</span><br>
+            <span style="font-size:0.73rem;color:var(--text3);">พว.อนุสรา บุญภูมิ / พว.อัญชลี ภักดีเกษม</span>
           </div>
           <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:7px 11px;">
             <span style="font-size:0.7rem;color:var(--olive-dark);font-weight:500;">กลุ่ม 3</span>
-            <span style="font-size:0.82rem;color:var(--dark);margin-left:6px;">Thoraco–abdominal injury</span><br>
-            <span style="font-size:0.73rem;color:var(--text3);">พว.จิราพร พอกพูนทรัพย์ / พว.อาภรณ์ ญาสุริติกุล</span>
+            <span style="font-size:0.82rem;color:var(--dark);margin-left:6px;">Shock &amp; fluid replacement in trauma</span><br>
+            <span style="font-size:0.73rem;color:var(--text3);">พว.จิราพร พอกพูนทรัพย์ / พว.อาภรณ์ ญาสุรัติกุล</span>
           </div>
           <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:7px 11px;">
             <span style="font-size:0.7rem;color:var(--olive-dark);font-weight:500;">กลุ่ม 4</span>
-            <span style="font-size:0.82rem;color:var(--dark);margin-left:6px;">Head &amp; neck trauma · ประเมินระบบประสาท · ถอดหมวกกันน็อค</span><br>
-            <span style="font-size:0.73rem;color:var(--text3);">พว.ธิดาพร กาบกลาง / พว.พงพัฒน์ ธรรณโยโต</span>
+            <span style="font-size:0.82rem;color:var(--dark);margin-left:6px;">Thoraco–abdominal injury</span><br>
+            <span style="font-size:0.73rem;color:var(--text3);">พว.ธิดาพร กาบกลาง / พว.พงพัฒน์ อรรถโยโค</span>
           </div>
           <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:7px 11px;">
             <span style="font-size:0.7rem;color:var(--olive-dark);font-weight:500;">กลุ่ม 5</span>
-            <span style="font-size:0.82rem;color:var(--dark);margin-left:6px;">Head &amp; neck trauma (ต่อเนื่อง)</span><br>
-            <span style="font-size:0.73rem;color:var(--text3);">พว.สุเมธ จักจิยน / พว.ปฏิพล รักมงคลตระกูล</span>
+            <span style="font-size:0.82rem;color:var(--dark);margin-left:6px;">Head &amp; neck trauma and nursing management · ประเมินระบบประสาท · ถอดหมวกกันน็อค</span><br>
+            <span style="font-size:0.73rem;color:var(--text3);">พว.สุเมธ จักขียน / พว.ปฏิพล รักมงคลตระกูล</span>
           </div>
         </div>
       </div></div>
@@ -1607,12 +1588,12 @@ function renderAttendees(){
       <td data-label="โรงพยาบาล">${r.hospital}</td>
       <td data-label="กลุ่มฝึกปฏิบัติ" style="text-align:center;">
         ${pgrp
-          ? `<span style="display:inline-block;background:${pBg};color:${pClr};font-family:'Anuphan',sans-serif;font-size:0.72rem;font-weight:600;padding:3px 11px;border-radius:100px;border:1px solid rgba(107,124,92,0.25);">${pgrp}</span>`
+          ? `<a href="#practice" onclick="setTimeout(()=>window.showPracticeGroup('${pgrp}'),350)" style="display:inline-block;background:${pBg};color:${pClr};font-family:'Anuphan',sans-serif;font-size:0.72rem;font-weight:600;padding:3px 11px;border-radius:100px;border:1px solid rgba(107,124,92,0.25);text-decoration:none;cursor:pointer;" title="ดูกลุ่มฝึกปฏิบัติ ${pgrp}">${pgrp} ↗</a>`
           : '<span style="color:var(--text3);font-size:0.75rem;">—</span>'}
       </td>
       <td data-label="กลุ่มสอบ" style="text-align:center;">
         ${exam
-          ? `<span style="display:inline-block;background:${examBg};color:${examClr};font-family:'Anuphan',sans-serif;font-size:0.72rem;font-weight:600;padding:3px 11px;border-radius:100px;border:1px solid ${isA ? 'rgba(107,124,92,0.25)' : 'rgba(196,168,130,0.35)'};">${exam.subgroup}</span>`
+          ? `<a href="#examschedule" onclick="setTimeout(()=>window.jumpToExamGroup('${exam.subgroup}'),350)" style="display:inline-block;background:${examBg};color:${examClr};font-family:'Anuphan',sans-serif;font-size:0.72rem;font-weight:600;padding:3px 11px;border-radius:100px;border:1px solid ${isA ? 'rgba(107,124,92,0.25)' : 'rgba(196,168,130,0.35)'};text-decoration:none;cursor:pointer;" title="ดูกลุ่มสอบ ${exam.subgroup}">${exam.subgroup} ↗</a>`
           : '<span style="color:var(--text3);font-size:0.75rem;">—</span>'}
       </td>
     </tr>`;
@@ -1788,6 +1769,187 @@ function showDay(d){
   document.querySelectorAll('#schedule .tab').forEach((t,i)=>t.classList.toggle('active',i+1===d));
 }
 
+// ── Jump to exam group from participants table ──
+window.jumpToExamGroup = function(sg) {
+  const inp = document.getElementById('examSearch');
+  if (inp) {
+    inp.value = sg;
+    if (typeof filterExamGroups === 'function') filterExamGroups();
+  }
+};
+
+// ── Download rotation table as image ──
+window.downloadRotationTable = function() {
+  const table = document.querySelector('#practiceRotationBody').closest('table');
+  if (!table) return;
+  // build canvas from rotation data
+  const W = 820, PAD = 24;
+  // We'll render programmatically from ROTATION & ROUND_TIMES & STATIONS
+  const groups = Object.keys(window._PGROUPS_REF || PGROUPS || {});
+  const rounds = typeof ROUND_TIMES !== 'undefined' ? ROUND_TIMES : [];
+  const stations = typeof STATIONS !== 'undefined' ? STATIONS : {};
+  const rotation = typeof ROTATION !== 'undefined' ? ROTATION : [];
+
+  const COL = 6, HEADER_H = 70, ROW_H = 38, FOOT_H = 30;
+  const H = HEADER_H + (rounds.length * ROW_H) + FOOT_H + 40;
+  const canvas = document.createElement('canvas');
+  canvas.width = W*2; canvas.height = H*2;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(2,2);
+
+  // bg
+  ctx.fillStyle = '#f0f4ed'; window._roundRect(ctx,0,0,W,H,12); ctx.fill();
+  // header bar
+  ctx.fillStyle = '#4A5940'; window._roundRect(ctx,0,0,W,HEADER_H,[12,12,0,0]); ctx.fill();
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 15px Kanit,sans-serif';
+  ctx.fillText('TLS for Nurses 2569 — ตารางเวียนฐานปฏิบัติ', PAD, 32);
+  ctx.font = '11px Anuphan,Kanit,sans-serif'; ctx.fillStyle = 'rgba(255,255,255,0.8)';
+  ctx.fillText('วันอังคารที่ 20 พฤษภาคม 2569  ·  13:00 – 16:50 น.  ·  ศูนย์ฝึกสถานการณ์จำลอง รพ.มหาราชนครราชสีมา', PAD, 52);
+
+  // column widths
+  const timeW = 120;
+  const grpW = (W - PAD*2 - timeW) / COL;
+  // column headers
+  const startX = PAD;
+  ctx.fillStyle = 'rgba(255,255,255,0.15)';
+  ctx.fillRect(startX, HEADER_H, timeW, ROW_H);
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 10px Anuphan,Kanit,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('รอบ / เวลา', startX + timeW/2, HEADER_H + ROW_H/2 + 4);
+  const pgKeys = Object.keys(typeof PGROUPS!=='undefined'?PGROUPS:{}).slice(0,6);
+  pgKeys.forEach((pk,ci) => {
+    const x = startX + timeW + ci*grpW;
+    ctx.fillStyle = ci%2===0 ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.05)';
+    ctx.fillRect(x, HEADER_H, grpW, ROW_H);
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 11px Anuphan,Kanit,sans-serif'; ctx.textAlign='center';
+    ctx.fillText(pk, x+grpW/2, HEADER_H+ROW_H/2+4);
+  });
+
+  // rows
+  rounds.forEach((t, ri) => {
+    const y = HEADER_H + ROW_H + ri*ROW_H;
+    // time cell
+    ctx.fillStyle = ri%2===0 ? '#e8ede4' : '#f0f4ed';
+    ctx.fillRect(startX, y, timeW, ROW_H);
+    ctx.fillStyle = '#4A5940'; ctx.font = 'bold 10px Anuphan,Kanit,sans-serif'; ctx.textAlign='center';
+    ctx.fillText(`รอบ ${ri+1}`, startX+timeW/2, y+14);
+    ctx.fillStyle='#555'; ctx.font='9px Anuphan,Kanit,sans-serif';
+    ctx.fillText(t, startX+timeW/2, y+27);
+
+    // station cells
+    pgKeys.forEach((pk, ci) => {
+      const pIdx = parseInt(pk.slice(1))-1;
+      const rot = rotation[pIdx] || [];
+      const stKey = rot[ri];
+      const st = stations[stKey] || {};
+      const x = startX + timeW + ci*grpW;
+      ctx.fillStyle = ci%2===0 ? (ri%2===0?'#fff':'#f8faf6') : (ri%2===0?'#f8faf6':'#fff');
+      ctx.fillRect(x, y, grpW, ROW_H);
+      if (st.color) { ctx.fillStyle = st.color+'22'; ctx.fillRect(x+3, y+3, grpW-6, ROW_H-6); }
+      ctx.fillStyle = st.color || '#4A5940'; ctx.font = 'bold 10px Anuphan,Kanit,sans-serif'; ctx.textAlign='center';
+      const lbl = (st.label||'').replace('ฐาน','ฐ.');
+      ctx.fillText(lbl, x+grpW/2, y+14);
+      ctx.fillStyle='#555'; ctx.font='8px Anuphan,Kanit,sans-serif';
+      const ttl = (st.title||'').slice(0,18);
+      ctx.fillText(ttl+(st.title&&st.title.length>18?'…':''), x+grpW/2, y+26);
+    });
+
+    // break row after round 3
+    if (ri===2) {
+      const by = HEADER_H + ROW_H + (ri+1)*ROW_H;
+      ctx.fillStyle = '#fff8ee';
+      ctx.fillRect(startX, by, W-PAD*2, 0); // will be shown via note
+    }
+  });
+
+  // footer
+  ctx.fillStyle = 'rgba(74,89,64,0.08)'; ctx.fillRect(0, H-FOOT_H, W, FOOT_H);
+  ctx.fillStyle = '#888'; ctx.font = '9px Anuphan,Kanit,sans-serif'; ctx.textAlign='left';
+  ctx.fillText('* พักอาหารว่าง 10 นาที หลังรอบที่ 3 (15:20–15:30) · เปลี่ยนฐาน 5 นาที', PAD, H-FOOT_H/2+4);
+
+  const a = document.createElement('a');
+  a.href = canvas.toDataURL('image/png');
+  a.download = 'TLS2569-RotationTable.png';
+  a.click();
+};
+
+// ── Download exam timeline as image ──
+window.downloadExamTimeline = function() {
+  const W = 760, PAD = 28;
+  const rows = [
+    { label:'กลุ่ม B — สอบปฏิบัติ', isHeader:true, color:'#9C7E5A' },
+    { time:'09:00 – 09:15', cells:['B1','B2','B3','B4','B5'], color:'rgba(196,168,130,0.4)', tc:'#7A5C3A' },
+    { time:'09:20 – 09:35', cells:['B6','B7','B8','B9','B10'], color:'rgba(196,168,130,0.4)', tc:'#7A5C3A' },
+    { time:'09:40 – 09:55', cells:['B11','—','—','—','—'], color:'rgba(196,168,130,0.3)', tc:'#7A5C3A' },
+    { label:'🍽 พักรับประทานอาหาร 12:00 – 13:00 น.', isHeader:true, color:'#888', bg:'#f5f5f0' },
+    { label:'กลุ่ม A — สอบปฏิบัติ', isHeader:true, color:'#4A5940' },
+    { time:'13:00 – 13:15', cells:['A1','A2','A3','A4','A5'], color:'rgba(107,124,92,0.25)', tc:'#4A5940' },
+    { time:'13:20 – 13:35', cells:['A6','A7','A8','A9','A10'], color:'rgba(107,124,92,0.25)', tc:'#4A5940' },
+    { time:'13:40 – 13:55', cells:['A11','—','—','—','—'], color:'rgba(107,124,92,0.2)', tc:'#4A5940' },
+  ];
+
+  const TITLE_H = 70, ROW_H = 38, FOOT_H = 36;
+  const H = TITLE_H + rows.length*ROW_H + FOOT_H + 20;
+  const canvas = document.createElement('canvas');
+  canvas.width = W*2; canvas.height = H*2;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(2,2);
+
+  // bg
+  ctx.fillStyle = '#f0f4ed'; window._roundRect(ctx,0,0,W,H,12); ctx.fill();
+  // header
+  ctx.fillStyle = '#4A5940'; window._roundRect(ctx,0,0,W,TITLE_H,[12,12,0,0]); ctx.fill();
+  ctx.fillStyle='#fff'; ctx.font='bold 15px Kanit,sans-serif'; ctx.textAlign='left';
+  ctx.fillText('TLS for Nurses 2569 — Timeline กลุ่มสอบปฏิบัติ', PAD, 30);
+  ctx.font='11px Anuphan,Kanit,sans-serif'; ctx.fillStyle='rgba(255,255,255,0.8)';
+  ctx.fillText('วันพุธที่ 21 พฤษภาคม 2569  ·  ศูนย์ฝึกสถานการณ์จำลอง รพ.มหาราชนครราชสีมา', PAD, 50);
+
+  // column header
+  const timeW = 130, colW = (W - PAD*2 - timeW)/5;
+  const hY = TITLE_H;
+  ctx.fillStyle='#e8ede4'; ctx.fillRect(PAD, hY, W-PAD*2, ROW_H);
+  ctx.fillStyle='#4A5940'; ctx.font='bold 10px Anuphan,Kanit,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('ช่วงเวลา', PAD+timeW/2, hY+ROW_H/2+4);
+  ['ห้องปฏิบัติ 1','ห้องปฏิบัติ 2','ห้องปฏิบัติ 3','ห้องปฏิบัติ 4','ห้องปฏิบัติ 5'].forEach((h,i) => {
+    ctx.fillText(h, PAD+timeW+(i+0.5)*colW, hY+ROW_H/2+4);
+  });
+
+  // rows
+  rows.forEach((r, ri) => {
+    const y = TITLE_H + ROW_H + ri*ROW_H;
+    if (r.isHeader) {
+      ctx.fillStyle = r.bg || (r.color==='#4A5940'?'#edf2e9':'#faf5ee');
+      ctx.fillRect(PAD, y, W-PAD*2, ROW_H);
+      ctx.fillStyle = r.color; ctx.font = 'bold 11px Kanit,sans-serif'; ctx.textAlign='left';
+      ctx.fillText(r.label, PAD+12, y+ROW_H/2+4);
+    } else {
+      ctx.fillStyle = ri%2===0?'#fff':'#f8faf6'; ctx.fillRect(PAD, y, W-PAD*2, ROW_H);
+      ctx.fillStyle='#4A5940'; ctx.font='bold 10px Anuphan,Kanit,sans-serif'; ctx.textAlign='center';
+      ctx.fillText(r.time, PAD+timeW/2, y+ROW_H/2+4);
+      r.cells.forEach((c, ci) => {
+        const x = PAD+timeW+ci*colW;
+        if (c!=='—') {
+          ctx.fillStyle = r.color; window._roundRect(ctx,x+4,y+5,colW-8,ROW_H-10,6); ctx.fill();
+          ctx.fillStyle = r.tc; ctx.font='bold 11px Anuphan,Kanit,sans-serif';
+          ctx.fillText(c, x+colW/2, y+ROW_H/2+4);
+        } else {
+          ctx.fillStyle='#ccc'; ctx.font='12px sans-serif';
+          ctx.fillText('—', x+colW/2, y+ROW_H/2+4);
+        }
+      });
+    }
+  });
+
+  // footer
+  ctx.fillStyle='rgba(74,89,64,0.08)'; ctx.fillRect(0,H-FOOT_H,W,FOOT_H);
+  ctx.fillStyle='#888'; ctx.font='9px Anuphan,Kanit,sans-serif'; ctx.textAlign='left';
+  ctx.fillText('* กลุ่ม B11/A11 รวมสอบซ่อม · เปลี่ยนฐานระหว่างรอบ 5 นาที · ห้องสอบทฤษฎี: ห้องประชุมใหญ่', PAD, H-FOOT_H/2+4);
+
+  const a = document.createElement('a');
+  a.href = canvas.toDataURL('image/png');
+  a.download = 'TLS2569-ExamTimeline.png';
+  a.click();
+};
+
 
 // ====================================================
 // 📂 ไฟล์ประกอบการอบรม — แก้ไขที่นี่เพียงที่เดียว
@@ -1837,11 +1999,11 @@ function renderContent() {
       const cardClass = hasFile ? 'link-card' : 'link-card no-file';
       return `<${tag} ${href} class="${cardClass}">
         <span class="lc-icon">${icon}</span>
-        <div style="flex:1;min-width:0;">
+        <div class="lc-body">
           <div class="lc-title">${f.title}</div>
           <div class="lc-sub">${f.sub}</div>
+          <span class="lc-status ${statusClass}">${statusText}</span>
         </div>
-        <span class="lc-status ${statusClass}">${statusText}</span>
       </${tag}>`;
     }).join('');
 
