@@ -1779,97 +1779,115 @@ window.jumpToExamGroup = function(sg) {
 
 // ── Download rotation table as image ──
 window.downloadRotationTable = function() {
-  const table = document.querySelector('#practiceRotationBody').closest('table');
-  if (!table) return;
-  // build canvas from rotation data
-  const W = 820, PAD = 24;
-  // We'll render programmatically from ROTATION & ROUND_TIMES & STATIONS
-  const groups = Object.keys(window._PGROUPS_REF || PGROUPS || {});
-  const rounds = typeof ROUND_TIMES !== 'undefined' ? ROUND_TIMES : [];
-  const stations = typeof STATIONS !== 'undefined' ? STATIONS : {};
-  const rotation = typeof ROTATION !== 'undefined' ? ROTATION : [];
-
-  const COL = 6, HEADER_H = 70, ROW_H = 38, FOOT_H = 30;
-  const H = HEADER_H + (rounds.length * ROW_H) + FOOT_H + 40;
-  const canvas = document.createElement('canvas');
-  canvas.width = W*2; canvas.height = H*2;
-  const ctx = canvas.getContext('2d');
-  ctx.scale(2,2);
-
-  // bg
-  ctx.fillStyle = '#f0f4ed'; window._roundRect(ctx,0,0,W,H,12); ctx.fill();
-  // header bar
-  ctx.fillStyle = '#4A5940'; window._roundRect(ctx,0,0,W,HEADER_H,[12,12,0,0]); ctx.fill();
-  ctx.fillStyle = '#fff'; ctx.font = 'bold 15px Kanit,sans-serif';
-  ctx.fillText('TLS for Nurses 2569 — ตารางเวียนฐานปฏิบัติ', PAD, 32);
-  ctx.font = '11px Anuphan,Kanit,sans-serif'; ctx.fillStyle = 'rgba(255,255,255,0.8)';
-  ctx.fillText('วันอังคารที่ 20 พฤษภาคม 2569  ·  13:00 – 16:50 น.  ·  ศูนย์ฝึกสถานการณ์จำลอง รพ.มหาราชนครราชสีมา', PAD, 52);
-
-  // column widths
-  const timeW = 120;
-  const grpW = (W - PAD*2 - timeW) / COL;
-  // column headers
-  const startX = PAD;
-  ctx.fillStyle = 'rgba(255,255,255,0.15)';
-  ctx.fillRect(startX, HEADER_H, timeW, ROW_H);
-  ctx.fillStyle = '#fff'; ctx.font = 'bold 10px Anuphan,Kanit,sans-serif'; ctx.textAlign='center';
-  ctx.fillText('รอบ / เวลา', startX + timeW/2, HEADER_H + ROW_H/2 + 4);
-  const pgKeys = Object.keys(typeof PGROUPS!=='undefined'?PGROUPS:{}).slice(0,5);
-  pgKeys.forEach((pk,ci) => {
-    const x = startX + timeW + ci*grpW;
-    ctx.fillStyle = ci%2===0 ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.05)';
-    ctx.fillRect(x, HEADER_H, grpW, ROW_H);
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 11px Anuphan,Kanit,sans-serif'; ctx.textAlign='center';
-    ctx.fillText(pk, x+grpW/2, HEADER_H+ROW_H/2+4);
-  });
-
-  // rows
-  rounds.forEach((t, ri) => {
-    const y = HEADER_H + ROW_H + ri*ROW_H;
-    // time cell
-    ctx.fillStyle = ri%2===0 ? '#e8ede4' : '#f0f4ed';
-    ctx.fillRect(startX, y, timeW, ROW_H);
-    ctx.fillStyle = '#4A5940'; ctx.font = 'bold 10px Anuphan,Kanit,sans-serif'; ctx.textAlign='center';
-    ctx.fillText(`รอบ ${ri+1}`, startX+timeW/2, y+14);
-    ctx.fillStyle='#555'; ctx.font='9px Anuphan,Kanit,sans-serif';
-    ctx.fillText(t, startX+timeW/2, y+27);
-
-    // station cells
-    pgKeys.forEach((pk, ci) => {
-      const pIdx = parseInt(pk.slice(1))-1;
-      const rot = rotation[pIdx] || [];
-      const stKey = rot[ri];
-      const st = stations[stKey] || {};
-      const x = startX + timeW + ci*grpW;
-      ctx.fillStyle = ci%2===0 ? (ri%2===0?'#fff':'#f8faf6') : (ri%2===0?'#f8faf6':'#fff');
-      ctx.fillRect(x, y, grpW, ROW_H);
-      if (st.color) { ctx.fillStyle = st.color+'22'; ctx.fillRect(x+3, y+3, grpW-6, ROW_H-6); }
-      ctx.fillStyle = st.color || '#4A5940'; ctx.font = 'bold 10px Anuphan,Kanit,sans-serif'; ctx.textAlign='center';
-      const lbl = (st.label||'').replace('ฐาน','ฐ.');
-      ctx.fillText(lbl, x+grpW/2, y+14);
-      ctx.fillStyle='#555'; ctx.font='8px Anuphan,Kanit,sans-serif';
-      const ttl = (st.title||'').slice(0,18);
-      ctx.fillText(ttl+(st.title&&st.title.length>18?'…':''), x+grpW/2, y+26);
-    });
-
-    // break row after round 3
-    if (ri===2) {
-      const by = HEADER_H + ROW_H + (ri+1)*ROW_H;
-      ctx.fillStyle = '#fff8ee';
-      ctx.fillRect(startX, by, W-PAD*2, 0); // will be shown via note
+  try {
+    // self-contained roundRect
+    function rr(c,x,y,w,h,rad){
+      var d=Array.isArray(rad)?rad:[rad,rad,rad,rad];
+      c.beginPath();
+      c.moveTo(x+d[0],y);
+      c.lineTo(x+w-d[1],y);    c.arcTo(x+w,y,    x+w,y+d[1],   d[1]);
+      c.lineTo(x+w,y+h-d[2]);  c.arcTo(x+w,y+h,  x+w-d[2],y+h, d[2]);
+      c.lineTo(x+d[3],y+h);    c.arcTo(x,y+h,    x,y+h-d[3],   d[3]);
+      c.lineTo(x,y+d[0]);      c.arcTo(x,y,      x+d[0],y,      d[0]);
+      c.closePath();
     }
-  });
 
-  // footer
-  ctx.fillStyle = 'rgba(74,89,64,0.08)'; ctx.fillRect(0, H-FOOT_H, W, FOOT_H);
-  ctx.fillStyle = '#888'; ctx.font = '9px Anuphan,Kanit,sans-serif'; ctx.textAlign='left';
-  ctx.fillText('* พักอาหารว่าง 10 นาที หลังรอบที่ 3 (15:20–15:30) · เปลี่ยนฐาน 5 นาที', PAD, H-FOOT_H/2+4);
+    var rot=window.ROTATION, times=window.ROUND_TIMES, sts=window.STATIONS;
+    var pgKeys=Object.keys(window.PGROUPS||{});
+    var nGroups=pgKeys.length, nRounds=times.length;
+    var SC=['#4A5940','#4A5940','#5C6E8A','#7A5C3A','#6B5A7A','#7A3A3A'];
+    var W=900,PAD=28,TW=140,GW=Math.floor((W-PAD*2-TW)/nGroups);
+    var HH=72,CH=36,RH=50,BH=32,FH=32;
+    var H=HH+CH+(nRounds*RH)+BH+FH;
 
-  const a = document.createElement('a');
-  a.href = canvas.toDataURL('image/png');
-  a.download = 'TLS2569-RotationTable.png';
-  a.click();
+    var cv=document.createElement('canvas');
+    cv.width=W*2; cv.height=H*2;
+    var c=cv.getContext('2d');
+    c.scale(2,2);
+
+    // BG
+    c.fillStyle='#f4f1eb'; c.fillRect(0,0,W,H);
+
+    // Header
+    c.fillStyle='#4A5940'; c.fillRect(0,0,W,HH);
+    c.fillStyle='#fff'; c.font='bold 15px sans-serif'; c.textAlign='left';
+    c.fillText('TLS for Nurses 2569  —  ตารางเวียนฐานปฏิบัติ',PAD,28);
+    c.font='11px sans-serif'; c.fillStyle='rgba(255,255,255,0.8)';
+    c.fillText('วันอังคารที่ 20 พฤษภาคม 2569  ·  13:00–16:55 น.  ·  5 กลุ่ม · 18 คน/กลุ่ม · 5 รอบ',PAD,50);
+
+    // Col header
+    c.fillStyle='#3d6050'; c.fillRect(0,HH,W,CH);
+    c.fillStyle='rgba(255,255,255,0.7)'; c.font='bold 10px sans-serif'; c.textAlign='center';
+    c.fillText('รอบ / เวลา',PAD+TW/2,HH+CH/2+4);
+    pgKeys.forEach(function(pk,ci){
+      var x=PAD+TW+ci*GW;
+      c.fillStyle='#fff'; c.font='bold 11px sans-serif'; c.textAlign='center';
+      c.fillText(pk+' (18 คน)',x+GW/2,HH+CH/2+4);
+      if(ci>0){ c.strokeStyle='rgba(255,255,255,0.2)';c.lineWidth=1;c.beginPath();c.moveTo(x,HH+4);c.lineTo(x,HH+CH-4);c.stroke(); }
+    });
+    c.strokeStyle='rgba(0,0,0,0.1)';c.lineWidth=1;c.beginPath();c.moveTo(0,HH+CH);c.lineTo(W,HH+CH);c.stroke();
+
+    // Rows
+    var cy=HH+CH;
+    for(var ri=0;ri<nRounds;ri++){
+      // Break before round 4
+      if(ri===3){
+        c.fillStyle='#fff8e1'; c.fillRect(0,cy,W,BH);
+        c.strokeStyle='#f0e0a0';c.lineWidth=1;
+        c.beginPath();c.moveTo(0,cy);c.lineTo(W,cy);c.stroke();
+        c.beginPath();c.moveTo(0,cy+BH);c.lineTo(W,cy+BH);c.stroke();
+        c.fillStyle='#7a6010';c.font='bold 11px sans-serif';c.textAlign='center';
+        c.fillText('☕  พักรับประทานอาหารว่างพร้อมกัน  15:10 – 15:30 น.',W/2,cy+BH/2+4);
+        cy+=BH;
+      }
+      var bg=ri%2===0?'#fff':'#f2f5f0';
+      c.fillStyle=bg; c.fillRect(0,cy,W,RH);
+      // accent
+      c.fillStyle='#4A5940'; c.fillRect(0,cy,4,RH);
+      // time text
+      c.fillStyle='#2d4a35'; c.font='bold 13px sans-serif'; c.textAlign='center';
+      c.fillText('รอบ '+(ri+1),PAD+TW/2,cy+RH/2-3);
+      c.fillStyle='#777'; c.font='10px sans-serif';
+      c.fillText(times[ri],PAD+TW/2,cy+RH/2+12);
+      // time divider
+      c.strokeStyle='#ccc';c.lineWidth=1;c.beginPath();c.moveTo(PAD+TW,cy+4);c.lineTo(PAD+TW,cy+RH-4);c.stroke();
+
+      // station pills
+      for(var ci2=0;ci2<nGroups;ci2++){
+        var si=rot[ri][ci2], st=sts[si]||{}, col=SC[si]||'#4A5940';
+        var x2=PAD+TW+ci2*GW;
+        var pw=Math.min(GW-20,84), ph=30, px=x2+(GW-pw)/2, py=cy+(RH-ph)/2;
+        // pill
+        c.fillStyle=col; rr(c,px,py,pw,ph,15); c.fill();
+        // pill text
+        c.fillStyle='#fff'; c.font='bold 12px sans-serif'; c.textAlign='center';
+        c.fillText(st.label||'',x2+GW/2,cy+RH/2+5);
+        // col divider
+        if(ci2>0){ c.strokeStyle='#ddd';c.lineWidth=0.5;c.beginPath();c.moveTo(x2,cy+8);c.lineTo(x2,cy+RH-8);c.stroke(); }
+      }
+      // row divider
+      c.strokeStyle='#e0e0e0';c.lineWidth=0.5;c.beginPath();c.moveTo(0,cy+RH);c.lineTo(W,cy+RH);c.stroke();
+      cy+=RH;
+    }
+
+    // Footer
+    c.fillStyle='rgba(74,89,64,0.08)'; c.fillRect(0,cy,W,FH);
+    c.fillStyle='#999'; c.font='9px sans-serif'; c.textAlign='left';
+    c.fillText('* P = กลุ่มผู้เข้าอบรม  ·  พักพร้อมกัน 15:10–15:30 น.  ·  เปลี่ยนฐาน 5 นาที  ·  รพ.มหาราชนครราชสีมา',PAD,cy+FH/2+4);
+
+    // Download
+    cv.toBlob(function(blob){
+      var url=URL.createObjectURL(blob);
+      var a=document.createElement('a');
+      a.href=url; a.download='TLS2569-ตารางเวียนฐาน.png';
+      document.body.appendChild(a); a.click();
+      setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); },1000);
+    },'image/png');
+
+  } catch(e){ alert('บันทึกภาพไม่สำเร็จ: '+e.message); }
 };
+
+
 
 // ── Download exam timeline as image ──
 window.downloadExamTimeline = function() {
@@ -2078,97 +2096,162 @@ renderContent();
     const isA        = sgKey.startsWith('A');
     const accentColor = isA ? '#4A5940' : '#7A5C3A';
     const lightColor  = isA ? '#6B7C5C' : '#9C7E5A';
-    const divColor    = isA ? '#c0cdb8' : '#d4bfa0';
+    const bgFrom      = isA ? '#f0f4ed' : '#f8f2ea';
+    const bgTo        = isA ? '#e6ede1' : '#f0e6d5';
+    const infoBoxBg   = isA ? 'rgba(74,89,64,0.07)' : 'rgba(122,92,58,0.07)';
     const practTime   = getPracticalTime(sgKey);
     const theoTime    = isA ? '09:00 – 10:00 น.' : '13:00 – 14:00 น.';
     const room        = getPracticalRoom(sgKey);
 
-    const W = 600, PAD = 36;
-    const ROW_H = 38, INFO_H = 190;
-    const H = INFO_H + members.length * ROW_H + 44;
+    const W = 620, PAD = 32;
+    const ROW_H = 36;
+    // Info section: header(60) + pract box(88) + gap(12) + theo box(88) + divider(24) = 272
+    const INFO_H = 272;
+    const FOOT_H = 36;
+    const H = INFO_H + members.length * ROW_H + FOOT_H;
 
     const canvas = document.createElement('canvas');
     canvas.width = W * 2; canvas.height = H * 2;
     const ctx = canvas.getContext('2d');
     ctx.scale(2, 2);
 
-    // Background
-    const bg = ctx.createLinearGradient(0, 0, W, H);
-    bg.addColorStop(0, isA ? '#f0f4ed' : '#f8f2ea');
-    bg.addColorStop(1, isA ? '#e4ece0' : '#f0e8d8');
-    ctx.fillStyle = bg; window._roundRect(ctx, 0, 0, W, H, 16); ctx.fill();
+    // ── Background ──
+    const bg = ctx.createLinearGradient(0, 0, 0, H);
+    bg.addColorStop(0, bgFrom); bg.addColorStop(1, bgTo);
+    ctx.fillStyle = bg;
+    window._roundRect(ctx, 0, 0, W, H, 18); ctx.fill();
 
-    // Top bar
-    ctx.fillStyle = accentColor; window._roundRect(ctx, 0, 0, W, 6, [16,16,0,0]); ctx.fill();
+    // ── Top color bar ──
+    ctx.fillStyle = accentColor;
+    window._roundRect(ctx, 0, 0, W, 8, [18,18,0,0]); ctx.fill();
 
-    // Logo
+    // ── Header row: logo + badge ──
     ctx.fillStyle = accentColor;
     ctx.font = 'bold 10px Anuphan,Kanit,sans-serif';
-    ctx.fillText('TLS for Nurses 2569', PAD, 26);
+    ctx.textAlign = 'left';
+    ctx.fillText('TLS for Nurses 2569', PAD, 28);
 
-    // Group badge
-    ctx.fillStyle = accentColor; window._roundRect(ctx, PAD, 34, 64, 26, 13); ctx.fill();
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 15px Anuphan,Kanit,sans-serif';
-    ctx.textAlign = 'center'; ctx.fillText(sgKey, PAD + 32, 51); ctx.textAlign = 'left';
-    ctx.fillStyle = '#666'; ctx.font = '11px Anuphan,Kanit,sans-serif';
-    ctx.fillText(`${members.length} คน`, PAD + 74, 51);
+    // Badge
+    const badgeW = 72, badgeH = 28;
+    ctx.fillStyle = accentColor;
+    window._roundRect(ctx, PAD, 36, badgeW, badgeH, 14); ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 16px Anuphan,Kanit,sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(sgKey, PAD + badgeW/2, 36 + badgeH/2 + 6);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#666';
+    ctx.font = '11px Anuphan,Kanit,sans-serif';
+    ctx.fillText(`${members.length} คน`, PAD + badgeW + 10, 56);
 
-    // Info rows (ปฏิบัติ + ทฤษฎี)
-    const infoY = 72;
-    // row 1: ปฏิบัติ
-    ctx.fillStyle = accentColor; ctx.font = 'bold 13px Anuphan,Kanit,sans-serif';
-    ctx.fillText('🩺  สอบปฏิบัติ', PAD, infoY);
-    ctx.fillStyle = '#444'; ctx.font = '12px Anuphan,Kanit,sans-serif';
-    ctx.fillText(`⏰  ${practTime}`, PAD, infoY + 20);
-    ctx.fillStyle = lightColor; ctx.font = 'bold 12px Anuphan,Kanit,sans-serif';
-    ctx.fillText(`📍  ห้องปฏิบัติ ${room}`, PAD, infoY + 40);
+    // ── Info box: ปฏิบัติ ──
+    const box1Y = 72, boxH = 88, boxW = W - PAD*2;
+    ctx.fillStyle = infoBoxBg;
+    window._roundRect(ctx, PAD, box1Y, boxW, boxH, 10); ctx.fill();
+    ctx.strokeStyle = isA ? 'rgba(74,89,64,0.18)' : 'rgba(122,92,58,0.18)';
+    ctx.lineWidth = 1;
+    window._roundRect(ctx, PAD, box1Y, boxW, boxH, 10); ctx.stroke();
 
-    // divider dot
-    ctx.fillStyle = divColor;
-    ctx.fillRect(PAD, infoY + 56, W - PAD * 2, 1);
+    // left accent strip
+    ctx.fillStyle = accentColor;
+    window._roundRect(ctx, PAD, box1Y, 4, boxH, [10,0,0,10]); ctx.fill();
 
-    // row 2: ทฤษฎี
-    ctx.fillStyle = accentColor; ctx.font = 'bold 13px Anuphan,Kanit,sans-serif';
-    ctx.fillText('📝  สอบทฤษฎี', PAD, infoY + 74);
-    ctx.fillStyle = '#444'; ctx.font = '12px Anuphan,Kanit,sans-serif';
-    ctx.fillText(`⏰  ${theoTime}`, PAD, infoY + 94);
-    ctx.fillStyle = lightColor; ctx.font = 'bold 12px Anuphan,Kanit,sans-serif';
-    ctx.fillText('📍  ห้องประชุมใหญ่', PAD, infoY + 114);
+    ctx.fillStyle = accentColor;
+    ctx.font = 'bold 13px Anuphan,Kanit,sans-serif';
+    ctx.fillText('🩺  สอบปฏิบัติ', PAD + 16, box1Y + 24);
 
-    // Divider full
-    ctx.strokeStyle = divColor; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(PAD, INFO_H - 8); ctx.lineTo(W - PAD, INFO_H - 8); ctx.stroke();
+    ctx.fillStyle = '#333';
+    ctx.font = '12px Anuphan,Kanit,sans-serif';
+    ctx.fillText(`⏰  ${practTime}`, PAD + 16, box1Y + 48);
 
-    // Watermark
-    ctx.fillStyle = isA ? 'rgba(74,89,64,0.05)' : 'rgba(122,92,58,0.05)';
-    ctx.font = 'bold 80px Anuphan,Kanit,sans-serif';
-    ctx.textAlign = 'right'; ctx.fillText(sgKey, W - 16, H - 16); ctx.textAlign = 'left';
+    ctx.fillStyle = lightColor;
+    ctx.font = 'bold 11px Anuphan,Kanit,sans-serif';
+    ctx.fillText(`📍  ห้องปฏิบัติ ${room}`, PAD + 16, box1Y + 68);
 
-    // Member rows
+    // ── Info box: ทฤษฎี ──
+    const box2Y = box1Y + boxH + 12;
+    ctx.fillStyle = infoBoxBg;
+    window._roundRect(ctx, PAD, box2Y, boxW, boxH, 10); ctx.fill();
+    ctx.strokeStyle = isA ? 'rgba(74,89,64,0.18)' : 'rgba(122,92,58,0.18)';
+    ctx.lineWidth = 1;
+    window._roundRect(ctx, PAD, box2Y, boxW, boxH, 10); ctx.stroke();
+
+    ctx.fillStyle = accentColor;
+    window._roundRect(ctx, PAD, box2Y, 4, boxH, [10,0,0,10]); ctx.fill();
+
+    ctx.fillStyle = accentColor;
+    ctx.font = 'bold 13px Anuphan,Kanit,sans-serif';
+    ctx.fillText('📝  สอบทฤษฎี', PAD + 16, box2Y + 24);
+
+    ctx.fillStyle = '#333';
+    ctx.font = '12px Anuphan,Kanit,sans-serif';
+    ctx.fillText(`⏰  ${theoTime}`, PAD + 16, box2Y + 48);
+
+    ctx.fillStyle = lightColor;
+    ctx.font = 'bold 11px Anuphan,Kanit,sans-serif';
+    ctx.fillText('📍  ห้องประชุมใหญ่', PAD + 16, box2Y + 68);
+
+    // ── Divider before member list ──
+    const divY = INFO_H - 16;
+    ctx.strokeStyle = isA ? 'rgba(74,89,64,0.25)' : 'rgba(122,92,58,0.25)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(PAD, divY); ctx.lineTo(W - PAD, divY); ctx.stroke();
+
+    // member count label on divider
+    ctx.fillStyle = isA ? 'rgba(74,89,64,0.5)' : 'rgba(122,92,58,0.5)';
+    ctx.font = 'bold 9px Anuphan,Kanit,sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(`รายชื่อ ${members.length} คน`, W - PAD, divY - 4);
+    ctx.textAlign = 'left';
+
+    // ── Watermark ──
+    ctx.fillStyle = isA ? 'rgba(74,89,64,0.04)' : 'rgba(122,92,58,0.04)';
+    ctx.font = 'bold 90px Anuphan,Kanit,sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(sgKey, W - 12, H - FOOT_H - 8);
+    ctx.textAlign = 'left';
+
+    // ── Member rows ──
     members.forEach((m, i) => {
       const y = INFO_H + i * ROW_H;
+      // alternating row bg
       if (i % 2 === 0) {
-        ctx.fillStyle = isA ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.45)';
-        ctx.fillRect(PAD - 8, y + 3, W - PAD * 2 + 16, ROW_H - 2);
+        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+        ctx.fillRect(PAD - 6, y + 2, W - PAD*2 + 12, ROW_H - 3);
       }
-      ctx.fillStyle = '#aaa'; ctx.font = '10px Anuphan,Kanit,sans-serif';
-      ctx.fillText(String(i + 1), PAD - 2, y + ROW_H / 2 + 4);
-      ctx.fillStyle = '#2C2C2A'; ctx.font = '13px Anuphan,Kanit,sans-serif';
-      ctx.fillText(m.name.length > 24 ? m.name.slice(0,24)+'…' : m.name, PAD + 16, y + ROW_H / 2 + 4);
-      ctx.fillStyle = '#888'; ctx.font = '11px Anuphan,Kanit,sans-serif'; ctx.textAlign = 'right';
-      const hosp = m.hospital.replace('โรงพยาบาล','รพ.');
-      ctx.fillText(hosp.length > 18 ? hosp.slice(0,18)+'…' : hosp, W - PAD, y + ROW_H / 2 + 4);
+      // number
+      ctx.fillStyle = '#bbb';
+      ctx.font = '10px Anuphan,Kanit,sans-serif';
+      ctx.fillText(String(i + 1), PAD - 4, y + ROW_H/2 + 4);
+      // name
+      ctx.fillStyle = '#1a1a1a';
+      ctx.font = '13px Anuphan,Kanit,sans-serif';
+      const name = m.name.length > 26 ? m.name.slice(0,26)+'…' : m.name;
+      ctx.fillText(name, PAD + 14, y + ROW_H/2 + 4);
+      // hospital (right-aligned)
+      ctx.fillStyle = '#999';
+      ctx.font = '10px Anuphan,Kanit,sans-serif';
+      ctx.textAlign = 'right';
+      const hosp = (m.hospital || '').replace('โรงพยาบาล','รพ.');
+      ctx.fillText(hosp.length > 16 ? hosp.slice(0,16)+'…' : hosp, W - PAD, y + ROW_H/2 + 4);
       ctx.textAlign = 'left';
+      // row divider
       if (i < members.length - 1) {
-        ctx.strokeStyle = isA ? 'rgba(107,124,92,0.1)' : 'rgba(196,168,130,0.2)';
+        ctx.strokeStyle = isA ? 'rgba(107,124,92,0.12)' : 'rgba(196,168,130,0.2)';
         ctx.lineWidth = 0.5;
-        ctx.beginPath(); ctx.moveTo(PAD, y + ROW_H); ctx.lineTo(W - PAD, y + ROW_H); ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(PAD, y + ROW_H); ctx.lineTo(W - PAD, y + ROW_H);
+        ctx.stroke();
       }
     });
 
-    // Footer
-    ctx.fillStyle = '#bbb'; ctx.font = '9px Anuphan,Kanit,sans-serif';
-    ctx.fillText('วันที่ 21 พฤษภาคม 2569 · ศูนย์ฝึกสถานการณ์จำลองทางการแพทย์ รพ.มหาราชนครราชสีมา', PAD, H - 14);
+    // ── Footer ──
+    const footY = H - FOOT_H;
+    ctx.fillStyle = 'rgba(0,0,0,0.04)';
+    ctx.fillRect(0, footY, W, FOOT_H);
+    ctx.fillStyle = '#aaa';
+    ctx.font = '9px Anuphan,Kanit,sans-serif';
+    ctx.fillText('วันที่ 21 พฤษภาคม 2569  ·  ศูนย์ฝึกสถานการณ์จำลองทางการแพทย์  รพ.มหาราชนครราชสีมา', PAD, footY + FOOT_H/2 + 4);
 
     const a = document.createElement('a');
     a.href = canvas.toDataURL('image/png');
@@ -2513,7 +2596,7 @@ window.addEventListener('scroll', () => {
 // ── PRACTICE DAY 2 ──
 (function() {
   // ข้อมูลฐานฝึกปฏิบัติ 6 ฐาน
-  const STATIONS = [
+  window.STATIONS = window.STATIONS || [
     { id: 'S1a', label: 'ฐาน 1/1', title: 'Initial Assessment & Nursing Management', room: 'ห้อง 1', instructors: 'พว.สาคร แสวงชู / พว.พิชญานันท์ สุขสมัย', color: '#4A5940' },
     { id: 'S1b', label: 'ฐาน 1/2', title: 'Initial Assessment & Nursing Management', room: 'ห้อง 2', instructors: 'พว.ศุภารมย์ มะแม้น / พว.จันจิรา ศรีตะ', color: '#4A5940' },
     { id: 'S2', label: 'ฐาน 2', title: 'Airway & Ventilator Management', room: 'ห้อง 3', instructors: 'พว.อนุสรา บุญภูมิ / พว.อัญชลี ภักดีเกษม', color: '#5C6E8A' },
@@ -2528,7 +2611,7 @@ window.addEventListener('scroll', () => {
   // รอบที่ n: กลุ่ม Pk ไปฐาน index = (k-1+n-1) mod 6 แต่ถ้า P1 เจอ S1b หรือ P2 เจอ S1a ให้ข้าม
   // Simplified rotation matrix (6 groups × 5 rounds):
   // Station order per group (0=S1a,1=S1b,2=S2,3=S3,4=S4,5=S5)
-  const ROTATION = [
+  window.ROTATION = [
     [0, 2, 3, 4, 5],
     [2, 0, 4, 5, 3],
     [3, 4, 5, 1, 2],
@@ -2537,7 +2620,7 @@ window.addEventListener('scroll', () => {
   ];
 
   // เวลาแต่ละรอบ (พักหลังรอบ 3: 15:20–15:30)
-  const ROUND_TIMES = [
+  window.ROUND_TIMES = [
     '13:00–13:40',
     '13:45–14:25',
     '14:30–15:10',
@@ -2549,6 +2632,7 @@ window.addEventListener('scroll', () => {
   // เรียงตาม no (เลขที่ลงทะเบียน) แล้วแบ่ง chunk
   const sortedMembers = [...GROUPS].sort((a, b) => a.no - b.no);
   const PGROUPS = {"P1": [{"no": 1, "name": "นางสาว สุภัสรา สอนอินทร์", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 2, "name": "นางสาว ศิวพร สู้ศึก", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 3, "name": "นาย ธวัชชัย ชื่นบุญ", "hospital": "รพ.ชุมพวง"}, {"no": 4, "name": "นางสาว จิรภิญญา บำรุงกุล", "hospital": "รพ.พิมาย"}, {"no": 5, "name": "นางสาว สมฤดี บุญมีเขว้า", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 6, "name": "นางสาว ทิวา นอกลาง", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 7, "name": "นางสาว จุฑาวรรณ เจริญภูมิ", "hospital": "รพ.บัวลาย"}, {"no": 8, "name": "นางสาว อัญวดี ขอนกระโทก", "hospital": "รพ.สูงเนิน"}, {"no": 9, "name": "นางสาว พิมพ์นิภา ชวนนอก", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 10, "name": "นาย วรพล มีเค้า", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 11, "name": "นางสาว นฤมล ทุมสันเทียะ", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 12, "name": "นาย คมสัน เหล็กประสุข", "hospital": "โรงพยาบาลเฉลิมพระเกียรติ"}, {"no": 13, "name": "นางสาว รัตนาพร แจ้งไพร", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 14, "name": "นาย อนิรุทธ์ วังหอม", "hospital": "รพ.ลำทะเมนชัย"}, {"no": 15, "name": "นางสาว กัญญารัตน์ บุญหว่าน", "hospital": "รพ.ชุมพวง"}, {"no": 16, "name": "นางสาว อภิชญา น้อยสะปุ๋ง", "hospital": "รพ.เซนต์เมรี่"}, {"no": 17, "name": "นางสาว บุญญาณี วัฒนภัทรโชติ", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 18, "name": "นางสาว นริศรา จันทร์ทอง", "hospital": "รพ.มหาราชนครราชสีมา"}], "P2": [{"no": 1, "name": "นางสาว สุลัดดา อาจดี", "hospital": "รพ.ชุมพวง"}, {"no": 2, "name": "นางสาว อภิญญา รัตนวงศ์", "hospital": "รพ.โชคชัย"}, {"no": 3, "name": "นางสาว เบญจมาพร บัวนา", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 4, "name": "นางสาว พัชรพร จงผ่อนกลาง", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 5, "name": "นาง ประสพสุข ตวยกระโทก", "hospital": "รพ.จักราช"}, {"no": 6, "name": "นางสาว สุวรรณา พุทธเสน", "hospital": "โรงพยาบาลเฉลิมพระเกียรติสมเด็จย่า 100 ปี"}, {"no": 7, "name": "นาง จิราภรณ์ ฉลองคุณ", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 8, "name": "นาย จิรัฐติกาล ภาโค", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 9, "name": "นางสาว จุฑามาศ ไชยณรงค์", "hospital": "รพ.โนนแดง"}, {"no": 10, "name": "นาย สุริยัน ซื่อตรง", "hospital": "รพ.เกษมราษฎร์"}, {"no": 11, "name": "นางสาว ศิวตา ผาดไธสง", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 12, "name": "นางสาว หอมศิริ หงษ์ชาติ", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 13, "name": "นาย ปฏิพัทธ์ ค้ากระบือ", "hospital": "รพ.โนนไทย"}, {"no": 14, "name": "นางสาว นิภัทรา ไชยกือ", "hospital": "รพ.จักราช"}, {"no": 15, "name": "นางสาว อรวีร์ อุทิศ", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 16, "name": "นางสาว ยุวธิดา นันทวีรกุล", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 17, "name": "นาย ณัฐวุฒิ คนดี", "hospital": "รพ.คง"}, {"no": 18, "name": "นางสาว จิตกานต์ ภิบาลจอมมี", "hospital": "รพ.โนนแดง"}], "P3": [{"no": 1, "name": "นางสาว กิติยา บุญศักดิ์", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 2, "name": "นางสาว กฤติมา ปรุงกระโทก", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 3, "name": "นางสาว แคททรียา พินิจ", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 4, "name": "นาย มงคลพัฒน์ เจริญโต๊ะ", "hospital": "รพ.โนนไทย"}, {"no": 5, "name": "นางสาว อริสรา ป้องงูเหลือม", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 6, "name": "นาง มนัสนันท์ จิรสิริทรัพย์", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 7, "name": "นางสาว ณัฎฐพัชร เจริญเลิศยศ", "hospital": "รพ.พระพุทธบาท"}, {"no": 8, "name": "นาง วิภาดา ยาห์น", "hospital": "บ้านพักผู้สูงอายุ"}, {"no": 9, "name": "นางสาว นันทนา นันสูงเนิน", "hospital": "รพ.สีคิ้ว"}, {"no": 10, "name": "นางสาว อรสา ภักดีนอก", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 11, "name": "นางสาว จิรอร แก้วเขียว", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 12, "name": "นางสาว ภัทรานันท์ พลายจันทร์", "hospital": "รพ.เซนต์เมรี่"}, {"no": 13, "name": "นางสาว กมลลักษณ์ คบด่านกลาง", "hospital": "รพ.โนนสูง"}, {"no": 14, "name": "นางสาว ภัทราภรณ์ แสงเทียน", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 15, "name": "นาย เอกณัฏฐ์ เต็มราษี", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 16, "name": "นาย ประพันธ์ ข้องนอก", "hospital": "รพ.จักราช"}, {"no": 17, "name": "นางสาว ปัทมาภรณ์ กวนกระโทก", "hospital": "รพ.โชคชัย"}, {"no": 18, "name": "นางสาว อรอุมา รักไร่กลาง", "hospital": "รพ.มหาราชนครราชสีมา"}], "P4": [{"no": 1, "name": "นางสาว ดารารัตน์ ท้องพิมาย", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 2, "name": "นางสาว รัชนี ทาวะรัตน์", "hospital": "รพ.เซนต์เมรี่"}, {"no": 3, "name": "นางสาว ปริยากร เบ้ามีศรี", "hospital": "รพ.ปากช่องนานา"}, {"no": 4, "name": "นางสาว อัจฉราภรณ์ พึ่งภพ", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 5, "name": "นางสาว รัตติยากร กัลยาเรือน", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 6, "name": "นางสาว ภัทรณลัลน์ เพ็ญกาญจนดิศ", "hospital": "รพ.ลำทะเมนชัย"}, {"no": 7, "name": "นางสาว ธิญาดา บริรักษ์เมธี", "hospital": "รพ.เซนต์เมรี่"}, {"no": 8, "name": "นาย สุรัตน์ คร่ำสุข", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 9, "name": "นางสาว พิชญ์สินี สุขจันทร์", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 10, "name": "นางสาว สุพรรณษา ด่านกระโทก", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 11, "name": "นางสาว มินตรา ชัยชุมพล", "hospital": "รพ.หลวงพ่อคูณ ปริสุทุโธ"}, {"no": 12, "name": "นาย นัทธพงศ์ โพธิ์นอก", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 13, "name": "นางสาว รัตนาภรณ์ มีสูงเนิน", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 14, "name": "นางสาว รัชนก หลอดแก้ว", "hospital": "รพ.พิมาย"}, {"no": 15, "name": "นางสาว ปนัดดา แผ่วสูงเนิน", "hospital": "รพ.ขามทะเลสอ"}, {"no": 16, "name": "นางสาว นันทวัน รอบพรมราช", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 17, "name": "นางสาว ปวิชญา ปิตตังละพา", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 18, "name": "นางสาว ศิริรัตน์ วัชระโกมล", "hospital": "รพ.ปากช่องนานา"}], "P5": [{"no": 1, "name": "นาย สามารถ เหลื่อมทองหลาง", "hospital": "รพ.คง"}, {"no": 2, "name": "นางสาว กิติยา นาคพลกรัง", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 3, "name": "นาง เดือนเพ็ญ สมพงษ์", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 4, "name": "นางสาว อาทิตยา สุพันธุชาติ", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 5, "name": "นาย กะตั้น ศรีวัฒนพงษ์", "hospital": "รพ.สูงเนิน"}, {"no": 6, "name": "นางสาว สุพัตรา คงมั่นกลาง", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 7, "name": "นางสาว กัญญารัตน์ สวนขำ", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 8, "name": "นางสาว จีรนันท์ เปลี่ยนผึ้ง", "hospital": "รพ.ขามทะเลสอ"}, {"no": 9, "name": "นางสาว ศิรินภา แปลสันเทียะ", "hospital": "รพ.หลวงพ่อคูณ ปริสุทุโธ"}, {"no": 10, "name": "นางสาว รุ่งนภา บินไธสง", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 11, "name": "นางสาว สุนิตา หวายสันเทียะ", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 12, "name": "นาย มานิตย์ จอดนอก", "hospital": "โรงพยาบาลเฉลิมพระเกียรติสมเด็จย่า 100 ปี"}, {"no": 13, "name": "นางสาว สิรินาถ แก้งมงคล", "hospital": "รพ.เซนต์เมรี่"}, {"no": 14, "name": "นางสาว สุนิตา โสภาพ", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 15, "name": "นาย ณัฐพร ประยูรพันธุ์", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 16, "name": "นาย ธานินทร์ ประทีปรัตน์", "hospital": "รพ.บัวลาย"}, {"no": 17, "name": "นางสาว ยุพวดี สีหานอก", "hospital": "รพ.โนนสูง"}, {"no": 18, "name": "นาง รุ่งนภา มูลสมบัติ", "hospital": "รพ.เซนต์เมรี่"}]};
+  window.PGROUPS = PGROUPS;
   // PGROUPS defined above as const — no override needed
 
   // ── วาด Rotation Table ──
