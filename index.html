@@ -913,7 +913,7 @@ footer .footer-brand {
       <!-- Info bar -->
       <div style="background:var(--olive-pale);border:1px solid var(--border2);border-radius:12px;padding:1rem 1.5rem;margin-bottom:1.5rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:center;">
         <div style="display:flex;align-items:center;gap:8px;font-family:'Anuphan',sans-serif;font-size:0.82rem;color:var(--olive-dark);">⏰ <strong>13:00 – 16:50 น.</strong></div>
-        <div style="display:flex;align-items:center;gap:8px;font-family:'Anuphan',sans-serif;font-size:0.82rem;color:var(--olive-dark);">👥 <strong>90 คน · 6 กลุ่ม · กลุ่มละ 15 คน</strong></div>
+        <div style="display:flex;align-items:center;gap:8px;font-family:'Anuphan',sans-serif;font-size:0.82rem;color:var(--olive-dark);">👥 <strong>90 คน · 5 กลุ่ม · กลุ่มละ 18 คน</strong></div>
         <div style="display:flex;align-items:center;gap:8px;font-family:'Anuphan',sans-serif;font-size:0.82rem;color:var(--olive-dark);">🏃 <strong>5 รอบ · รอบละ 40 นาที</strong></div>
         <div style="display:flex;align-items:center;gap:8px;font-family:'Anuphan',sans-serif;font-size:0.82rem;color:var(--text2);">🔄 เปลี่ยนฐาน 5 นาที · พักหลังรอบ 3</div>
       </div>
@@ -929,18 +929,17 @@ footer .footer-brand {
             <thead>
               <tr style="background:var(--olive);color:white;">
                 <th style="padding:10px 14px;text-align:left;font-family:'Anuphan',sans-serif;font-weight:500;font-size:0.7rem;letter-spacing:0.08em;border-right:1px solid rgba(255,255,255,0.15);white-space:nowrap;">รอบ / เวลา</th>
-                <th style="padding:10px 12px;text-align:center;font-family:'Anuphan',sans-serif;font-weight:500;font-size:0.7rem;border-right:1px solid rgba(255,255,255,0.15);">P1 (15 คน)</th>
-                <th style="padding:10px 12px;text-align:center;font-family:'Anuphan',sans-serif;font-weight:500;font-size:0.7rem;border-right:1px solid rgba(255,255,255,0.15);">P2 (15 คน)</th>
-                <th style="padding:10px 12px;text-align:center;font-family:'Anuphan',sans-serif;font-weight:500;font-size:0.7rem;border-right:1px solid rgba(255,255,255,0.15);">P3 (15 คน)</th>
-                <th style="padding:10px 12px;text-align:center;font-family:'Anuphan',sans-serif;font-weight:500;font-size:0.7rem;border-right:1px solid rgba(255,255,255,0.15);">P4 (15 คน)</th>
-                <th style="padding:10px 12px;text-align:center;font-family:'Anuphan',sans-serif;font-weight:500;font-size:0.7rem;border-right:1px solid rgba(255,255,255,0.15);">P5 (15 คน)</th>
-                <th style="padding:10px 12px;text-align:center;font-family:'Anuphan',sans-serif;font-weight:500;font-size:0.7rem;">P6 (15 คน)</th>
+                <th style="padding:10px 12px;text-align:center;font-family:'Anuphan',sans-serif;font-weight:500;font-size:0.7rem;border-right:1px solid rgba(255,255,255,0.15);">P1 (18 คน)</th>
+                <th style="padding:10px 12px;text-align:center;font-family:'Anuphan',sans-serif;font-weight:500;font-size:0.7rem;border-right:1px solid rgba(255,255,255,0.15);">P2 (18 คน)</th>
+                <th style="padding:10px 12px;text-align:center;font-family:'Anuphan',sans-serif;font-weight:500;font-size:0.7rem;border-right:1px solid rgba(255,255,255,0.15);">P3 (18 คน)</th>
+                <th style="padding:10px 12px;text-align:center;font-family:'Anuphan',sans-serif;font-weight:500;font-size:0.7rem;border-right:1px solid rgba(255,255,255,0.15);">P4 (18 คน)</th>
+                <th style="padding:10px 12px;text-align:center;font-family:'Anuphan',sans-serif;font-weight:500;font-size:0.7rem;">P5 (18 คน)</th>
               </tr>
             </thead>
             <tbody id="practiceRotationBody"></tbody>
           </table>
         </div>
-        <div style="margin-top:8px;font-family:'Anuphan',sans-serif;font-size:0.68rem;color:var(--text3);">* P = กลุ่มผู้เข้าอบรม · ฐาน = สถานีฝึกปฏิบัติ · พัก 10 นาที หลังรอบที่ 3 (15:20–15:30)</div>
+        <div style="margin-top:8px;font-family:'Anuphan',sans-serif;font-size:0.68rem;color:var(--text3);">* P = กลุ่มผู้เข้าอบรม · ฐาน = สถานีฝึกปฏิบัติ · พักพร้อมกัน 15:10–15:30 น.</div>
       </div>
 
       <!-- Stations info -->
@@ -1551,9 +1550,9 @@ const EXAM_LOOKUP = {};
 GROUPS.forEach(g => { EXAM_LOOKUP[g.name.trim()] = { subgroup: g.subgroup, group: g.group }; });
 
 // ── Lookup: กลุ่มฝึกปฏิบัติ P1–P6 (sort by no แล้วแบ่ง 15 คน)
-const PRACTICE_LOOKUP = {};
+const PRACTICE_LOOKUP = {"นางสาว สุภัสรา สอนอินทร์": "P1", "นางสาว ศิวพร สู้ศึก": "P1", "นาย ธวัชชัย ชื่นบุญ": "P1", "นางสาว จิรภิญญา บำรุงกุล": "P1", "นางสาว สมฤดี บุญมีเขว้า": "P1", "นางสาว ทิวา นอกลาง": "P1", "นางสาว จุฑาวรรณ เจริญภูมิ": "P1", "นางสาว อัญวดี ขอนกระโทก": "P1", "นางสาว พิมพ์นิภา ชวนนอก": "P1", "นาย วรพล มีเค้า": "P1", "นางสาว นฤมล ทุมสันเทียะ": "P1", "นาย คมสัน เหล็กประสุข": "P1", "นางสาว รัตนาพร แจ้งไพร": "P1", "นาย อนิรุทธ์ วังหอม": "P1", "นางสาว กัญญารัตน์ บุญหว่าน": "P1", "นางสาว อภิชญา น้อยสะปุ๋ง": "P1", "นางสาว บุญญาณี วัฒนภัทรโชติ": "P1", "นางสาว นริศรา จันทร์ทอง": "P1", "นางสาว สุลัดดา อาจดี": "P2", "นางสาว อภิญญา รัตนวงศ์": "P2", "นางสาว เบญจมาพร บัวนา": "P2", "นางสาว พัชรพร จงผ่อนกลาง": "P2", "นาง ประสพสุข ตวยกระโทก": "P2", "นางสาว สุวรรณา พุทธเสน": "P2", "นาง จิราภรณ์ ฉลองคุณ": "P2", "นาย จิรัฐติกาล ภาโค": "P2", "นางสาว จุฑามาศ ไชยณรงค์": "P2", "นาย สุริยัน ซื่อตรง": "P2", "นางสาว ศิวตา ผาดไธสง": "P2", "นางสาว หอมศิริ หงษ์ชาติ": "P2", "นาย ปฏิพัทธ์ ค้ากระบือ": "P2", "นางสาว นิภัทรา ไชยกือ": "P2", "นางสาว อรวีร์ อุทิศ": "P2", "นางสาว ยุวธิดา นันทวีรกุล": "P2", "นาย ณัฐวุฒิ คนดี": "P2", "นางสาว จิตกานต์ ภิบาลจอมมี": "P2", "นางสาว กิติยา บุญศักดิ์": "P3", "นางสาว กฤติมา ปรุงกระโทก": "P3", "นางสาว แคททรียา พินิจ": "P3", "นาย มงคลพัฒน์ เจริญโต๊ะ": "P3", "นางสาว อริสรา ป้องงูเหลือม": "P3", "นาง มนัสนันท์ จิรสิริทรัพย์": "P3", "นางสาว ณัฎฐพัชร เจริญเลิศยศ": "P3", "นาง วิภาดา ยาห์น": "P3", "นางสาว นันทนา นันสูงเนิน": "P3", "นางสาว อรสา ภักดีนอก": "P3", "นางสาว จิรอร แก้วเขียว": "P3", "นางสาว ภัทรานันท์ พลายจันทร์": "P3", "นางสาว กมลลักษณ์ คบด่านกลาง": "P3", "นางสาว ภัทราภรณ์ แสงเทียน": "P3", "นาย เอกณัฏฐ์ เต็มราษี": "P3", "นาย ประพันธ์ ข้องนอก": "P3", "นางสาว ปัทมาภรณ์ กวนกระโทก": "P3", "นางสาว อรอุมา รักไร่กลาง": "P3", "นางสาว ดารารัตน์ ท้องพิมาย": "P4", "นางสาว รัชนี ทาวะรัตน์": "P4", "นางสาว ปริยากร เบ้ามีศรี": "P4", "นางสาว อัจฉราภรณ์ พึ่งภพ": "P4", "นางสาว รัตติยากร กัลยาเรือน": "P4", "นางสาว ภัทรณลัลน์ เพ็ญกาญจนดิศ": "P4", "นางสาว ธิญาดา บริรักษ์เมธี": "P4", "นาย สุรัตน์ คร่ำสุข": "P4", "นางสาว พิชญ์สินี สุขจันทร์": "P4", "นางสาว สุพรรณษา ด่านกระโทก": "P4", "นางสาว มินตรา ชัยชุมพล": "P4", "นาย นัทธพงศ์ โพธิ์นอก": "P4", "นางสาว รัตนาภรณ์ มีสูงเนิน": "P4", "นางสาว รัชนก หลอดแก้ว": "P4", "นางสาว ปนัดดา แผ่วสูงเนิน": "P4", "นางสาว นันทวัน รอบพรมราช": "P4", "นางสาว ปวิชญา ปิตตังละพา": "P4", "นางสาว ศิริรัตน์ วัชระโกมล": "P4", "นาย สามารถ เหลื่อมทองหลาง": "P5", "นางสาว กิติยา นาคพลกรัง": "P5", "นาง เดือนเพ็ญ สมพงษ์": "P5", "นางสาว อาทิตยา สุพันธุชาติ": "P5", "นาย กะตั้น ศรีวัฒนพงษ์": "P5", "นางสาว สุพัตรา คงมั่นกลาง": "P5", "นางสาว กัญญารัตน์ สวนขำ": "P5", "นางสาว จีรนันท์ เปลี่ยนผึ้ง": "P5", "นางสาว ศิรินภา แปลสันเทียะ": "P5", "นางสาว รุ่งนภา บินไธสง": "P5", "นางสาว สุนิตา หวายสันเทียะ": "P5", "นาย มานิตย์ จอดนอก": "P5", "นางสาว สิรินาถ แก้งมงคล": "P5", "นางสาว สุนิตา โสภาพ": "P5", "นาย ณัฐพร ประยูรพันธุ์": "P5", "นาย ธานินทร์ ประทีปรัตน์": "P5", "นางสาว ยุพวดี สีหานอก": "P5", "นาง รุ่งนภา มูลสมบัติ": "P5"};
 [...GROUPS].sort((a,b)=>a.no-b.no).forEach((g,i) => {
-  PRACTICE_LOOKUP[g.name.trim()] = `P${Math.floor(i/15)+1}`;
+  // PRACTICE_LOOKUP already defined above
 });
 
 function showAttendeeTable() {
@@ -1815,7 +1814,7 @@ window.downloadRotationTable = function() {
   ctx.fillRect(startX, HEADER_H, timeW, ROW_H);
   ctx.fillStyle = '#fff'; ctx.font = 'bold 10px Anuphan,Kanit,sans-serif'; ctx.textAlign='center';
   ctx.fillText('รอบ / เวลา', startX + timeW/2, HEADER_H + ROW_H/2 + 4);
-  const pgKeys = Object.keys(typeof PGROUPS!=='undefined'?PGROUPS:{}).slice(0,6);
+  const pgKeys = Object.keys(typeof PGROUPS!=='undefined'?PGROUPS:{}).slice(0,5);
   pgKeys.forEach((pk,ci) => {
     const x = startX + timeW + ci*grpW;
     ctx.fillStyle = ci%2===0 ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.05)';
@@ -2517,10 +2516,10 @@ window.addEventListener('scroll', () => {
   const STATIONS = [
     { id: 'S1a', label: 'ฐาน 1/1', title: 'Initial Assessment & Nursing Management', room: 'ห้อง 1', instructors: 'พว.สาคร แสวงชู / พว.พิชญานันท์ สุขสมัย', color: '#4A5940' },
     { id: 'S1b', label: 'ฐาน 1/2', title: 'Initial Assessment & Nursing Management', room: 'ห้อง 2', instructors: 'พว.ศุภารมย์ มะแม้น / พว.จันจิรา ศรีตะ', color: '#4A5940' },
-    { id: 'S2',  label: 'ฐาน 2',   title: 'Airway & Ventilator Management', room: 'ห้อง 3', instructors: 'พว.อนุสรา บุญภูมิ / พว.อัญชลี ภักดีเกษม', color: '#5C6E8A' },
-    { id: 'S3',  label: 'ฐาน 3',   title: 'Shock & Fluid Replacement in Trauma', room: 'ห้อง 4', instructors: 'พว.จิราพร พอกพูนทรัพย์ / พว.อาภรณ์ ญาสุรัติกุล', color: '#7A5C3A' },
-    { id: 'S4',  label: 'ฐาน 4',   title: 'Thoraco–Abdominal Injury', room: 'ห้อง 5', instructors: 'พว.ธิดาพร กาบกลาง / พว.พงพัฒน์ อรรถโยโค', color: '#6B5A7A' },
-    { id: 'S5',  label: 'ฐาน 5',   title: 'Head & Neck Trauma · ประเมินระบบประสาท · ถอดหมวกกันน็อค', room: 'ห้อง 6', instructors: 'พว.สุเมธ จักขียน / พว.ปฏิพล รักมงคลตระกูล', color: '#7A3A3A' },
+    { id: 'S2', label: 'ฐาน 2', title: 'Airway & Ventilator Management', room: 'ห้อง 3', instructors: 'พว.อนุสรา บุญภูมิ / พว.อัญชลี ภักดีเกษม', color: '#5C6E8A' },
+    { id: 'S3', label: 'ฐาน 3', title: 'Shock & Fluid Replacement in Trauma', room: 'ห้อง 4', instructors: 'พว.จิราพร พอกพูนทรัพย์ / พว.อาภรณ์ ญาสุรัติกุล', color: '#7A5C3A' },
+    { id: 'S4', label: 'ฐาน 4', title: 'Thoraco–Abdominal Injury', room: 'ห้อง 5', instructors: 'พว.ธิดาพร กาบกลาง / พว.พงพัฒน์ อรรถโยโค', color: '#6B5A7A' },
+    { id: 'S5', label: 'ฐาน 5', title: 'Head & Neck Trauma + ประเมินระบบประสาท + ถอดหมวกกันน็อค', room: 'ห้อง 6', instructors: 'พว.สุเมธ จักขียน / พว.ปฏิพล รักมงคลตระกูล', color: '#7A3A3A' },
   ];
 
   // ตารางเวียนฐาน: 6 กลุ่ม (P1–P6) × 5 รอบ
@@ -2530,27 +2529,27 @@ window.addEventListener('scroll', () => {
   // Simplified rotation matrix (6 groups × 5 rounds):
   // Station order per group (0=S1a,1=S1b,2=S2,3=S3,4=S4,5=S5)
   const ROTATION = [
-    [0, 2, 3, 4, 5],   // P1: S1a→S2→S3→S4→S5
-    [1, 2, 3, 4, 5],   // P2: S1b→S2→S3→S4→S5
-    [2, 0, 3, 4, 5],   // P3: S2→S1a→S3→S4→S5
-    [3, 1, 2, 4, 5],   // P4: S3→S1b→S2→S4→S5
-    [4, 0, 2, 3, 5],   // P5: S4→S1a→S2→S3→S5
-    [5, 1, 2, 3, 4],   // P6: S5→S1b→S2→S3→S4
+    [0, 2, 3, 4, 5],
+    [2, 0, 4, 5, 3],
+    [3, 4, 5, 1, 2],
+    [4, 5, 2, 3, 1],
+    [5, 3, 0, 2, 4],
   ];
 
   // เวลาแต่ละรอบ (พักหลังรอบ 3: 15:20–15:30)
   const ROUND_TIMES = [
-    '13:00–13:40', '13:45–14:25', '14:30–15:10',
-    '15:30–16:10', '16:15–16:55',
+    '13:00–13:40',
+    '13:45–14:25',
+    '14:30–15:10',
+    '15:30–16:10',
+    '16:15–16:55',
   ];
 
   // แบ่ง GROUPS (90 คน) ออกเป็น 6 กลุ่มฝึกปฏิบัติ P1–P6 (15 คนต่อกลุ่ม)
   // เรียงตาม no (เลขที่ลงทะเบียน) แล้วแบ่ง chunk
   const sortedMembers = [...GROUPS].sort((a, b) => a.no - b.no);
-  const PGROUPS = {};
-  for (let i = 0; i < 6; i++) {
-    PGROUPS[`P${i+1}`] = sortedMembers.slice(i * 15, (i + 1) * 15);
-  }
+  const PGROUPS = {"P1": [{"no": 1, "name": "นางสาว สุภัสรา สอนอินทร์", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 2, "name": "นางสาว ศิวพร สู้ศึก", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 3, "name": "นาย ธวัชชัย ชื่นบุญ", "hospital": "รพ.ชุมพวง"}, {"no": 4, "name": "นางสาว จิรภิญญา บำรุงกุล", "hospital": "รพ.พิมาย"}, {"no": 5, "name": "นางสาว สมฤดี บุญมีเขว้า", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 6, "name": "นางสาว ทิวา นอกลาง", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 7, "name": "นางสาว จุฑาวรรณ เจริญภูมิ", "hospital": "รพ.บัวลาย"}, {"no": 8, "name": "นางสาว อัญวดี ขอนกระโทก", "hospital": "รพ.สูงเนิน"}, {"no": 9, "name": "นางสาว พิมพ์นิภา ชวนนอก", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 10, "name": "นาย วรพล มีเค้า", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 11, "name": "นางสาว นฤมล ทุมสันเทียะ", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 12, "name": "นาย คมสัน เหล็กประสุข", "hospital": "โรงพยาบาลเฉลิมพระเกียรติ"}, {"no": 13, "name": "นางสาว รัตนาพร แจ้งไพร", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 14, "name": "นาย อนิรุทธ์ วังหอม", "hospital": "รพ.ลำทะเมนชัย"}, {"no": 15, "name": "นางสาว กัญญารัตน์ บุญหว่าน", "hospital": "รพ.ชุมพวง"}, {"no": 16, "name": "นางสาว อภิชญา น้อยสะปุ๋ง", "hospital": "รพ.เซนต์เมรี่"}, {"no": 17, "name": "นางสาว บุญญาณี วัฒนภัทรโชติ", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 18, "name": "นางสาว นริศรา จันทร์ทอง", "hospital": "รพ.มหาราชนครราชสีมา"}], "P2": [{"no": 1, "name": "นางสาว สุลัดดา อาจดี", "hospital": "รพ.ชุมพวง"}, {"no": 2, "name": "นางสาว อภิญญา รัตนวงศ์", "hospital": "รพ.โชคชัย"}, {"no": 3, "name": "นางสาว เบญจมาพร บัวนา", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 4, "name": "นางสาว พัชรพร จงผ่อนกลาง", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 5, "name": "นาง ประสพสุข ตวยกระโทก", "hospital": "รพ.จักราช"}, {"no": 6, "name": "นางสาว สุวรรณา พุทธเสน", "hospital": "โรงพยาบาลเฉลิมพระเกียรติสมเด็จย่า 100 ปี"}, {"no": 7, "name": "นาง จิราภรณ์ ฉลองคุณ", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 8, "name": "นาย จิรัฐติกาล ภาโค", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 9, "name": "นางสาว จุฑามาศ ไชยณรงค์", "hospital": "รพ.โนนแดง"}, {"no": 10, "name": "นาย สุริยัน ซื่อตรง", "hospital": "รพ.เกษมราษฎร์"}, {"no": 11, "name": "นางสาว ศิวตา ผาดไธสง", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 12, "name": "นางสาว หอมศิริ หงษ์ชาติ", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 13, "name": "นาย ปฏิพัทธ์ ค้ากระบือ", "hospital": "รพ.โนนไทย"}, {"no": 14, "name": "นางสาว นิภัทรา ไชยกือ", "hospital": "รพ.จักราช"}, {"no": 15, "name": "นางสาว อรวีร์ อุทิศ", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 16, "name": "นางสาว ยุวธิดา นันทวีรกุล", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 17, "name": "นาย ณัฐวุฒิ คนดี", "hospital": "รพ.คง"}, {"no": 18, "name": "นางสาว จิตกานต์ ภิบาลจอมมี", "hospital": "รพ.โนนแดง"}], "P3": [{"no": 1, "name": "นางสาว กิติยา บุญศักดิ์", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 2, "name": "นางสาว กฤติมา ปรุงกระโทก", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 3, "name": "นางสาว แคททรียา พินิจ", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 4, "name": "นาย มงคลพัฒน์ เจริญโต๊ะ", "hospital": "รพ.โนนไทย"}, {"no": 5, "name": "นางสาว อริสรา ป้องงูเหลือม", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 6, "name": "นาง มนัสนันท์ จิรสิริทรัพย์", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 7, "name": "นางสาว ณัฎฐพัชร เจริญเลิศยศ", "hospital": "รพ.พระพุทธบาท"}, {"no": 8, "name": "นาง วิภาดา ยาห์น", "hospital": "บ้านพักผู้สูงอายุ"}, {"no": 9, "name": "นางสาว นันทนา นันสูงเนิน", "hospital": "รพ.สีคิ้ว"}, {"no": 10, "name": "นางสาว อรสา ภักดีนอก", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 11, "name": "นางสาว จิรอร แก้วเขียว", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 12, "name": "นางสาว ภัทรานันท์ พลายจันทร์", "hospital": "รพ.เซนต์เมรี่"}, {"no": 13, "name": "นางสาว กมลลักษณ์ คบด่านกลาง", "hospital": "รพ.โนนสูง"}, {"no": 14, "name": "นางสาว ภัทราภรณ์ แสงเทียน", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 15, "name": "นาย เอกณัฏฐ์ เต็มราษี", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 16, "name": "นาย ประพันธ์ ข้องนอก", "hospital": "รพ.จักราช"}, {"no": 17, "name": "นางสาว ปัทมาภรณ์ กวนกระโทก", "hospital": "รพ.โชคชัย"}, {"no": 18, "name": "นางสาว อรอุมา รักไร่กลาง", "hospital": "รพ.มหาราชนครราชสีมา"}], "P4": [{"no": 1, "name": "นางสาว ดารารัตน์ ท้องพิมาย", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 2, "name": "นางสาว รัชนี ทาวะรัตน์", "hospital": "รพ.เซนต์เมรี่"}, {"no": 3, "name": "นางสาว ปริยากร เบ้ามีศรี", "hospital": "รพ.ปากช่องนานา"}, {"no": 4, "name": "นางสาว อัจฉราภรณ์ พึ่งภพ", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 5, "name": "นางสาว รัตติยากร กัลยาเรือน", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 6, "name": "นางสาว ภัทรณลัลน์ เพ็ญกาญจนดิศ", "hospital": "รพ.ลำทะเมนชัย"}, {"no": 7, "name": "นางสาว ธิญาดา บริรักษ์เมธี", "hospital": "รพ.เซนต์เมรี่"}, {"no": 8, "name": "นาย สุรัตน์ คร่ำสุข", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 9, "name": "นางสาว พิชญ์สินี สุขจันทร์", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 10, "name": "นางสาว สุพรรณษา ด่านกระโทก", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 11, "name": "นางสาว มินตรา ชัยชุมพล", "hospital": "รพ.หลวงพ่อคูณ ปริสุทุโธ"}, {"no": 12, "name": "นาย นัทธพงศ์ โพธิ์นอก", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 13, "name": "นางสาว รัตนาภรณ์ มีสูงเนิน", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 14, "name": "นางสาว รัชนก หลอดแก้ว", "hospital": "รพ.พิมาย"}, {"no": 15, "name": "นางสาว ปนัดดา แผ่วสูงเนิน", "hospital": "รพ.ขามทะเลสอ"}, {"no": 16, "name": "นางสาว นันทวัน รอบพรมราช", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 17, "name": "นางสาว ปวิชญา ปิตตังละพา", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 18, "name": "นางสาว ศิริรัตน์ วัชระโกมล", "hospital": "รพ.ปากช่องนานา"}], "P5": [{"no": 1, "name": "นาย สามารถ เหลื่อมทองหลาง", "hospital": "รพ.คง"}, {"no": 2, "name": "นางสาว กิติยา นาคพลกรัง", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 3, "name": "นาง เดือนเพ็ญ สมพงษ์", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 4, "name": "นางสาว อาทิตยา สุพันธุชาติ", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 5, "name": "นาย กะตั้น ศรีวัฒนพงษ์", "hospital": "รพ.สูงเนิน"}, {"no": 6, "name": "นางสาว สุพัตรา คงมั่นกลาง", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 7, "name": "นางสาว กัญญารัตน์ สวนขำ", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 8, "name": "นางสาว จีรนันท์ เปลี่ยนผึ้ง", "hospital": "รพ.ขามทะเลสอ"}, {"no": 9, "name": "นางสาว ศิรินภา แปลสันเทียะ", "hospital": "รพ.หลวงพ่อคูณ ปริสุทุโธ"}, {"no": 10, "name": "นางสาว รุ่งนภา บินไธสง", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 11, "name": "นางสาว สุนิตา หวายสันเทียะ", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 12, "name": "นาย มานิตย์ จอดนอก", "hospital": "โรงพยาบาลเฉลิมพระเกียรติสมเด็จย่า 100 ปี"}, {"no": 13, "name": "นางสาว สิรินาถ แก้งมงคล", "hospital": "รพ.เซนต์เมรี่"}, {"no": 14, "name": "นางสาว สุนิตา โสภาพ", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 15, "name": "นาย ณัฐพร ประยูรพันธุ์", "hospital": "รพ.มหาราชนครราชสีมา"}, {"no": 16, "name": "นาย ธานินทร์ ประทีปรัตน์", "hospital": "รพ.บัวลาย"}, {"no": 17, "name": "นางสาว ยุพวดี สีหานอก", "hospital": "รพ.โนนสูง"}, {"no": 18, "name": "นาง รุ่งนภา มูลสมบัติ", "hospital": "รพ.เซนต์เมรี่"}]};
+  // PGROUPS defined above as const — no override needed
 
   // ── วาด Rotation Table ──
   function buildRotationTable() {
@@ -2563,8 +2562,8 @@ window.addEventListener('scroll', () => {
         <td style="padding:9px 14px;font-family:'Anuphan',sans-serif;font-size:0.75rem;color:var(--olive-dark);font-weight:500;white-space:nowrap;border-right:1px solid var(--border);">
           รอบ ${ri+1}<br><span style="font-size:0.68rem;color:var(--text3);font-weight:400;">${time}</span>
         </td>`;
-      for (let pi = 0; pi < 6; pi++) {
-        const stIdx = ROTATION[pi][ri];
+      for (let pi = 0; pi < 5; pi++) {
+        const stIdx = ROTATION[ri][pi];
         const st = STATIONS[stIdx];
         html += `<td style="padding:7px 10px;text-align:center;border-right:${pi<5?'1px solid var(--border)':'none'};">
           <span style="display:inline-block;background:${st.color};color:white;font-family:'Anuphan',sans-serif;font-size:0.68rem;font-weight:500;padding:3px 9px;border-radius:100px;">${st.label}</span>
@@ -2628,7 +2627,7 @@ window.addEventListener('scroll', () => {
     // สร้างการ์ดกลุ่มฝึกปฏิบัติ
     const pk = groupKey || '';
     const pIdx = pk ? parseInt(pk.slice(1)) - 1 : null;
-    const rotation = pIdx !== null ? ROTATION[pIdx] : null;
+    const rotation = pIdx !== null ? ROTATION.map(r => r[pIdx]) : null;
     const color = '#4A5940';
 
     result.innerHTML = `<div style="grid-column:1/-1;background:var(--olive-pale);border:1px solid var(--border2);border-radius:14px;overflow:hidden;">
@@ -2712,7 +2711,7 @@ window.addEventListener('scroll', () => {
   window._dlPracticeCard = function(pk) {
     const members = PGROUPS[pk] || [];
     const pIdx = parseInt(pk.slice(1)) - 1;
-    const rotation = ROTATION[pIdx];
+    const rotation = ROTATION.map(r => r[pIdx]);
     const W = 600, PAD = 36;
     const ROW_H = 36, HEADER_H = 80 + ROUND_TIMES.length * 22 + 24;
     const H = HEADER_H + members.length * ROW_H + 40;
