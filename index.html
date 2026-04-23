@@ -194,8 +194,9 @@ nav.scrolled {
 
 /* ── MENU GRID ── */
 .menu-grid {
-  display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:3rem;
+  display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:3rem;
 }
+.menu-card-last { grid-column:3; }
 .menu-card {
   background:var(--white);border:1px solid var(--border);border-radius:16px;
   padding:1.5rem 1rem;text-align:center;text-decoration:none;color:var(--text);
@@ -684,13 +685,26 @@ footer .footer-brand {
   .hero-left{padding:5rem 1.5rem 2rem;}
   .hero-right{padding:2rem 1.5rem 5rem;align-items:flex-start;}
   .hero::after{display:none;}
-  .menu-grid{grid-template-columns:repeat(4,1fr);}
+
+  /* ── MENU GRID mobile: 3 คอลัมน์ ── */
+  .menu-grid{
+    display:grid !important;
+    grid-template-columns:repeat(3,1fr) !important;
+    gap:8px !important;
+  }
+  .menu-card{padding:1rem 0.5rem;}
+  .menu-icon-wrap{width:40px;height:40px;font-size:16px;}
+  #menuGrid a:last-child{grid-column:auto !important;}
+  .menu-card-last{grid-column:auto !important;}
+
   .menu-card p{font-size:0.65rem;}
   .place-grid{grid-template-columns:1fr;}
   .nav-links{display:none;}
   .nav-hamburger{display:flex;}
   .mobile-drawer{display:block;}
   footer{flex-direction:column;gap:1rem;padding:2rem;text-align:center;}
+  .info-stack{width:100%;}
+  .info-card:hover{transform:none;}
 
   /* ── TABLE → CARD layout on mobile ── */
   .data-table thead { display:none; }
@@ -753,15 +767,15 @@ footer .footer-brand {
   <div class="nav-links">
     <a href="#home">หน้าแรก</a>
     <a href="#participants">รายชื่อ</a>
-    <a href="#groups">กลุ่มสอบ</a>
-    <a href="#examschedule">ตารางสอบ</a>
+    <a href="#practice">กลุ่มเข้าฝึกปฏิบัติ</a>
+    <a href="#examschedule">กลุ่มเข้าสอบ</a>
     <a href="#schedule">ตาราง</a>
-    <a href="#content">เนื้อหา</a>
+    <a href="#content">ไฟล์อบรม</a>
     <a href="#quiz">Pre/Post Test</a>
-    <a href="#venue">สถานที่</a>
+    <a href="#venue">สถานที่อบรม / ที่จอดรถ</a>
     <a href="#hotel">ที่พัก</a>
     <a href="#eval">ประเมิน</a>
-    <a href="#contact">ติดต่อ</a>
+    <a href="#contact">ติดต่อสอบถาม</a>
   </div>
   <button class="nav-hamburger" id="hamburgerBtn" aria-label="เปิดเมนู">
     <span></span><span></span><span></span>
@@ -773,16 +787,16 @@ footer .footer-brand {
   <div class="drawer-inner">
     <div class="drawer-label">เมนูหลัก</div>
     <a href="#home"         class="drawer-link"><span class="drawer-link-ico">🏠</span>หน้าแรก</a>
-    <a href="#participants" class="drawer-link"><span class="drawer-link-ico">📋</span>ประกาศรายชื่อ</a>
-    <a href="#groups"       class="drawer-link"><span class="drawer-link-ico">👥</span>การจัดกลุ่ม</a>
-    <a href="#examschedule" class="drawer-link"><span class="drawer-link-ico">🗂️</span>ตารางสอบ วันที่ 21</a>
+    <a href="#participants" class="drawer-link"><span class="drawer-link-ico">📋</span>รายชื่อ</a>
+    <a href="#practice"     class="drawer-link"><span class="drawer-link-ico">🏃</span>กลุ่มเข้าฝึกปฏิบัติ</a>
+    <a href="#examschedule" class="drawer-link"><span class="drawer-link-ico">🗂️</span>กลุ่มเข้าสอบ</a>
     <a href="#schedule"     class="drawer-link"><span class="drawer-link-ico">🗓️</span>ตารางอบรม</a>
-    <a href="#content"      class="drawer-link"><span class="drawer-link-ico">📑</span>เนื้อหา / สไลด์</a>
+    <a href="#content"      class="drawer-link"><span class="drawer-link-ico">📑</span>ไฟล์อบรม</a>
     <a href="#quiz"         class="drawer-link"><span class="drawer-link-ico">📝</span>Pre / Post Test</a>
     <div class="drawer-label">ข้อมูลเพิ่มเติม</div>
-    <a href="#venue"        class="drawer-link"><span class="drawer-link-ico">🏥</span>อาคารสถานที่</a>
-    <a href="#hotel"        class="drawer-link"><span class="drawer-link-ico">🏨</span>ที่พักใกล้ รพ.</a>
-    <a href="#eval"         class="drawer-link"><span class="drawer-link-ico">⭐</span>ประเมินความพึงพอใจ</a>
+    <a href="#venue"        class="drawer-link"><span class="drawer-link-ico">🏥</span>สถานที่อบรม / ที่จอดรถ</a>
+    <a href="#hotel"        class="drawer-link"><span class="drawer-link-ico">🏨</span>ที่พัก</a>
+    <a href="#eval"         class="drawer-link"><span class="drawer-link-ico">⭐</span>ประเมิน</a>
     <a href="#contact"      class="drawer-link"><span class="drawer-link-ico">💬</span>ติดต่อสอบถาม</a>
   </div>
 </div>
@@ -837,7 +851,55 @@ footer .footer-brand {
     </div>
   </div>
 </section>
-
+<!-- MENU GRID -->
+<div class="section" style="max-width:1280px;padding-top:2.5rem;padding-bottom:2.5rem;">
+  <div class="menu-grid" id="menuGrid">
+    <a href="#home" class="menu-card">
+      <div class="menu-icon-wrap">🏠</div>
+      <div style="font-size:0.82rem;font-weight:500;font-family:'Anuphan',sans-serif;margin-bottom:4px;">หน้าแรก</div>
+    </a>
+    <a href="#participants" class="menu-card">
+      <div class="menu-icon-wrap">📋</div>
+      <div style="font-size:0.82rem;font-weight:500;font-family:'Anuphan',sans-serif;margin-bottom:4px;">รายชื่อ</div>
+    </a>
+    <a href="#practice" class="menu-card">
+      <div class="menu-icon-wrap">🏃</div>
+      <div style="font-size:0.82rem;font-weight:500;font-family:'Anuphan',sans-serif;margin-bottom:4px;">กลุ่มเข้าฝึกปฏิบัติ</div>
+    </a>
+    <a href="#examschedule" class="menu-card">
+      <div class="menu-icon-wrap">🗂️</div>
+      <div style="font-size:0.82rem;font-weight:500;font-family:'Anuphan',sans-serif;margin-bottom:4px;">กลุ่มเข้าสอบ</div>
+    </a>
+    <a href="#schedule" class="menu-card">
+      <div class="menu-icon-wrap">🗓️</div>
+      <div style="font-size:0.82rem;font-weight:500;font-family:'Anuphan',sans-serif;margin-bottom:4px;">ตาราง</div>
+    </a>
+    <a href="#content" class="menu-card">
+      <div class="menu-icon-wrap">📑</div>
+      <div style="font-size:0.82rem;font-weight:500;font-family:'Anuphan',sans-serif;margin-bottom:4px;">ไฟล์อบรม</div>
+    </a>
+    <a href="#quiz" class="menu-card">
+      <div class="menu-icon-wrap">📝</div>
+      <div style="font-size:0.82rem;font-weight:500;font-family:'Anuphan',sans-serif;margin-bottom:4px;">Pre Test / Post Test</div>
+    </a>
+    <a href="#venue" class="menu-card">
+      <div class="menu-icon-wrap">🏥</div>
+      <div style="font-size:0.82rem;font-weight:500;font-family:'Anuphan',sans-serif;margin-bottom:4px;">สถานที่อบรม / ที่จอดรถ</div>
+    </a>
+    <a href="#hotel" class="menu-card">
+      <div class="menu-icon-wrap">🏨</div>
+      <div style="font-size:0.82rem;font-weight:500;font-family:'Anuphan',sans-serif;margin-bottom:4px;">ที่พัก</div>
+    </a>
+    <a href="#eval" class="menu-card">
+      <div class="menu-icon-wrap">⭐</div>
+      <div style="font-size:0.82rem;font-weight:500;font-family:'Anuphan',sans-serif;margin-bottom:4px;">ประเมิน</div>
+    </a>
+    <a href="#contact" class="menu-card menu-card-last">
+      <div class="menu-icon-wrap">💬</div>
+      <div style="font-size:0.82rem;font-weight:500;font-family:'Anuphan',sans-serif;margin-bottom:4px;">ติดต่อสอบถาม</div>
+    </a>
+  </div>
+</div>
 <!-- PARTICIPANTS -->
 <div class="section" style="max-width:1280px;" id="participants">
   <div class="section-eyebrow">ประกาศรายชื่อผู้มีสิทธิ์เข้าร่วมอบรม</div>
@@ -855,7 +917,7 @@ footer .footer-brand {
     <div id="attendeeTableWrap" style="display:none;">
       <div style="overflow-x:auto;">
         <table class="data-table">
-          <thead><tr><th class="no">ที่</th><th>ชื่อ–สกุล</th><th>หน่วยงาน</th><th>โรงพยาบาล</th></tr></thead>
+          <thead><tr><th class="no">ที่</th><th>ชื่อ–สกุล</th><th>หน่วยงาน</th><th>โรงพยาบาล</th><th style="white-space:nowrap;">กลุ่มฝึกปฏิบัติ</th><th style="white-space:nowrap;">กลุ่มสอบ</th></tr></thead>
           <tbody id="attendeeBody"></tbody>
         </table>
       </div>
@@ -863,43 +925,71 @@ footer .footer-brand {
     </div>
   </div>
 </div>
-
-<!-- GROUPS -->
+<!-- PRACTICE DAY 2 -->
 <div style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-  <div class="section" style="max-width:1280px;" id="groups">
-    <div class="section-eyebrow">การจัดกลุ่มเพื่อการสอบ</div>
+  <div class="section" style="max-width:1280px;" id="practice">
+    <div class="section-eyebrow">กลุ่มเข้าฝึกปฏิบัติ — วันที่ 2</div>
     <div class="panel">
-      <div class="panel-title">การแบ่งกลุ่มสอบ <em>— กลุ่ม A / B</em></div>
-      <p style="font-size:0.82rem;color:var(--text3);margin-bottom:1.25rem;font-family:'Anuphan',sans-serif;">แบ่งเป็น 2 กลุ่มหลัก รวม 22 กลุ่มย่อย · กลุ่มย่อยละ ~4 คน</p>
-      <div class="search-wrap" style="margin-bottom:1rem;">
-        <input type="text" id="groupSearch" placeholder="ค้นหาชื่อ โรงพยาบาล หรือกลุ่มย่อย (เช่น A3, B7)..." oninput="filterGroups()" autocomplete="off">
-      </div>
-      <div id="groupHint" style="text-align:center;padding:2.5rem 1rem;font-family:'Anuphan',sans-serif;font-size:0.88rem;color:var(--text3);">
-        พิมพ์ชื่อหรือเลือกกลุ่มย่อยเพื่อค้นหา
-        <div style="margin-top:1rem;">
-          <button onclick="showAllGroups()" style="padding:8px 22px;border-radius:100px;font-size:0.78rem;cursor:pointer;font-family:'Anuphan',sans-serif;border:1px solid var(--border2);background:transparent;color:var(--text2);transition:all 0.2s;" onmouseover="this.style.background='var(--olive-pale)';this.style.borderColor='var(--olive-light)'" onmouseout="this.style.background='transparent';this.style.borderColor='var(--border2)'">ดูทั้งหมด 90 คน</button>
+      <div class="panel-title">กลุ่มเข้าฝึกปฏิบัติ <em>20 พ.ค. 2569</em></div>
+
+      <!-- Practice groups search — อยู่ด้านบน -->
+      <div style="margin-bottom:1.25rem;">
+        <div style="font-family:'Anuphan',sans-serif;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--olive);margin-bottom:0.85rem;">ค้นหากลุ่มฝึกปฏิบัติ</div>
+        <div class="search-wrap">
+          <input type="text" id="practiceSearch" placeholder="ค้นหาชื่อหรือโรงพยาบาล..." oninput="filterPractice()" autocomplete="off">
         </div>
       </div>
-      <div id="groupTableWrap" style="display:none;">
-        <div id="subgroupChips" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.25rem;"></div>
-        <div style="overflow-x:auto;">
-          <table class="data-table">
-            <thead><tr><th class="no">ที่</th><th>ชื่อ–สกุล</th><th>หน่วยงาน</th><th>โรงพยาบาล</th><th>กลุ่มย่อย</th></tr></thead>
-            <tbody id="groupBody"></tbody>
+      <div id="practiceHint" style="text-align:center;padding:2rem 1rem;font-family:'Anuphan',sans-serif;font-size:0.88rem;color:var(--text3);">
+        พิมพ์ชื่อหรือโรงพยาบาล หรือคลิกกลุ่มด้านล่าง
+        <div style="margin-top:1rem;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;" id="practiceGroupChips"></div>
+      </div>
+      <div id="practiceResult" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-bottom:1.5rem;"></div>
+
+      <!-- Info bar -->
+      <div style="background:var(--olive-pale);border:1px solid var(--border2);border-radius:12px;padding:1rem 1.5rem;margin-bottom:1.5rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:center;">
+        <div style="display:flex;align-items:center;gap:8px;font-family:'Anuphan',sans-serif;font-size:0.82rem;color:var(--olive-dark);">⏰ <strong>13:00 – 16:50 น.</strong></div>
+        <div style="display:flex;align-items:center;gap:8px;font-family:'Anuphan',sans-serif;font-size:0.82rem;color:var(--olive-dark);">👥 <strong>90 คน · 6 กลุ่ม · กลุ่มละ 15 คน</strong></div>
+        <div style="display:flex;align-items:center;gap:8px;font-family:'Anuphan',sans-serif;font-size:0.82rem;color:var(--olive-dark);">🏃 <strong>5 รอบ · รอบละ 40 นาที</strong></div>
+        <div style="display:flex;align-items:center;gap:8px;font-family:'Anuphan',sans-serif;font-size:0.82rem;color:var(--text2);">🔄 เปลี่ยนฐาน 5 นาที · พักหลังรอบ 3</div>
+      </div>
+
+      <!-- Rotation schedule table -->
+      <div style="margin-bottom:2rem;">
+        <div style="font-family:'Anuphan',sans-serif;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--olive);margin-bottom:0.85rem;">ตารางเวียนฐาน</div>
+        <div style="overflow-x:auto;border-radius:12px;border:1px solid var(--border);box-shadow:var(--shadow);">
+          <table style="width:100%;border-collapse:collapse;font-size:0.78rem;min-width:680px;">
+            <thead>
+              <tr style="background:var(--olive);color:white;">
+                <th style="padding:10px 14px;text-align:left;font-family:'Anuphan',sans-serif;font-weight:500;font-size:0.7rem;letter-spacing:0.08em;border-right:1px solid rgba(255,255,255,0.15);white-space:nowrap;">รอบ / เวลา</th>
+                <th style="padding:10px 12px;text-align:center;font-family:'Anuphan',sans-serif;font-weight:500;font-size:0.7rem;border-right:1px solid rgba(255,255,255,0.15);">P1 (15 คน)</th>
+                <th style="padding:10px 12px;text-align:center;font-family:'Anuphan',sans-serif;font-weight:500;font-size:0.7rem;border-right:1px solid rgba(255,255,255,0.15);">P2 (15 คน)</th>
+                <th style="padding:10px 12px;text-align:center;font-family:'Anuphan',sans-serif;font-weight:500;font-size:0.7rem;border-right:1px solid rgba(255,255,255,0.15);">P3 (15 คน)</th>
+                <th style="padding:10px 12px;text-align:center;font-family:'Anuphan',sans-serif;font-weight:500;font-size:0.7rem;border-right:1px solid rgba(255,255,255,0.15);">P4 (15 คน)</th>
+                <th style="padding:10px 12px;text-align:center;font-family:'Anuphan',sans-serif;font-weight:500;font-size:0.7rem;border-right:1px solid rgba(255,255,255,0.15);">P5 (15 คน)</th>
+                <th style="padding:10px 12px;text-align:center;font-family:'Anuphan',sans-serif;font-weight:500;font-size:0.7rem;">P6 (15 คน)</th>
+              </tr>
+            </thead>
+            <tbody id="practiceRotationBody"></tbody>
           </table>
         </div>
-        <div class="pag" id="groupPag"></div>
+        <div style="margin-top:8px;font-family:'Anuphan',sans-serif;font-size:0.68rem;color:var(--text3);">* P = กลุ่มผู้เข้าอบรม · ฐาน = สถานีฝึกปฏิบัติ · พัก 10 นาที หลังรอบที่ 3 (15:20–15:30)</div>
       </div>
+
+      <!-- Stations info -->
+      <div style="margin-bottom:2rem;">
+        <div style="font-family:'Anuphan',sans-serif;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--olive);margin-bottom:0.85rem;">วิทยากรประจำฐาน</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;" id="practiceStationsGrid"></div>
+      </div>
+
     </div>
   </div>
 </div>
-
 <!-- EXAM SCHEDULE DAY 3 -->
 <div style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
   <div class="section" style="max-width:1280px;" id="examschedule">
-    <div class="section-eyebrow">ตารางสอบ วันพุธที่ 21 พฤษภาคม 2569</div>
+    <div class="section-eyebrow">กลุ่มเข้าสอบ — วันพุธที่ 21 พฤษภาคม 2569</div>
     <div class="panel">
-      <div class="panel-title">ตารางสอบภาคทฤษฎีและภาคปฏิบัติ <em>— วันที่ 3</em></div>
+      <div class="panel-title">กลุ่มเข้าสอบภาคทฤษฎีและภาคปฏิบัติ <em>— วันที่ 3</em></div>
 
       <!-- Search bar at top -->
       <div class="search-wrap" style="margin-bottom:1.5rem;">
@@ -912,12 +1002,12 @@ footer .footer-brand {
         <div style="background:var(--olive-pale);border:1px solid var(--border2);border-radius:12px;padding:14px 18px;">
           <div style="font-family:'Anuphan',sans-serif;font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--olive);margin-bottom:6px;">กลุ่ม A</div>
           <div style="font-size:0.85rem;color:var(--dark);font-weight:500;margin-bottom:4px;">📝 ทฤษฎี: 09:00 – 10:00 น.</div>
-          <div style="font-size:0.85rem;color:var(--dark);font-weight:500;">🩺 ปฏิบัติ: 13:00 – 13:45 น.</div>
+          <div style="font-size:0.85rem;color:var(--dark);font-weight:500;">🩺 ปฏิบัติ: 13:00 – 13:55 น.</div>
           <div style="font-family:'Anuphan',sans-serif;font-size:0.72rem;color:var(--text3);margin-top:6px;">ห้องประชุมใหญ่ · ศูนย์ฝึกสถานการณ์จำลอง</div>
         </div>
         <div style="background:rgba(196,168,130,0.15);border:1px solid rgba(196,168,130,0.4);border-radius:12px;padding:14px 18px;">
           <div style="font-family:'Anuphan',sans-serif;font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--warm-dark);margin-bottom:6px;">กลุ่ม B</div>
-          <div style="font-size:0.85rem;color:var(--dark);font-weight:500;margin-bottom:4px;">🩺 ปฏิบัติ: 09:00 – 09:45 น.</div>
+          <div style="font-size:0.85rem;color:var(--dark);font-weight:500;margin-bottom:4px;">🩺 ปฏิบัติ: 09:00 – 09:55 น.</div>
           <div style="font-size:0.85rem;color:var(--dark);font-weight:500;">📝 ทฤษฎี: 13:00 – 14:00 น.</div>
           <div style="font-family:'Anuphan',sans-serif;font-size:0.72rem;color:var(--text3);margin-top:6px;">ห้องประชุมใหญ่ · ศูนย์ฝึกสถานการณ์จำลอง</div>
         </div>
@@ -953,7 +1043,7 @@ footer .footer-brand {
                 <td style="padding:10px 14px;text-align:center;"><span style="background:rgba(196,168,130,0.2);color:var(--warm-dark);font-family:'Anuphan',sans-serif;font-size:0.8rem;font-weight:600;padding:4px 12px;border-radius:8px;display:inline-block;">B5</span></td>
               </tr>
               <tr style="border-bottom:1px solid var(--border);">
-                <td style="padding:10px 14px;font-family:'Anuphan',sans-serif;font-size:0.8rem;color:var(--olive);font-weight:500;white-space:nowrap;">09:15 – 09:30</td>
+                <td style="padding:10px 14px;font-family:'Anuphan',sans-serif;font-size:0.8rem;color:var(--olive);font-weight:500;white-space:nowrap;">09:20 – 09:35</td>
                 <td style="padding:10px 14px;text-align:center;"><span style="background:rgba(196,168,130,0.2);color:var(--warm-dark);font-family:'Anuphan',sans-serif;font-size:0.8rem;font-weight:600;padding:4px 12px;border-radius:8px;display:inline-block;">B6</span></td>
                 <td style="padding:10px 14px;text-align:center;"><span style="background:rgba(196,168,130,0.2);color:var(--warm-dark);font-family:'Anuphan',sans-serif;font-size:0.8rem;font-weight:600;padding:4px 12px;border-radius:8px;display:inline-block;">B7</span></td>
                 <td style="padding:10px 14px;text-align:center;"><span style="background:rgba(196,168,130,0.2);color:var(--warm-dark);font-family:'Anuphan',sans-serif;font-size:0.8rem;font-weight:600;padding:4px 12px;border-radius:8px;display:inline-block;">B8</span></td>
@@ -961,7 +1051,7 @@ footer .footer-brand {
                 <td style="padding:10px 14px;text-align:center;"><span style="background:rgba(196,168,130,0.2);color:var(--warm-dark);font-family:'Anuphan',sans-serif;font-size:0.8rem;font-weight:600;padding:4px 12px;border-radius:8px;display:inline-block;">B10</span></td>
               </tr>
               <tr style="border-bottom:2px solid var(--border2);">
-                <td style="padding:10px 14px;font-family:'Anuphan',sans-serif;font-size:0.8rem;color:var(--olive);font-weight:500;white-space:nowrap;">09:30 – 09:45</td>
+                <td style="padding:10px 14px;font-family:'Anuphan',sans-serif;font-size:0.8rem;color:var(--olive);font-weight:500;white-space:nowrap;">09:40 – 09:55</td>
                 <td style="padding:10px 14px;text-align:center;"><span style="background:rgba(196,168,130,0.2);color:var(--warm-dark);font-family:'Anuphan',sans-serif;font-size:0.8rem;font-weight:600;padding:4px 12px;border-radius:8px;display:inline-block;">B11</span></td>
                 <td style="padding:10px 14px;text-align:center;color:var(--text3);">—</td>
                 <td style="padding:10px 14px;text-align:center;color:var(--text3);">—</td>
@@ -983,7 +1073,7 @@ footer .footer-brand {
                 <td style="padding:10px 14px;text-align:center;"><span style="background:var(--olive-pale);color:var(--olive-dark);font-family:'Anuphan',sans-serif;font-size:0.8rem;font-weight:600;padding:4px 12px;border-radius:8px;display:inline-block;">A5</span></td>
               </tr>
               <tr style="border-bottom:1px solid var(--border);">
-                <td style="padding:10px 14px;font-family:'Anuphan',sans-serif;font-size:0.8rem;color:var(--olive);font-weight:500;white-space:nowrap;">13:15 – 13:30</td>
+                <td style="padding:10px 14px;font-family:'Anuphan',sans-serif;font-size:0.8rem;color:var(--olive);font-weight:500;white-space:nowrap;">13:20 – 13:35</td>
                 <td style="padding:10px 14px;text-align:center;"><span style="background:var(--olive-pale);color:var(--olive-dark);font-family:'Anuphan',sans-serif;font-size:0.8rem;font-weight:600;padding:4px 12px;border-radius:8px;display:inline-block;">A6</span></td>
                 <td style="padding:10px 14px;text-align:center;"><span style="background:var(--olive-pale);color:var(--olive-dark);font-family:'Anuphan',sans-serif;font-size:0.8rem;font-weight:600;padding:4px 12px;border-radius:8px;display:inline-block;">A7</span></td>
                 <td style="padding:10px 14px;text-align:center;"><span style="background:var(--olive-pale);color:var(--olive-dark);font-family:'Anuphan',sans-serif;font-size:0.8rem;font-weight:600;padding:4px 12px;border-radius:8px;display:inline-block;">A8</span></td>
@@ -991,7 +1081,7 @@ footer .footer-brand {
                 <td style="padding:10px 14px;text-align:center;"><span style="background:var(--olive-pale);color:var(--olive-dark);font-family:'Anuphan',sans-serif;font-size:0.8rem;font-weight:600;padding:4px 12px;border-radius:8px;display:inline-block;">A10</span></td>
               </tr>
               <tr>
-                <td style="padding:10px 14px;font-family:'Anuphan',sans-serif;font-size:0.8rem;color:var(--olive);font-weight:500;white-space:nowrap;">13:30 – 13:45</td>
+                <td style="padding:10px 14px;font-family:'Anuphan',sans-serif;font-size:0.8rem;color:var(--olive);font-weight:500;white-space:nowrap;">13:40 – 13:55</td>
                 <td style="padding:10px 14px;text-align:center;"><span style="background:var(--olive-pale);color:var(--olive-dark);font-family:'Anuphan',sans-serif;font-size:0.8rem;font-weight:600;padding:4px 12px;border-radius:8px;display:inline-block;">A11</span></td>
                 <td style="padding:10px 14px;text-align:center;color:var(--text3);">—</td>
                 <td style="padding:10px 14px;text-align:center;color:var(--text3);">—</td>
@@ -1002,75 +1092,43 @@ footer .footer-brand {
           </table>
         </div>
         <div style="padding:8px 18px;background:var(--surface);border-top:1px solid var(--border);font-family:'Anuphan',sans-serif;font-size:0.68rem;color:var(--text3);">
-          * กลุ่ม B11 / A11 รวมสอบซ่อมปฏิบัติ · ห้องสอบทฤษฎี: ห้องประชุมใหญ่ (กลุ่ม A 09:00–10:00 · กลุ่ม B 13:00–14:00)
+          * กลุ่ม B11 / A11 รวมสอบซ่อมปฏิบัติ · เปลี่ยนฐานระหว่างรอบ 5 นาที · ห้องสอบทฤษฎี: ห้องประชุมใหญ่ (กลุ่ม A 09:00–10:00 · กลุ่ม B 13:00–14:00)
         </div>
       </div>
 
-      <!-- Subgroup detail cards with tabs — hidden by default, shown only on search -->
+      <!-- Subgroup detail cards — hidden by default, shown only on search -->
       <div id="examSlotsSection" class="hidden">
         <div style="margin-bottom:1rem;">
-          <div style="font-family:'Anuphan',sans-serif;font-size:0.72rem;color:var(--text2);margin-bottom:1rem;">รายละเอียดสมาชิกแต่ละกลุ่มย่อย — คลิกแท็บเพื่อดูรายชื่อ</div>
-          <div class="tabs" style="margin-bottom:1.5rem;" id="examGroupTabs">
-            <button class="tab active" onclick="showExamSlot('morning')">☀️ ช่วงเช้า — กลุ่ม B ปฏิบัติ / กลุ่ม A ทฤษฎี</button>
-            <button class="tab" onclick="showExamSlot('afternoon')">🌤 ช่วงบ่าย — กลุ่ม A ปฏิบัติ / กลุ่ม B ทฤษฎี</button>
-          </div>
+          <div style="font-family:'Anuphan',sans-serif;font-size:0.72rem;color:var(--text2);margin-bottom:1rem;">รายละเอียดสมาชิกแต่ละกลุ่มย่อย · การ์ดแสดงข้อมูลปฏิบัติและทฤษฎีพร้อมกัน</div>
         </div>
 
-      <!-- MORNING SLOT -->
-      <div id="examMorning">
-        <!-- Group A: ทฤษฎี -->
-        <div style="margin-bottom:2rem;">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;flex-wrap:wrap;">
-            <span style="background:var(--olive);color:white;font-family:'Anuphan',sans-serif;font-size:0.72rem;font-weight:500;padding:5px 16px;border-radius:100px;">📝 สอบทฤษฎี · กลุ่ม A</span>
-            <span style="font-family:'Anuphan',sans-serif;font-size:0.82rem;color:var(--text2);">09:00 – 10:00 น. · ห้องประชุมใหญ่</span>
-            <span style="flex:1;height:1px;background:var(--border2);min-width:20px;"></span>
-            <span style="font-family:'Anuphan',sans-serif;font-size:0.72rem;color:var(--text3);">ผู้ดูแล: พว.ชุติมา ปัญญาประดิษฐ์ / พว.จินตนา วงศ์ยุทธจักร์</span>
-          </div>
-          <div id="examGroupA-theory" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;"></div>
-        </div>
 
-        <!-- Group B: ปฏิบัติ -->
-        <div>
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;flex-wrap:wrap;">
-            <span style="background:var(--warm-dark);color:white;font-family:'Anuphan',sans-serif;font-size:0.72rem;font-weight:500;padding:5px 16px;border-radius:100px;">🩺 สอบปฏิบัติ · กลุ่ม B</span>
-            <span style="font-family:'Anuphan',sans-serif;font-size:0.82rem;color:var(--text2);">09:00 – 09:45 น.</span>
-            <span style="flex:1;height:1px;background:var(--border2);min-width:20px;"></span>
-            <span style="font-family:'Anuphan',sans-serif;font-size:0.72rem;color:var(--text3);">CD: นพ.ณัฐวุฒิ นิธิธนาบวร / พว.น้ำค้าง บุญคง</span>
-          </div>
-          <div id="examGroupB-practical" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;"></div>
+      <!-- กลุ่ม A -->
+      <div style="margin-bottom:2rem;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;flex-wrap:wrap;">
+          <span style="background:var(--olive);color:white;font-family:'Anuphan',sans-serif;font-size:0.72rem;font-weight:500;padding:5px 16px;border-radius:100px;">กลุ่ม A</span>
+          <span style="font-family:'Anuphan',sans-serif;font-size:0.82rem;color:var(--text2);">🩺 ปฏิบัติ 13:00–13:45 น. · 📝 ทฤษฎี 09:00–10:00 น.</span>
+          <span style="flex:1;height:1px;background:var(--border2);min-width:20px;"></span>
+          <span style="font-family:'Anuphan',sans-serif;font-size:0.72rem;color:var(--text3);">CD: นพ.ณัฐวุฒิ นิธิธนาบวร / พว.น้ำค้าง บุญคง</span>
         </div>
+        <div id="examGroupA" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;"></div>
       </div>
 
-      <!-- AFTERNOON SLOT -->
-      <div id="examAfternoon" class="hidden">
-        <!-- Group B: ทฤษฎี -->
-        <div style="margin-bottom:2rem;">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;flex-wrap:wrap;">
-            <span style="background:var(--warm-dark);color:white;font-family:'Anuphan',sans-serif;font-size:0.72rem;font-weight:500;padding:5px 16px;border-radius:100px;">📝 สอบทฤษฎี · กลุ่ม B</span>
-            <span style="font-family:'Anuphan',sans-serif;font-size:0.82rem;color:var(--text2);">13:00 – 14:00 น. · ห้องประชุมใหญ่</span>
-            <span style="flex:1;height:1px;background:var(--border2);min-width:20px;"></span>
-            <span style="font-family:'Anuphan',sans-serif;font-size:0.72rem;color:var(--text3);">ผู้ดูแล: พว.ชุติมา ปัญญาประดิษฐ์ / พว.จินตนา วงศ์ยุทธจักร์</span>
-          </div>
-          <div id="examGroupB-theory" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;"></div>
+      <!-- กลุ่ม B -->
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;flex-wrap:wrap;">
+          <span style="background:var(--warm-dark);color:white;font-family:'Anuphan',sans-serif;font-size:0.72rem;font-weight:500;padding:5px 16px;border-radius:100px;">กลุ่ม B</span>
+          <span style="font-family:'Anuphan',sans-serif;font-size:0.82rem;color:var(--text2);">🩺 ปฏิบัติ 09:00–09:45 น. · 📝 ทฤษฎี 13:00–14:00 น.</span>
+          <span style="flex:1;height:1px;background:var(--border2);min-width:20px;"></span>
+          <span style="font-family:'Anuphan',sans-serif;font-size:0.72rem;color:var(--text3);">CD: นพ.ณัฐวุฒิ นิธิธนาบวร / พว.น้ำค้าง บุญคง</span>
         </div>
-
-        <!-- Group A: ปฏิบัติ -->
-        <div>
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;flex-wrap:wrap;">
-            <span style="background:var(--olive);color:white;font-family:'Anuphan',sans-serif;font-size:0.72rem;font-weight:500;padding:5px 16px;border-radius:100px;">🩺 สอบปฏิบัติ · กลุ่ม A</span>
-            <span style="font-family:'Anuphan',sans-serif;font-size:0.82rem;color:var(--text2);">13:00 – 13:45 น.</span>
-            <span style="flex:1;height:1px;background:var(--border2);min-width:20px;"></span>
-            <span style="font-family:'Anuphan',sans-serif;font-size:0.72rem;color:var(--text3);">CD: นพ.ณัฐวุฒิ นิธิธนาบวร / พว.น้ำค้าง บุญคง</span>
-          </div>
-          <div id="examGroupA-practical" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;"></div>
-        </div>
+        <div id="examGroupB" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;"></div>
       </div>
       </div><!-- end examSlotsSection -->
 
     </div>
   </div>
 </div>
-
 <!-- SCHEDULE -->
 <div class="section" id="schedule">
   <div class="section-eyebrow">ตารางการอบรม</div>
@@ -1143,28 +1201,87 @@ footer .footer-brand {
     </div>
     <div id="day3" class="timeline hidden">
       <div class="timeline-day">วันพุธที่ 21 พฤษภาคม 2569</div>
-      <div class="timeline-item"><div class="timeline-time">09.00–10.00</div><div class="timeline-title">📝 สอบภาคทฤษฎี (กลุ่ม A)</div><div class="timeline-desc">พว.ชุติมา ปัญญาประดิษฐ์ / พว.จินตนา วงศ์ยุทธจักร์ · ห้องประชุมใหญ่</div></div>
-      <div class="timeline-item"><div class="timeline-time">09.00–09:15</div><div class="timeline-title">🩺 สอบภาคปฏิบัติ (กลุ่ม B) รอบที่ 1 — B1, B2, B3, B4, B5</div><div class="timeline-desc">Course director: นพ.ณัฐวุฒิ นิธิธนาบวร / พว.น้ำค้าง บุญคง</div></div>
-      <div class="timeline-item"><div class="timeline-time">09.15–09:30</div><div class="timeline-title">🩺 สอบภาคปฏิบัติ (กลุ่ม B) รอบที่ 2 — B6, B7, B8, B9, B10</div><div class="timeline-desc">Course director: นพ.ณัฐวุฒิ นิธิธนาบวร / พว.น้ำค้าง บุญคง</div></div>
-      <div class="timeline-item"><div class="timeline-time">09.30–09:45</div><div class="timeline-title">🩺 สอบภาคปฏิบัติ (กลุ่ม B) รอบที่ 3 — B11</div><div class="timeline-desc">Course director: นพ.ณัฐวุฒิ นิธิธนาบวร / พว.น้ำค้าง บุญคง</div></div>
+      <div class="timeline-item">
+        <div class="timeline-time">09.00–10.00</div>
+        <div class="timeline-title">📝 สอบภาคทฤษฎี (กลุ่ม A)</div>
+        <div class="timeline-desc">พว.ชุติมา ปัญญาประดิษฐ์ / พว.จินตนา วงศ์ยุทธจักร์ · ห้องประชุมใหญ่</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">09.00–12.00</div>
+        <div class="timeline-title">🩺 สอบภาคปฏิบัติ (กลุ่ม B)</div>
+        <div class="timeline-desc">
+          <span style="color:var(--olive);font-size:0.75rem;display:block;margin-bottom:6px;">Course director: นพ.ณัฐวุฒิ นิธิธนาบวร / พว.น้ำค้าง บุญคง · (กลุ่มที่ 5 สอบซ่อมปฏิบัติ)</span>
+          <div style="display:grid;gap:5px;margin-top:4px;">
+            <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:7px 11px;">
+              <span style="font-size:0.7rem;color:var(--olive-dark);font-weight:500;">กลุ่มที่ 1</span>
+              <span style="font-size:0.82rem;color:var(--dark);margin-left:6px;"></span><br>
+              <span style="font-size:0.73rem;color:var(--text3);">พว.ธิดาพร กาบกลาง / พว.ศุภารมย์ มะแม้น</span>
+            </div>
+            <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:7px 11px;">
+              <span style="font-size:0.7rem;color:var(--olive-dark);font-weight:500;">กลุ่มที่ 2</span>
+              <span style="font-size:0.82rem;color:var(--dark);margin-left:6px;"></span><br>
+              <span style="font-size:0.73rem;color:var(--text3);">พว.อนุสรา บุญภูมิ / พว.พงพัฒน์ อรรถโยโค</span>
+            </div>
+            <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:7px 11px;">
+              <span style="font-size:0.7rem;color:var(--olive-dark);font-weight:500;">กลุ่มที่ 3</span>
+              <span style="font-size:0.82rem;color:var(--dark);margin-left:6px;"></span><br>
+              <span style="font-size:0.73rem;color:var(--text3);">พว.สุเมธ จักขียน / พว.จันจิรา ศรีตะ</span>
+            </div>
+            <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:7px 11px;">
+              <span style="font-size:0.7rem;color:var(--olive-dark);font-weight:500;">กลุ่มที่ 4</span>
+              <span style="font-size:0.82rem;color:var(--dark);margin-left:6px;"></span><br>
+              <span style="font-size:0.73rem;color:var(--text3);">พว.จิราพร พอกพูนทรัพย์ / พว.อาภรณ์ ญาสุรัติกุล</span>
+            </div>
+            <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:7px 11px;">
+              <span style="font-size:0.7rem;color:var(--olive-dark);font-weight:500;">กลุ่มที่ 5</span>
+              <span style="font-size:0.73rem;color:var(--text3);margin-left:6px;">สอบซ่อม — พว.สาคร แสวงชู / พว.ปฐม ชอบงาม</span>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="timeline-item"><div class="timeline-time">10.00–10.15</div><div class="timeline-title">พักรับประทานอาหารว่าง</div></div>
       <div class="timeline-item"><div class="timeline-time">12.00–13.00</div><div class="timeline-title">พักรับประทานอาหารกลางวัน</div></div>
-      <div class="timeline-item"><div class="timeline-time">13.00–14.00</div><div class="timeline-title">📝 สอบภาคทฤษฎี (กลุ่ม B)</div><div class="timeline-desc">พว.ชุติมา ปัญญาประดิษฐ์ / พว.จินตนา วงศ์ยุทธจักร์ · ห้องประชุมใหญ่</div></div>
-      <div class="timeline-item"><div class="timeline-time">13.00–13.15</div><div class="timeline-title">🩺 สอบภาคปฏิบัติ (กลุ่ม A) รอบที่ 1 — A1, A2, A3, A4, A5</div><div class="timeline-desc">Course director: นพ.ณัฐวุฒิ นิธิธนาบวร / พว.น้ำค้าง บุญคง</div></div>
-      <div class="timeline-item"><div class="timeline-time">13.15–13.30</div><div class="timeline-title">🩺 สอบภาคปฏิบัติ (กลุ่ม A) รอบที่ 2 — A6, A7, A8, A9, A10</div><div class="timeline-desc">Course director: นพ.ณัฐวุฒิ นิธิธนาบวร / พว.น้ำค้าง บุญคง</div></div>
-      <div class="timeline-item"><div class="timeline-time">13.30–13.45</div><div class="timeline-title">🩺 สอบภาคปฏิบัติ (กลุ่ม A) รอบที่ 3 — A11</div><div class="timeline-desc">Course director: นพ.ณัฐวุฒิ นิธิธนาบวร / พว.น้ำค้าง บุญคง</div></div>
+      <div class="timeline-item">
+        <div class="timeline-time">13.00–14.00</div>
+        <div class="timeline-title">📝 สอบภาคทฤษฎี (กลุ่ม B) &amp; 🩺 สอบภาคปฏิบัติ (กลุ่ม A)</div>
+        <div class="timeline-desc">
+          <span style="color:var(--olive);font-size:0.75rem;display:block;margin-bottom:6px;">ทฤษฎี: พว.ชุติมา ปัญญาประดิษฐ์ / พว.จินตนา วงศ์ยุทธจักร์ · ห้องประชุมใหญ่</span>
+          <span style="color:var(--olive);font-size:0.75rem;display:block;margin-bottom:6px;">Course director ปฏิบัติ: นพ.ณัฐวุฒิ นิธิธนาบวร / พว.น้ำค้าง บุญคง · (กลุ่มที่ 5 สอบซ่อมปฏิบัติ)</span>
+          <div style="display:grid;gap:5px;margin-top:4px;">
+            <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:7px 11px;">
+              <span style="font-size:0.7rem;color:var(--olive-dark);font-weight:500;">กลุ่มที่ 1</span><br>
+              <span style="font-size:0.73rem;color:var(--text3);">พว.ธิดาพร กาบกลาง / พว.ศุภารมย์ มะแม้น</span>
+            </div>
+            <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:7px 11px;">
+              <span style="font-size:0.7rem;color:var(--olive-dark);font-weight:500;">กลุ่มที่ 2</span><br>
+              <span style="font-size:0.73rem;color:var(--text3);">พว.อนุสรา บุญภูมิ / พว.พงพัฒน์ อรรถโยโค</span>
+            </div>
+            <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:7px 11px;">
+              <span style="font-size:0.7rem;color:var(--olive-dark);font-weight:500;">กลุ่มที่ 3</span><br>
+              <span style="font-size:0.73rem;color:var(--text3);">พว.สุเมธ จักขียน / พว.จันจิรา ศรีตะ</span>
+            </div>
+            <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:7px 11px;">
+              <span style="font-size:0.7rem;color:var(--olive-dark);font-weight:500;">กลุ่มที่ 4</span><br>
+              <span style="font-size:0.73rem;color:var(--text3);">พว.จิราพร พอกพูนทรัพย์ / พว.อาภรณ์ ญาสุรัติกุล</span>
+            </div>
+            <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:7px 11px;">
+              <span style="font-size:0.7rem;color:var(--olive-dark);font-weight:500;">กลุ่มที่ 5</span>
+              <span style="font-size:0.73rem;color:var(--text3);margin-left:6px;">สอบซ่อม — พว.สาคร แสวงชู / พว.ปฐม ชอบงาม</span>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="timeline-item"><div class="timeline-time">14.00–14.15</div><div class="timeline-title">พักรับประทานอาหารว่าง</div></div>
       <div class="timeline-item"><div class="timeline-time">14.15–16.00</div><div class="timeline-title">สรุปผลการอบรม · มอบใบประกาศ · พิธีปิดการอบรม</div><div class="timeline-desc">มอบใบประกาศโดยหัวหน้าพยาบาลโรงพยาบาลมหาราชนครราชสีมา</div></div>
     </div>
   </div>
 </div>
-
 <!-- CONTENT -->
 <div style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
   <div class="section" id="content">
-    <div class="section-eyebrow">เนื้อหาและสไลด์ประกอบการอบรม</div>
+    <div class="section-eyebrow">ไฟล์อบรม</div>
     <div class="panel">
-      <div class="panel-title">ไฟล์ประกอบการอบรม</div>
+      <div class="panel-title">ไฟล์อบรม</div>
       <p style="font-size:0.82rem;color:var(--text3);margin-bottom:1.75rem;font-family:'Anuphan',sans-serif;">
         คลิกการ์ดที่มีไฟล์แล้วเพื่อเปิด · การ์ดที่ยังไม่มีไฟล์จะปรากฏเป็นสีจาง
       </p>
@@ -1172,7 +1289,6 @@ footer .footer-brand {
     </div>
   </div>
 </div>
-
 <!-- QUIZ -->
 <div class="section" id="quiz">
   <div class="section-eyebrow">Pre Test / Post Test</div>
@@ -1195,31 +1311,11 @@ footer .footer-brand {
     </p>
   </div>
 </div>
-
-<!-- EVAL -->
-<div style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-  <div class="section" id="eval">
-    <div class="section-eyebrow">ประเมินความพึงพอใจ</div>
-    <div class="panel">
-      <div class="panel-title">แบบประเมินความพึงพอใจ</div>
-      <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.5rem;line-height:1.8;">
-        กรุณาประเมินความพึงพอใจหลังเสร็จสิ้นการอบรม เพื่อพัฒนาโครงการในปีถัดไป
-      </p>
-      <a href="YOUR_GOOGLE_FORM_EVAL_LINK" target="_blank" class="btn btn-olive" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px;">
-        ⭐ เปิดแบบประเมินความพึงพอใจ
-      </a>
-      <p style="font-size:0.75rem;color:var(--text3);margin-top:0.85rem;font-family:'Anuphan',sans-serif;">
-        เปิดรับการประเมิน: 21 พฤษภาคม 2569 ตั้งแต่ 11:30 น. เป็นต้นไป
-      </p>
-    </div>
-  </div>
-</div>
-
 <!-- VENUE -->
 <div class="section" id="venue">
-  <div class="section-eyebrow">อาคารและสถานที่</div>
+  <div class="section-eyebrow">สถานที่อบรม / ที่จอดรถ</div>
   <div class="panel">
-    <div class="panel-title">สถานที่จัดอบรม</div>
+    <div class="panel-title">สถานที่อบรม / ที่จอดรถ</div>
 
     <!-- Main venue highlight -->
     <div style="background:var(--olive-pale);border:1px solid var(--border2);border-radius:14px;padding:1.4rem 1.75rem;margin-bottom:1.5rem;display:flex;align-items:flex-start;gap:1.25rem;flex-wrap:wrap;">
@@ -1332,7 +1428,6 @@ footer .footer-brand {
     </div>
   </div>
 </div>
-
 <!-- HOTEL -->
 <div style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
   <div class="section" id="hotel">
@@ -1392,7 +1487,24 @@ footer .footer-brand {
     </div>
   </div>
 </div>
-
+<!-- EVAL -->
+<div style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="section" id="eval">
+    <div class="section-eyebrow">ประเมินความพึงพอใจ</div>
+    <div class="panel">
+      <div class="panel-title">แบบประเมินความพึงพอใจ</div>
+      <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1.5rem;line-height:1.8;">
+        กรุณาประเมินความพึงพอใจหลังเสร็จสิ้นการอบรม เพื่อพัฒนาโครงการในปีถัดไป
+      </p>
+      <a href="YOUR_GOOGLE_FORM_EVAL_LINK" target="_blank" class="btn btn-olive" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px;">
+        ⭐ เปิดแบบประเมินความพึงพอใจ
+      </a>
+      <p style="font-size:0.75rem;color:var(--text3);margin-top:0.85rem;font-family:'Anuphan',sans-serif;">
+        เปิดรับการประเมิน: 21 พฤษภาคม 2569 ตั้งแต่ 11:30 น. เป็นต้นไป
+      </p>
+    </div>
+  </div>
+</div>
 <!-- CONTACT -->
 <div class="section" id="contact">
   <div class="section-eyebrow">ติดต่อสอบถาม</div>
@@ -1440,7 +1552,6 @@ footer .footer-brand {
 
   </div>
 </div>
-
 <footer>
   <div class="footer-brand">TLS for Nurses 2569</div>
   <div>โรงพยาบาลมหาราชนครราชสีมา · ศูนย์ความเป็นเลิศด้านอุบัติเหตุ<br>รหัสกิจกรรม H020-L-69-C3-0006-1</div>
@@ -1453,6 +1564,16 @@ const GROUPS = [{"no": 1, "name": "นางสาว สุภัสรา ส�
 let attendeePage=1, filteredAttendees=[...ATTENDEES];
 const APAGE=20;
 let attendeeShown = false;
+
+// ── Lookup: ชื่อ → กลุ่มสอบ (subgroup) และ กลุ่มหลัก (group)
+const EXAM_LOOKUP = {};
+GROUPS.forEach(g => { EXAM_LOOKUP[g.name.trim()] = { subgroup: g.subgroup, group: g.group }; });
+
+// ── Lookup: กลุ่มฝึกปฏิบัติ P1–P6 (sort by no แล้วแบ่ง 15 คน)
+const PRACTICE_LOOKUP = {};
+[...GROUPS].sort((a,b)=>a.no-b.no).forEach((g,i) => {
+  PRACTICE_LOOKUP[g.name.trim()] = `P${Math.floor(i/15)+1}`;
+});
 
 function showAttendeeTable() {
   document.getElementById('attendeeHint').style.display = 'none';
@@ -1470,13 +1591,32 @@ function showAllAttendees() {
 function renderAttendees(){
   const body=document.getElementById('attendeeBody');
   const start=(attendeePage-1)*APAGE;
-  body.innerHTML=filteredAttendees.slice(start,start+APAGE).map(r=>`
-    <tr>
+  body.innerHTML=filteredAttendees.slice(start,start+APAGE).map(r=>{
+    const key = r.name.trim();
+    const exam = EXAM_LOOKUP[key];
+    const pgrp = PRACTICE_LOOKUP[key];
+    const isA  = exam && exam.group === 'กลุ่ม A';
+    const examBg  = exam ? (isA ? 'var(--olive-pale)' : 'rgba(196,168,130,0.18)') : 'var(--surface)';
+    const examClr = exam ? (isA ? 'var(--olive-dark)'  : 'var(--warm-dark)') : 'var(--text3)';
+    const pBg  = pgrp ? 'rgba(107,124,92,0.1)' : 'var(--surface)';
+    const pClr = pgrp ? 'var(--olive-dark)' : 'var(--text3)';
+    return `<tr>
       <td class="no">${r.no}</td>
       <td class="name">${r.name}</td>
       <td data-label="หน่วยงาน">${r.dept||'—'}</td>
       <td data-label="โรงพยาบาล">${r.hospital}</td>
-    </tr>`).join('');
+      <td data-label="กลุ่มฝึกปฏิบัติ" style="text-align:center;">
+        ${pgrp
+          ? `<span style="display:inline-block;background:${pBg};color:${pClr};font-family:'Anuphan',sans-serif;font-size:0.72rem;font-weight:600;padding:3px 11px;border-radius:100px;border:1px solid rgba(107,124,92,0.25);">${pgrp}</span>`
+          : '<span style="color:var(--text3);font-size:0.75rem;">—</span>'}
+      </td>
+      <td data-label="กลุ่มสอบ" style="text-align:center;">
+        ${exam
+          ? `<span style="display:inline-block;background:${examBg};color:${examClr};font-family:'Anuphan',sans-serif;font-size:0.72rem;font-weight:600;padding:3px 11px;border-radius:100px;border:1px solid ${isA ? 'rgba(107,124,92,0.25)' : 'rgba(196,168,130,0.35)'};">${exam.subgroup}</span>`
+          : '<span style="color:var(--text3);font-size:0.75rem;">—</span>'}
+      </td>
+    </tr>`;
+  }).join('');
   renderPag('attendeePag',attendeePage,Math.ceil(filteredAttendees.length/APAGE),p=>{attendeePage=p;renderAttendees();});
 }
 function filterAttendees(){
@@ -1747,12 +1887,12 @@ renderContent();
     const n = parseInt(sgKey.slice(1));
     if (g === 'B') {
       if (n <= 5)  return '09:00 – 09:15 น.';
-      if (n <= 10) return '09:15 – 09:30 น.';
-      return '09:30 – 09:45 น.';
+      if (n <= 10) return '09:20 – 09:35 น.';
+      return '09:40 – 09:55 น.';
     } else {
       if (n <= 5)  return '13:00 – 13:15 น.';
-      if (n <= 10) return '13:15 – 13:30 น.';
-      return '13:30 – 13:45 น.';
+      if (n <= 10) return '13:20 – 13:35 น.';
+      return '13:40 – 13:55 น.';
     }
   }
 
@@ -1772,149 +1912,110 @@ renderContent();
   const sortedA = Object.keys(subgroupsA).sort((a,b) => parseInt(a.slice(1)) - parseInt(b.slice(1)));
   const sortedB = Object.keys(subgroupsB).sort((a,b) => parseInt(a.slice(1)) - parseInt(b.slice(1)));
 
-  // ── วาด PNG บน Canvas ──
-  function downloadCardImage(sgKey, members, isPractical) {
-    const isA   = sgKey.startsWith('A');
-    const room  = isPractical ? getPracticalRoom(sgKey) : null;
-    const pTime = isPractical ? getPracticalTime(sgKey) : (isA ? '09:00 – 10:00 น.' : '13:00 – 14:00 น.');
-    const examTypeLabel = isPractical ? '🩺 สอบปฏิบัติ' : '📝 สอบทฤษฎี';
-    const roomLabel = isPractical ? `ห้องปฏิบัติ ${room}` : 'ห้องประชุมใหญ่';
+  // ── วาด PNG รวม ปฏิบัติ+ทฤษฎี ──
+  function downloadCardImage(sgKey, members) {
+    const isA        = sgKey.startsWith('A');
+    const accentColor = isA ? '#4A5940' : '#7A5C3A';
+    const lightColor  = isA ? '#6B7C5C' : '#9C7E5A';
+    const divColor    = isA ? '#c0cdb8' : '#d4bfa0';
+    const practTime   = getPracticalTime(sgKey);
+    const theoTime    = isA ? '09:00 – 10:00 น.' : '13:00 – 14:00 น.';
+    const room        = getPracticalRoom(sgKey);
 
-    const W = 600, PADDING = 36;
-    const ROW_H = 40, HEADER_H = 170;
-    const H = HEADER_H + members.length * ROW_H + 40;
+    const W = 600, PAD = 36;
+    const ROW_H = 38, INFO_H = 190;
+    const H = INFO_H + members.length * ROW_H + 44;
 
     const canvas = document.createElement('canvas');
     canvas.width = W * 2; canvas.height = H * 2;
     const ctx = canvas.getContext('2d');
     ctx.scale(2, 2);
 
-    // ── Background ──
-    const bgGrad = ctx.createLinearGradient(0, 0, W, H);
-    if (isA) {
-      bgGrad.addColorStop(0, '#f0f4ed');
-      bgGrad.addColorStop(1, '#e4ece0');
-    } else {
-      bgGrad.addColorStop(0, '#f8f2ea');
-      bgGrad.addColorStop(1, '#f0e8d8');
-    }
-    ctx.fillStyle = bgGrad;
-    roundRect(ctx, 0, 0, W, H, 16);
-    ctx.fill();
+    // Background
+    const bg = ctx.createLinearGradient(0, 0, W, H);
+    bg.addColorStop(0, isA ? '#f0f4ed' : '#f8f2ea');
+    bg.addColorStop(1, isA ? '#e4ece0' : '#f0e8d8');
+    ctx.fillStyle = bg; window._roundRect(ctx, 0, 0, W, H, 16); ctx.fill();
 
-    // ── Top accent bar ──
-    ctx.fillStyle = isA ? '#4A5940' : '#7A5C3A';
-    roundRect(ctx, 0, 0, W, 6, [16, 16, 0, 0]);
-    ctx.fill();
+    // Top bar
+    ctx.fillStyle = accentColor; window._roundRect(ctx, 0, 0, W, 6, [16,16,0,0]); ctx.fill();
 
-    // ── Header block ──
-    const accentColor = isA ? '#4A5940' : '#7A5C3A';
-    const lightColor  = isA ? '#6B7C5C' : '#9C7E5A';
-
-    // Logo text TLS
+    // Logo
     ctx.fillStyle = accentColor;
-    ctx.font = 'bold 11px Anuphan, Kanit, sans-serif';
-    ctx.fillText('TLS for Nurses 2569', PADDING, 28);
+    ctx.font = 'bold 10px Anuphan,Kanit,sans-serif';
+    ctx.fillText('TLS for Nurses 2569', PAD, 26);
 
     // Group badge
-    const badgeX = PADDING, badgeY = 38;
-    ctx.fillStyle = accentColor;
-    roundRect(ctx, badgeX, badgeY, 60, 26, 13);
-    ctx.fill();
-    ctx.fillStyle = '#fff';
-    ctx.font = 'bold 16px Anuphan, Kanit, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(sgKey, badgeX + 30, badgeY + 17);
-    ctx.textAlign = 'left';
+    ctx.fillStyle = accentColor; window._roundRect(ctx, PAD, 34, 64, 26, 13); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 15px Anuphan,Kanit,sans-serif';
+    ctx.textAlign = 'center'; ctx.fillText(sgKey, PAD + 32, 51); ctx.textAlign = 'left';
+    ctx.fillStyle = '#666'; ctx.font = '11px Anuphan,Kanit,sans-serif';
+    ctx.fillText(`${members.length} คน`, PAD + 74, 51);
 
-    // Member count
-    ctx.fillStyle = '#666';
-    ctx.font = '12px Anuphan, Kanit, sans-serif';
-    ctx.fillText(`${members.length} คน`, badgeX + 70, badgeY + 17);
+    // Info rows (ปฏิบัติ + ทฤษฎี)
+    const infoY = 72;
+    // row 1: ปฏิบัติ
+    ctx.fillStyle = accentColor; ctx.font = 'bold 13px Anuphan,Kanit,sans-serif';
+    ctx.fillText('🩺  สอบปฏิบัติ', PAD, infoY);
+    ctx.fillStyle = '#444'; ctx.font = '12px Anuphan,Kanit,sans-serif';
+    ctx.fillText(`⏰  ${practTime}`, PAD, infoY + 20);
+    ctx.fillStyle = lightColor; ctx.font = 'bold 12px Anuphan,Kanit,sans-serif';
+    ctx.fillText(`📍  ห้องปฏิบัติ ${room}`, PAD, infoY + 40);
 
-    // Exam type label
-    ctx.fillStyle = accentColor;
-    ctx.font = 'bold 18px Anuphan, Kanit, sans-serif';
-    ctx.fillText(examTypeLabel, PADDING, 96);
+    // divider dot
+    ctx.fillStyle = divColor;
+    ctx.fillRect(PAD, infoY + 56, W - PAD * 2, 1);
 
-    // Time row
-    ctx.fillStyle = '#444';
-    ctx.font = '13px Anuphan, Kanit, sans-serif';
-    ctx.fillText(`⏰  ${pTime}`, PADDING, 118);
+    // row 2: ทฤษฎี
+    ctx.fillStyle = accentColor; ctx.font = 'bold 13px Anuphan,Kanit,sans-serif';
+    ctx.fillText('📝  สอบทฤษฎี', PAD, infoY + 74);
+    ctx.fillStyle = '#444'; ctx.font = '12px Anuphan,Kanit,sans-serif';
+    ctx.fillText(`⏰  ${theoTime}`, PAD, infoY + 94);
+    ctx.fillStyle = lightColor; ctx.font = 'bold 12px Anuphan,Kanit,sans-serif';
+    ctx.fillText('📍  ห้องประชุมใหญ่', PAD, infoY + 114);
 
-    // Room row
-    ctx.fillStyle = lightColor;
-    ctx.font = 'bold 13px Anuphan, Kanit, sans-serif';
-    ctx.fillText(`📍  ${roomLabel}`, PADDING, 140);
+    // Divider full
+    ctx.strokeStyle = divColor; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(PAD, INFO_H - 8); ctx.lineTo(W - PAD, INFO_H - 8); ctx.stroke();
 
-    // Divider
-    ctx.strokeStyle = isA ? '#c0cdb8' : '#d4bfa0';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(PADDING, HEADER_H - 12);
-    ctx.lineTo(W - PADDING, HEADER_H - 12);
-    ctx.stroke();
+    // Watermark
+    ctx.fillStyle = isA ? 'rgba(74,89,64,0.05)' : 'rgba(122,92,58,0.05)';
+    ctx.font = 'bold 80px Anuphan,Kanit,sans-serif';
+    ctx.textAlign = 'right'; ctx.fillText(sgKey, W - 16, H - 16); ctx.textAlign = 'left';
 
-    // ── Watermark ──
-    ctx.fillStyle = isA ? 'rgba(74,89,64,0.06)' : 'rgba(122,92,58,0.06)';
-    ctx.font = 'bold 90px Anuphan, Kanit, sans-serif';
-    ctx.textAlign = 'right';
-    ctx.fillText(sgKey, W - 20, H - 20);
-    ctx.textAlign = 'left';
-
-    // ── Member rows ──
+    // Member rows
     members.forEach((m, i) => {
-      const y = HEADER_H + i * ROW_H;
-      // Alternating row bg
+      const y = INFO_H + i * ROW_H;
       if (i % 2 === 0) {
         ctx.fillStyle = isA ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.45)';
-        ctx.fillRect(PADDING - 8, y + 4, W - PADDING * 2 + 16, ROW_H - 2);
+        ctx.fillRect(PAD - 8, y + 3, W - PAD * 2 + 16, ROW_H - 2);
       }
-      // Row number
-      ctx.fillStyle = '#aaa';
-      ctx.font = '10px Anuphan, Kanit, sans-serif';
-      ctx.fillText(String(i + 1), PADDING - 2, y + ROW_H / 2 + 4);
-      // Name
-      ctx.fillStyle = '#2C2C2A';
-      ctx.font = '13px Anuphan, Kanit, sans-serif';
-      const name = m.name.length > 24 ? m.name.slice(0, 24) + '…' : m.name;
-      ctx.fillText(name, PADDING + 18, y + ROW_H / 2 + 4);
-      // Hospital (right-align)
-      ctx.fillStyle = '#888';
-      ctx.font = '11px Anuphan, Kanit, sans-serif';
-      ctx.textAlign = 'right';
-      const hosp = m.hospital.replace('โรงพยาบาล','รพ.').length > 18
-        ? m.hospital.replace('โรงพยาบาล','รพ.').slice(0,18)+'…'
-        : m.hospital.replace('โรงพยาบาล','รพ.');
-      ctx.fillText(hosp, W - PADDING, y + ROW_H / 2 + 4);
+      ctx.fillStyle = '#aaa'; ctx.font = '10px Anuphan,Kanit,sans-serif';
+      ctx.fillText(String(i + 1), PAD - 2, y + ROW_H / 2 + 4);
+      ctx.fillStyle = '#2C2C2A'; ctx.font = '13px Anuphan,Kanit,sans-serif';
+      ctx.fillText(m.name.length > 24 ? m.name.slice(0,24)+'…' : m.name, PAD + 16, y + ROW_H / 2 + 4);
+      ctx.fillStyle = '#888'; ctx.font = '11px Anuphan,Kanit,sans-serif'; ctx.textAlign = 'right';
+      const hosp = m.hospital.replace('โรงพยาบาล','รพ.');
+      ctx.fillText(hosp.length > 18 ? hosp.slice(0,18)+'…' : hosp, W - PAD, y + ROW_H / 2 + 4);
       ctx.textAlign = 'left';
-
-      // row divider
       if (i < members.length - 1) {
-        ctx.strokeStyle = isA ? 'rgba(107,124,92,0.12)' : 'rgba(196,168,130,0.25)';
+        ctx.strokeStyle = isA ? 'rgba(107,124,92,0.1)' : 'rgba(196,168,130,0.2)';
         ctx.lineWidth = 0.5;
-        ctx.beginPath();
-        ctx.moveTo(PADDING, y + ROW_H);
-        ctx.lineTo(W - PADDING, y + ROW_H);
-        ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(PAD, y + ROW_H); ctx.lineTo(W - PAD, y + ROW_H); ctx.stroke();
       }
     });
 
-    // ── Footer ──
-    const footY = H - 18;
-    ctx.fillStyle = '#bbb';
-    ctx.font = '9px Anuphan, Kanit, sans-serif';
-    ctx.fillText('วันที่ 21 พฤษภาคม 2569 · ศูนย์ฝึกสถานการณ์จำลองทางการแพทย์ รพ.มหาราชนครราชสีมา', PADDING, footY);
+    // Footer
+    ctx.fillStyle = '#bbb'; ctx.font = '9px Anuphan,Kanit,sans-serif';
+    ctx.fillText('วันที่ 21 พฤษภาคม 2569 · ศูนย์ฝึกสถานการณ์จำลองทางการแพทย์ รพ.มหาราชนครราชสีมา', PAD, H - 14);
 
-    // ── Download ──
-    const url = canvas.toDataURL('image/png');
     const a = document.createElement('a');
-    a.href = url;
+    a.href = canvas.toDataURL('image/png');
     a.download = `TLS2569-${sgKey}.png`;
     a.click();
   }
 
-  function roundRect(ctx, x, y, w, h, r) {
+  window._roundRect = function _roundRect(ctx, x, y, w, h, r) {
     const radii = Array.isArray(r) ? r : [r, r, r, r];
     ctx.beginPath();
     ctx.moveTo(x + radii[0], y);
@@ -1937,58 +2038,59 @@ renderContent();
     </div>`;
   }
 
-  function subgroupCard(sgKey, members, isPractical) {
-    const isA    = sgKey.startsWith('A');
-    const bg     = isA ? 'var(--olive-pale)'            : 'rgba(196,168,130,0.15)';
-    const border = isA ? 'var(--olive-light)'            : 'var(--warm)';
-    const badge  = isA ? '#4A5940'                      : '#7A5C3A';
-    const room   = isPractical ? getPracticalRoom(sgKey) : null;
-    const pTime  = isPractical ? getPracticalTime(sgKey) : (isA ? '09:00 – 10:00 น.' : '13:00 – 14:00 น.');
-    const typeLabel = isPractical ? '🩺 ปฏิบัติ' : '📝 ทฤษฎี';
-    const roomLabel = isPractical ? `ห้องปฏิบัติ ${room}` : 'ห้องประชุมใหญ่';
-    const cardId = `sgcard-${sgKey}-${isPractical?'p':'t'}`;
+  function subgroupCard(sgKey, members) {
+    const isA      = sgKey.startsWith('A');
+    const bg       = isA ? 'var(--olive-pale)'  : 'rgba(196,168,130,0.15)';
+    const border   = isA ? 'var(--olive-light)' : 'var(--warm)';
+    const badge    = isA ? '#4A5940'            : '#7A5C3A';
+    const practTime = getPracticalTime(sgKey);
+    const theoTime  = isA ? '09:00 \u2013 10:00 \u0e19.' : '13:00 \u2013 14:00 \u0e19.';
+    const room      = getPracticalRoom(sgKey);
+    const cardId    = `sgcard-${sgKey}`;
 
-    return `<div id="${cardId}" style="background:${bg};border:1px solid ${border};border-radius:12px;padding:12px 14px;position:relative;">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap;">
-        <span style="background:${badge};color:white;font-family:'Anuphan',sans-serif;font-size:0.68rem;font-weight:500;padding:3px 11px;border-radius:100px;">${sgKey}</span>
-        <span style="font-family:'Anuphan',sans-serif;font-size:0.7rem;color:var(--text3);">${members.length} คน</span>
-        <button onclick="window._dlCard('${sgKey}',${isPractical})" title="ดาวน์โหลดรูปการ์ดนี้" style="margin-left:auto;background:${badge};color:white;border:none;border-radius:8px;padding:4px 10px;font-size:0.65rem;cursor:pointer;font-family:'Anuphan',sans-serif;display:flex;align-items:center;gap:4px;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">⬇ บันทึกภาพ</button>
+    return `<div id="${cardId}" style="background:${bg};border:1px solid ${border};border-radius:12px;overflow:hidden;position:relative;">
+      <div style="background:${badge};padding:10px 14px;display:flex;align-items:center;justify-content:space-between;">
+        <span style="color:white;font-family:'Anuphan',sans-serif;font-size:1rem;font-weight:600;">${sgKey}</span>
+        <span style="color:rgba(255,255,255,0.75);font-family:'Anuphan',sans-serif;font-size:0.68rem;">${members.length} \u0e04\u0e19</span>
       </div>
-      <div style="font-family:'Anuphan',sans-serif;font-size:0.68rem;color:var(--text3);margin-bottom:4px;display:flex;gap:10px;flex-wrap:wrap;">
-        <span>${typeLabel} · <strong style="color:${badge};">${pTime}</strong></span>
-        <span>📍 <strong style="color:${badge};">${roomLabel}</strong></span>
+      <div style="padding:9px 14px 7px;display:flex;flex-direction:column;gap:4px;border-bottom:1px solid rgba(0,0,0,0.08);">
+        <div style="display:flex;align-items:center;justify-content:space-between;font-size:0.77rem;">
+          <span style="font-family:'Anuphan',sans-serif;color:var(--text2);">\ud83e\ude7a \u0e1b\u0e0f\u0e34\u0e1a\u0e31\u0e15\u0e34</span>
+          <span style="font-family:'Anuphan',sans-serif;font-weight:500;color:${badge};">${practTime}</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;font-size:0.77rem;">
+          <span style="font-family:'Anuphan',sans-serif;color:var(--text2);">\ud83d\udccd \u0e2b\u0e49\u0e2d\u0e07\u0e1b\u0e0f\u0e34\u0e1a\u0e31\u0e15\u0e34</span>
+          <span style="font-family:'Anuphan',sans-serif;font-weight:500;color:${badge};">\u0e2b\u0e49\u0e2d\u0e07\u0e1b\u0e0f\u0e34\u0e1a\u0e31\u0e15\u0e34 ${room}</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;font-size:0.77rem;">
+          <span style="font-family:'Anuphan',sans-serif;color:var(--text2);">\ud83d\udcdd \u0e17\u0e24\u0e29\u0e0e\u0e35</span>
+          <span style="font-family:'Anuphan',sans-serif;font-weight:500;color:${badge};">${theoTime}</span>
+        </div>
       </div>
-      <div style="margin-top:8px;">${members.map(m => memberRow(m)).join('')}</div>
+      <div style="padding:8px 14px 10px;">${members.map(m => memberRow(m)).join('')}</div>
+      <div style="padding:6px 14px 12px;">
+        <button onclick="window._dlCard('${sgKey}')" style="width:100%;background:${badge};color:white;border:none;border-radius:8px;padding:7px 0;font-size:0.72rem;cursor:pointer;font-family:'Anuphan',sans-serif;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">\u2b07 \u0e1a\u0e31\u0e19\u0e17\u0e36\u0e01\u0e20\u0e32\u0e1e</button>
+      </div>
     </div>`;
   }
 
-  function renderExamCards(containerId, subgroupKeys, subgroupData, isPractical) {
+  function renderExamCards(containerId, subgroupKeys, subgroupData) {
     const el = document.getElementById(containerId);
     if (!el) return;
     el.innerHTML = subgroupKeys.map(sg =>
-      subgroupCard(sg, subgroupData[sg], isPractical)
+      subgroupCard(sg, subgroupData[sg])
     ).join('');
   }
 
   function initExam() {
-    renderExamCards('examGroupA-theory',    sortedA, subgroupsA, false);
-    renderExamCards('examGroupB-practical', sortedB, subgroupsB, true);
-    renderExamCards('examGroupB-theory',    sortedB, subgroupsB, false);
-    renderExamCards('examGroupA-practical', sortedA, subgroupsA, true);
+    renderExamCards('examGroupA', sortedA, subgroupsA);
+    renderExamCards('examGroupB', sortedB, subgroupsB);
   }
 
   // exposed for onclick in buttons
-  window._dlCard = function(sgKey, isPractical) {
+  window._dlCard = function(sgKey) {
     const allData = { ...subgroupsA, ...subgroupsB };
-    downloadCardImage(sgKey, allData[sgKey] || [], isPractical);
-  };
-
-  window.showExamSlot = function(slot) {
-    document.getElementById('examMorning').classList.toggle('hidden', slot !== 'morning');
-    document.getElementById('examAfternoon').classList.toggle('hidden', slot !== 'afternoon');
-    document.querySelectorAll('#examGroupTabs .tab').forEach((t, i) => {
-      t.classList.toggle('active', (i === 0 && slot === 'morning') || (i === 1 && slot === 'afternoon'));
-    });
+    downloadCardImage(sgKey, allData[sgKey] || []);
   };
 
   window.filterExamGroups = function() {
@@ -2066,9 +2168,8 @@ renderContent();
               </div>`).join('')}
             </div>
             <!-- Download button -->
-            <div style="padding:8px 14px 12px;display:flex;gap:8px;">
-              <button onclick="window._dlCard('${sg}',true)" style="flex:1;background:${badge};color:white;border:none;border-radius:8px;padding:7px 0;font-size:0.72rem;cursor:pointer;font-family:'Anuphan',sans-serif;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">⬇ ภาพปฏิบัติ</button>
-              <button onclick="window._dlCard('${sg}',false)" style="flex:1;background:transparent;color:${badge};border:1px solid ${badge};border-radius:8px;padding:7px 0;font-size:0.72rem;cursor:pointer;font-family:'Anuphan',sans-serif;transition:all 0.2s;" onmouseover="this.style.background='${badge}';this.style.color='white'" onmouseout="this.style.background='transparent';this.style.color='${badge}'">⬇ ภาพทฤษฎี</button>
+            <div style="padding:8px 14px 12px;">
+              <button onclick="window._dlCard('${sg}')" style="width:100%;background:${badge};color:white;border:none;border-radius:8px;padding:7px 0;font-size:0.72rem;cursor:pointer;font-family:'Anuphan',sans-serif;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">⬇ บันทึกภาพ (ปฏิบัติ+ทฤษฎี)</button>
             </div>
           </div>`;
         }).join('')}
@@ -2247,6 +2348,282 @@ window.addEventListener('scroll', () => {
     a.classList.toggle('active-link', a.getAttribute('href') === current);
   });
 }, { passive: true });
+
+// ── PRACTICE DAY 2 ──
+(function() {
+  // ข้อมูลฐานฝึกปฏิบัติ 6 ฐาน
+  const STATIONS = [
+    { id: 'S1a', label: 'ฐาน 1/1', title: 'Initial Assessment & Nursing Management', room: 'ห้อง 1', instructors: 'พว.สาคร แสวงชู / พว.พิชญานันท์ สุขสมัย', color: '#4A5940' },
+    { id: 'S1b', label: 'ฐาน 1/2', title: 'Initial Assessment & Nursing Management', room: 'ห้อง 2', instructors: 'พว.ศุภารมย์ มะแม้น / พว.จันจิรา ศรีตะ', color: '#4A5940' },
+    { id: 'S2',  label: 'ฐาน 2',   title: 'Airway & Ventilator Management', room: 'ห้อง 3', instructors: 'พว.อนุสรา บุญภูมิ / พว.อัญชลี ภักดีเกษม', color: '#5C6E8A' },
+    { id: 'S3',  label: 'ฐาน 3',   title: 'Shock & Fluid Replacement in Trauma', room: 'ห้อง 4', instructors: 'พว.จิราพร พอกพูนทรัพย์ / พว.อาภรณ์ ญาสุรัติกุล', color: '#7A5C3A' },
+    { id: 'S4',  label: 'ฐาน 4',   title: 'Thoraco–Abdominal Injury', room: 'ห้อง 5', instructors: 'พว.ธิดาพร กาบกลาง / พว.พงพัฒน์ อรรถโยโค', color: '#6B5A7A' },
+    { id: 'S5',  label: 'ฐาน 5',   title: 'Head & Neck Trauma · ประเมินระบบประสาท · ถอดหมวกกันน็อค', room: 'ห้อง 6', instructors: 'พว.สุเมธ จักขียน / พว.ปฏิพล รักมงคลตระกูล', color: '#7A3A3A' },
+  ];
+
+  // ตารางเวียนฐาน: 6 กลุ่ม (P1–P6) × 5 รอบ
+  // กลุ่ม P ผ่าน 5 ฐาน: P1 เริ่ม S1a, P2 เริ่ม S1b, P3 เริ่ม S2, P4 เริ่ม S3, P5 เริ่ม S4, P6 เริ่ม S5
+  // เวียนทีละฐาน แต่ S1a และ S1b คือ "ฐาน 1" กลุ่มที่ผ่าน S1a ไม่ผ่าน S1b และในทางกลับกัน
+  // รอบที่ n: กลุ่ม Pk ไปฐาน index = (k-1+n-1) mod 6 แต่ถ้า P1 เจอ S1b หรือ P2 เจอ S1a ให้ข้าม
+  // Simplified rotation matrix (6 groups × 5 rounds):
+  // Station order per group (0=S1a,1=S1b,2=S2,3=S3,4=S4,5=S5)
+  const ROTATION = [
+    [0, 2, 3, 4, 5],   // P1: S1a→S2→S3→S4→S5
+    [1, 2, 3, 4, 5],   // P2: S1b→S2→S3→S4→S5
+    [2, 0, 3, 4, 5],   // P3: S2→S1a→S3→S4→S5
+    [3, 1, 2, 4, 5],   // P4: S3→S1b→S2→S4→S5
+    [4, 0, 2, 3, 5],   // P5: S4→S1a→S2→S3→S5
+    [5, 1, 2, 3, 4],   // P6: S5→S1b→S2→S3→S4
+  ];
+
+  // เวลาแต่ละรอบ (พักหลังรอบ 3: 15:20–15:30)
+  const ROUND_TIMES = [
+    '13:00–13:40', '13:45–14:25', '14:30–15:10',
+    '15:30–16:10', '16:15–16:55',
+  ];
+
+  // แบ่ง GROUPS (90 คน) ออกเป็น 6 กลุ่มฝึกปฏิบัติ P1–P6 (15 คนต่อกลุ่ม)
+  // เรียงตาม no (เลขที่ลงทะเบียน) แล้วแบ่ง chunk
+  const sortedMembers = [...GROUPS].sort((a, b) => a.no - b.no);
+  const PGROUPS = {};
+  for (let i = 0; i < 6; i++) {
+    PGROUPS[`P${i+1}`] = sortedMembers.slice(i * 15, (i + 1) * 15);
+  }
+
+  // ── วาด Rotation Table ──
+  function buildRotationTable() {
+    const tbody = document.getElementById('practiceRotationBody');
+    if (!tbody) return;
+    let html = '';
+    ROUND_TIMES.forEach((time, ri) => {
+      const isBreakAfter = ri === 2;
+      html += `<tr style="border-bottom:1px solid var(--border);${ri % 2 === 1 ? 'background:var(--surface);' : ''}">
+        <td style="padding:9px 14px;font-family:'Anuphan',sans-serif;font-size:0.75rem;color:var(--olive-dark);font-weight:500;white-space:nowrap;border-right:1px solid var(--border);">
+          รอบ ${ri+1}<br><span style="font-size:0.68rem;color:var(--text3);font-weight:400;">${time}</span>
+        </td>`;
+      for (let pi = 0; pi < 6; pi++) {
+        const stIdx = ROTATION[pi][ri];
+        const st = STATIONS[stIdx];
+        html += `<td style="padding:7px 10px;text-align:center;border-right:${pi<5?'1px solid var(--border)':'none'};">
+          <span style="display:inline-block;background:${st.color};color:white;font-family:'Anuphan',sans-serif;font-size:0.68rem;font-weight:500;padding:3px 9px;border-radius:100px;">${st.label}</span>
+        </td>`;
+      }
+      html += '</tr>';
+      if (isBreakAfter) {
+        html += `<tr style="background:rgba(196,168,130,0.12);">
+          <td colspan="7" style="padding:7px 14px;text-align:center;font-family:'Anuphan',sans-serif;font-size:0.7rem;color:var(--warm-dark);font-style:italic;">
+            ☕ พักรับประทานอาหารว่าง 15:10–15:30 น.
+          </td>
+        </tr>`;
+      }
+    });
+    tbody.innerHTML = html;
+  }
+
+  // ── วาด Station Cards ──
+  function buildStationCards() {
+    const grid = document.getElementById('practiceStationsGrid');
+    if (!grid) return;
+    grid.innerHTML = STATIONS.map(st => `
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);">
+        <div style="background:${st.color};padding:10px 14px;">
+          <span style="color:white;font-family:'Anuphan',sans-serif;font-size:0.72rem;font-weight:500;">${st.label}</span>
+          <span style="color:rgba(255,255,255,0.7);font-family:'Anuphan',sans-serif;font-size:0.65rem;float:right;">${st.room}</span>
+        </div>
+        <div style="padding:10px 14px;">
+          <div style="font-size:0.82rem;font-weight:500;color:var(--dark);margin-bottom:5px;line-height:1.4;">${st.title}</div>
+          <div style="font-family:'Anuphan',sans-serif;font-size:0.72rem;color:var(--text3);">👩‍⚕️ ${st.instructors}</div>
+        </div>
+      </div>`).join('');
+  }
+
+  // ── Group Chips ──
+  function buildGroupChips() {
+    const wrap = document.getElementById('practiceGroupChips');
+    if (!wrap) return;
+    wrap.innerHTML = Object.keys(PGROUPS).map(pk => `
+      <button onclick="showPracticeGroup('${pk}')" style="
+        padding:5px 14px;border-radius:100px;font-size:0.72rem;cursor:pointer;
+        font-family:'Anuphan',sans-serif;font-weight:500;
+        border:1px solid var(--border2);background:transparent;color:var(--text2);
+        transition:all 0.18s;" id="pchip-${pk}"
+        onmouseover="this.style.background='var(--olive-pale)';this.style.borderColor='var(--olive-light)'"
+        onmouseout="if(!this.classList.contains('active-chip')){this.style.background='transparent';this.style.borderColor='var(--border2)'}"
+      >${pk} (${PGROUPS[pk].length} คน)</button>`).join('');
+  }
+
+  // ── Render Practice Cards ──
+  function renderPracticeCards(membersArr, groupKey) {
+    const result = document.getElementById('practiceResult');
+    const hint = document.getElementById('practiceHint');
+    if (!membersArr || !membersArr.length) {
+      result.innerHTML = `<div style="padding:1.5rem;font-family:'Anuphan',sans-serif;font-size:0.82rem;color:var(--text3);grid-column:1/-1;">ไม่พบข้อมูล</div>`;
+      return;
+    }
+    hint.style.display = 'none';
+    result.style.display = 'grid';
+
+    // สร้างการ์ดกลุ่มฝึกปฏิบัติ
+    const pk = groupKey || '';
+    const pIdx = pk ? parseInt(pk.slice(1)) - 1 : null;
+    const rotation = pIdx !== null ? ROTATION[pIdx] : null;
+    const color = '#4A5940';
+
+    result.innerHTML = `<div style="grid-column:1/-1;background:var(--olive-pale);border:1px solid var(--border2);border-radius:14px;overflow:hidden;">
+      <div style="background:#4A5940;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+        <div>
+          <span style="color:white;font-family:'Anuphan',sans-serif;font-size:1.1rem;font-weight:600;">${pk || 'ผลการค้นหา'}</span>
+          <span style="color:rgba(255,255,255,0.7);font-family:'Anuphan',sans-serif;font-size:0.7rem;margin-left:10px;">${membersArr.length} คน</span>
+        </div>
+        ${rotation ? `<button onclick="window._dlPracticeCard('${pk}')" style="background:rgba(255,255,255,0.18);color:white;border:1px solid rgba(255,255,255,0.35);border-radius:8px;padding:6px 14px;font-size:0.7rem;cursor:pointer;font-family:'Anuphan',sans-serif;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.18)'">⬇ บันทึกภาพ</button>` : ''}
+      </div>
+      ${rotation ? `<div style="padding:10px 18px;border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;gap:6px;align-items:center;">
+        ${ROUND_TIMES.map((t,ri) => {
+          const st = STATIONS[rotation[ri]];
+          return `<div style="display:flex;align-items:center;gap:6px;font-family:'Anuphan',sans-serif;font-size:0.72rem;">
+            <span style="background:${st.color};color:white;padding:2px 8px;border-radius:100px;font-size:0.65rem;">รอบ ${ri+1}</span>
+            <span style="color:var(--text2);">${t}</span>
+            <span style="color:var(--dark);font-weight:500;">${st.label}</span>
+            <span style="color:var(--text3);">·</span>
+          </div>`;
+        }).join('')}
+      </div>` : ''}
+      <div style="padding:10px 18px 14px;">
+        ${membersArr.map((m,i) => `<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(0,0,0,0.05);font-size:0.8rem;">
+          <span style="color:var(--text3);font-family:'Anuphan',sans-serif;font-size:0.65rem;width:22px;">${i+1}</span>
+          <span style="color:var(--dark);flex:1;">${m.name}</span>
+          <span style="font-family:'Anuphan',sans-serif;font-size:0.65rem;color:var(--text3);text-align:right;max-width:120px;">${m.hospital.replace('โรงพยาบาล','รพ.')}</span>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  // ── Show Practice Group by chip ──
+  window.showPracticeGroup = function(pk) {
+    // toggle chip style
+    document.querySelectorAll('[id^="pchip-"]').forEach(el => {
+      el.classList.remove('active-chip');
+      el.style.background = 'transparent';
+      el.style.borderColor = 'var(--border2)';
+      el.style.color = 'var(--text2)';
+    });
+    const chip = document.getElementById('pchip-' + pk);
+    if (chip) {
+      chip.classList.add('active-chip');
+      chip.style.background = 'var(--olive)';
+      chip.style.borderColor = 'var(--olive)';
+      chip.style.color = 'white';
+    }
+    document.getElementById('practiceSearch').value = '';
+    renderPracticeCards(PGROUPS[pk], pk);
+  };
+
+  // ── Filter by search ──
+  window.filterPractice = function() {
+    const q = document.getElementById('practiceSearch').value.toLowerCase().trim();
+    document.querySelectorAll('[id^="pchip-"]').forEach(el => {
+      el.classList.remove('active-chip');
+      el.style.background = 'transparent';
+      el.style.borderColor = 'var(--border2)';
+      el.style.color = 'var(--text2)';
+    });
+    if (!q) {
+      document.getElementById('practiceResult').style.display = 'none';
+      document.getElementById('practiceHint').style.display = 'block';
+      return;
+    }
+    const matched = sortedMembers.filter(m =>
+      m.name.toLowerCase().includes(q) || m.hospital.toLowerCase().includes(q)
+    );
+    // find which group they belong to
+    const foundGroup = matched.length > 0
+      ? Object.keys(PGROUPS).find(pk => PGROUPS[pk].some(m => m.no === matched[0].no))
+      : null;
+    if (foundGroup) {
+      renderPracticeCards(PGROUPS[foundGroup], foundGroup);
+    } else {
+      renderPracticeCards(matched, null);
+    }
+  };
+
+  // ── Download practice card ──
+  window._dlPracticeCard = function(pk) {
+    const members = PGROUPS[pk] || [];
+    const pIdx = parseInt(pk.slice(1)) - 1;
+    const rotation = ROTATION[pIdx];
+    const W = 600, PAD = 36;
+    const ROW_H = 36, HEADER_H = 80 + ROUND_TIMES.length * 22 + 24;
+    const H = HEADER_H + members.length * ROW_H + 40;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = W * 2; canvas.height = H * 2;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(2, 2);
+
+    // bg
+    const bg = ctx.createLinearGradient(0,0,W,H);
+    bg.addColorStop(0,'#f0f4ed'); bg.addColorStop(1,'#e4ece0');
+    ctx.fillStyle = bg; window._roundRect(ctx,0,0,W,H,16); ctx.fill();
+    ctx.fillStyle = '#4A5940'; window._roundRect(ctx,0,0,W,6,[16,16,0,0]); ctx.fill();
+
+    ctx.fillStyle = '#4A5940'; ctx.font = 'bold 10px Anuphan,Kanit,sans-serif';
+    ctx.fillText('TLS for Nurses 2569 — ฝึกปฏิบัติ วันที่ 20 พฤษภาคม 2569', PAD, 26);
+
+    // badge
+    ctx.fillStyle = '#4A5940'; window._roundRect(ctx,PAD,34,56,24,12); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 14px Anuphan,Kanit,sans-serif';
+    ctx.textAlign='center'; ctx.fillText(pk, PAD+28, 50); ctx.textAlign='left';
+    ctx.fillStyle='#666'; ctx.font='11px Anuphan,Kanit,sans-serif';
+    ctx.fillText(`${members.length} คน`, PAD+66, 50);
+
+    // rotation rows
+    let ry = 70;
+    ctx.fillStyle='#4A5940'; ctx.font='bold 11px Anuphan,Kanit,sans-serif';
+    ctx.fillText('ตารางเวียนฐาน', PAD, ry); ry += 18;
+    ROUND_TIMES.forEach((t,ri) => {
+      const st = STATIONS[rotation[ri]];
+      ctx.fillStyle='#555'; ctx.font='11px Anuphan,Kanit,sans-serif';
+      ctx.fillText(`รอบ ${ri+1}  ${t}  →  ${st.label}: ${st.title.length>28?st.title.slice(0,28)+'…':st.title}`, PAD, ry);
+      ry += 20;
+      if (ri === 2) { ctx.fillStyle='#C4A882'; ctx.font='10px Anuphan,Kanit,sans-serif'; ctx.fillText('☕  พักอาหารว่าง 15:10–15:30 น.', PAD+14, ry); ry += 18; }
+    });
+
+    // divider
+    ctx.strokeStyle='#c0cdb8'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(PAD, HEADER_H-8); ctx.lineTo(W-PAD, HEADER_H-8); ctx.stroke();
+
+    // watermark
+    ctx.fillStyle='rgba(74,89,64,0.05)'; ctx.font='bold 70px Anuphan,Kanit,sans-serif';
+    ctx.textAlign='right'; ctx.fillText(pk, W-16, H-16); ctx.textAlign='left';
+
+    // members
+    members.forEach((m,i) => {
+      const y = HEADER_H + i*ROW_H;
+      if (i%2===0) { ctx.fillStyle='rgba(255,255,255,0.55)'; ctx.fillRect(PAD-8,y+3,W-PAD*2+16,ROW_H-2); }
+      ctx.fillStyle='#aaa'; ctx.font='10px Anuphan,Kanit,sans-serif'; ctx.fillText(String(i+1),PAD-2,y+ROW_H/2+4);
+      ctx.fillStyle='#2C2C2A'; ctx.font='13px Anuphan,Kanit,sans-serif';
+      ctx.fillText(m.name.length>24?m.name.slice(0,24)+'…':m.name, PAD+16, y+ROW_H/2+4);
+      ctx.fillStyle='#888'; ctx.font='11px Anuphan,Kanit,sans-serif'; ctx.textAlign='right';
+      const hosp = m.hospital.replace('โรงพยาบาล','รพ.');
+      ctx.fillText(hosp.length>18?hosp.slice(0,18)+'…':hosp, W-PAD, y+ROW_H/2+4);
+      ctx.textAlign='left';
+      if (i<members.length-1) { ctx.strokeStyle='rgba(107,124,92,0.1)'; ctx.lineWidth=0.5; ctx.beginPath(); ctx.moveTo(PAD,y+ROW_H); ctx.lineTo(W-PAD,y+ROW_H); ctx.stroke(); }
+    });
+
+    ctx.fillStyle='#bbb'; ctx.font='9px Anuphan,Kanit,sans-serif';
+    ctx.fillText('วันที่ 20 พฤษภาคม 2569 · ศูนย์ฝึกสถานการณ์จำลองทางการแพทย์ รพ.มหาราชนครราชสีมา', PAD, H-14);
+
+    const a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = `TLS2569-Practice-${pk}.png`;
+    a.click();
+  };
+
+  // ── Init ──
+  buildRotationTable();
+  buildStationCards();
+  buildGroupChips();
+})();
 </script>
 </body>
 </html>
